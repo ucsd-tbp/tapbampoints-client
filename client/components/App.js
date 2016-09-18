@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 var Sidebar = require('react-sidebar').default;
 
@@ -40,7 +39,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('main-container')
-);
+export default App;
