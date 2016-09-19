@@ -8,7 +8,12 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/index.jsx',
+
+  resolve: {
+    // Lets JSX files be imported without adding the .jsx suffix.
+    extensions: ['', '.js', '.jsx']
+  },
 
   output: {
     path: __dirname + '/build',
@@ -17,7 +22,8 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+      // Parses both JS and JSX files but ignores node_modules/.
+      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   },
 
