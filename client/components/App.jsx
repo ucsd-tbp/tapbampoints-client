@@ -1,6 +1,5 @@
 import React from 'react';
-
-var Sidebar = require('react-sidebar').default;
+import Sidebar from 'react-sidebar';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,12 +8,12 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const mediaQueryList = window.matchMedia(`(min-width: 800px)`);
+    const mediaQueryList = window.matchMedia('(min-width: 800px)');
     mediaQueryList.addListener(this.mediaQueryChanged.bind(this));
 
     this.setState({
-      mediaQueryList: mediaQueryList,
-      sidebarDocked: mediaQueryList.matches
+      mediaQueryList,
+      sidebarDocked: mediaQueryList.matches,
     });
   }
 
@@ -30,9 +29,11 @@ class App extends React.Component {
     const sidebarContent = <h3>Sidebar content.</h3>;
 
     return (
-      <Sidebar sidebar={sidebarContent}
-               docked={this.state.sidebarDocked}
-               transitions={this.state.sidebarTransitions}>
+      <Sidebar
+        sidebar={sidebarContent}
+        docked={this.state.sidebarDocked}
+        transitions={this.state.sidebarTransitions}
+      >
         <h3>Main content.</h3>
       </Sidebar>
     );
