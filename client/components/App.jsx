@@ -50,7 +50,7 @@ class App extends React.Component {
   render() {
     // Object that associates routes with page titles.
     const availableLinks = {
-      '/events': 'Events',
+      '/': 'Events',
       '/dashboard': 'Dashboard',
     };
 
