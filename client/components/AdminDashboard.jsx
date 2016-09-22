@@ -1,5 +1,5 @@
 import React from 'react';
 
-const AdminDashboard = () => <p>Administrator dashboard content.</p>;
+const AdminDashboard = () => <p>The administration dashboard contains diagnostic information on new member registrations and event sign-ups.</p>;
 
 export default AdminDashboard;

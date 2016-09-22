@@ -64,15 +64,15 @@ class App extends React.Component {
     // Sets up navigation list in sidebar.
     const sidebarContent = (
       // TODO Remove dashboard depending on admin status of logged-in user.
-      <div>
-        <h3>Navigation</h3>
-        <ul>
+      <div className="Sidebar">
+        <h3 className="Sidebar header">TBPoints</h3>
+        <ul className="Sidebar navigation-list">
           {
             // Creates list of navigation items by creating a link to the URI
             // in `availableLinks` object, and matches the page title in the
             // main content to the route.
             Object.keys(availableLinks).map((uri, index) =>
-              <li key={index}>
+              <li key={index} className="Sidebar navigation-list-item">
                 <Link
                   onClick={() => this.updateTitle(availableLinks[uri])}
                   to={uri}
@@ -100,8 +100,10 @@ class App extends React.Component {
         transitions={this.state.sidebarTransitions}
         styles={sidebarStyles}
       >
-        <TitlePanel title={this.state.title} />
-        {this.props.children}
+        <div className="App">
+          <TitlePanel title={this.state.title} />
+          {this.props.children}
+        </div>
       </Sidebar>
     );
   }

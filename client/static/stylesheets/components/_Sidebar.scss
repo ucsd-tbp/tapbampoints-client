@@ -1,0 +1,15 @@
+$list-item-margin: 5px;
+
+.Sidebar {
+  &.header {
+    text-align: center;
+  }
+
+  &.navigation-list {
+    list-style: none;
+  }
+
+  &.navigation-list-item {
+    margin: $list-item-margin 0 $list-item-margin 0;
+  }
+}

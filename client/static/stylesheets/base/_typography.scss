@@ -10,3 +10,9 @@ p {
   font-family: 'Abel', sans-serif;
   letter-spacing: $base-letter-spacing;
 }
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  border-bottom: 1px dotted $primary-color;
+}
