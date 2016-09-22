@@ -1,3 +1,10 @@
+/**
+ * Primary container component for the entire application. Contains the
+ * sidebar and updates the main content's title based on the route. The
+ * component that corresponds to the clicked sidebar navigation item is
+ * rendered in `this.props.children`.
+ */
+
 import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
@@ -61,6 +68,9 @@ class App extends React.Component {
         <h3>Navigation</h3>
         <ul>
           {
+            // Creates list of navigation items by creating a link to the URI
+            // in `availableLinks` object, and matches the page title in the
+            // main content to the route.
             Object.keys(availableLinks).map((uri, index) =>
               <li key={index}>
                 <Link

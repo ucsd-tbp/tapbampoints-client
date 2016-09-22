@@ -6,6 +6,8 @@ import App from './components/App';
 import AdminDashboard from './components/AdminDashboard';
 import FilterableEventList from './components/FilterableEventList';
 
+require('./static/stylesheets/main.scss');
+
 ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
