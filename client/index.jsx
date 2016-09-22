@@ -6,9 +6,11 @@ import App from './components/App';
 import AdminDashboard from './components/AdminDashboard';
 import FilterableEventList from './components/FilterableEventList';
 
+// Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
 
 ReactDOM.render((
+  // TODO Configure server to use browser history.
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={FilterableEventList} />

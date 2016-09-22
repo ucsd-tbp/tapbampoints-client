@@ -86,11 +86,19 @@ class App extends React.Component {
       </div>
     );
 
+    // The react-sidebar package requires styles to be passed in as an object,
+    // so styles for this component can't be put in an external SCSS file.
+    const sidebarStyles = {
+      sidebar: { width: '200px' },
+      content: { left: '200px' }
+    };
+
     return (
       <Sidebar
         sidebar={sidebarContent}
         docked={this.state.sidebarDocked}
         transitions={this.state.sidebarTransitions}
+        styles={sidebarStyles}
       >
         <TitlePanel title={this.state.title} />
         {this.props.children}

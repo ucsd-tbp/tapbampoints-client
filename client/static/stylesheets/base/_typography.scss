@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 
+$base-letter-spacing: 1px;
+
 h1,
 h2,
 h3,
 a,
 p {
   font-family: 'Abel', sans-serif;
+  letter-spacing: $base-letter-spacing;
 }
