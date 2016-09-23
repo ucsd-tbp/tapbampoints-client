@@ -11,6 +11,12 @@ import { Link } from 'react-router';
 
 import TitlePanel from './TitlePanel';
 
+// Object that associates routes with page titles.
+const availableLinks = {
+  '/': 'Events',
+  '/dashboard': 'Dashboard',
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +24,7 @@ class App extends React.Component {
     this.updateTitle = this.updateTitle.bind(this);
 
     this.state = {
-      title: 'Events',
+      title: '',
       sidebarTransitions: false,
     };
   }
@@ -26,6 +32,8 @@ class App extends React.Component {
   componentWillMount() {
     const mediaQueryList = window.matchMedia('(min-width: 800px)');
     mediaQueryList.addListener(this.mediaQueryChanged);
+
+    this.updateTitle(availableLinks[this.props.location.pathname]);
 
     this.setState({
       mediaQueryList,
@@ -35,6 +43,13 @@ class App extends React.Component {
 
   componentWillUnmount() {
     this.state.mediaQueryList.removeListener(this.mediaQueryChanged);
+  }
+
+  componentDidUpdate() {
+    // Updates the title when the URL is manually changed
+    if (this.state.title !== availableLinks[this.props.location.pathname]) {
+      this.updateTitle(availableLinks[this.props.location.pathname]);
+    }
   }
 
   /**
@@ -55,12 +70,6 @@ class App extends React.Component {
   }
 
   render() {
-    // Object that associates routes with page titles.
-    const availableLinks = {
-      '/': 'Events',
-      '/dashboard': 'Dashboard',
-    };
-
     // Sets up navigation list in sidebar.
     const sidebarContent = (
       // TODO Remove dashboard depending on admin status of logged-in user.
@@ -88,10 +97,7 @@ class App extends React.Component {
 
     // The react-sidebar package requires styles to be passed in as an object,
     // so styles for this component can't be put in an external SCSS file.
-    const sidebarStyles = {
-      sidebar: { width: '200px' },
-      content: { left: '200px' }
-    };
+    const sidebarStyles = { sidebar: { width: '200px' } };
 
     return (
       <Sidebar
@@ -111,6 +117,9 @@ class App extends React.Component {
 
 App.propTypes = {
   children: React.PropTypes.node,
+  location: React.PropTypes.shape({
+    pathname: React.PropTypes.string,
+  }),
 };
 
 export default App;
