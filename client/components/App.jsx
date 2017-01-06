@@ -41,15 +41,15 @@ class App extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    this.state.mediaQueryList.removeListener(this.mediaQueryChanged);
-  }
-
   componentDidUpdate() {
     // Updates the title when the URL is manually changed
     if (this.state.title !== availableLinks[this.props.location.pathname]) {
       this.updateTitle(availableLinks[this.props.location.pathname]);
     }
+  }
+
+  componentWillUnmount() {
+    this.state.mediaQueryList.removeListener(this.mediaQueryChanged);
   }
 
   /**
