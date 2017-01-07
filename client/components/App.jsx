@@ -9,64 +9,21 @@ import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
 
-import TitlePanel from './TitlePanel';
-
-// Object that associates routes with page titles.
-const availableLinks = {
-  '/': 'Events',
-  '/dashboard': 'Dashboard',
-};
+import MenuButton from './MenuButton';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
-    this.updateTitle = this.updateTitle.bind(this);
+
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
-      title: '',
       sidebarTransitions: false,
     };
   }
 
-  componentWillMount() {
-    const mediaQueryList = window.matchMedia('(min-width: 800px)');
-    mediaQueryList.addListener(this.mediaQueryChanged);
-
-    this.updateTitle(availableLinks[this.props.location.pathname]);
-
-    this.setState({
-      mediaQueryList,
-      sidebarDocked: mediaQueryList.matches,
-    });
-  }
-
-  componentDidUpdate() {
-    // Updates the title when the URL is manually changed
-    if (this.state.title !== availableLinks[this.props.location.pathname]) {
-      this.updateTitle(availableLinks[this.props.location.pathname]);
-    }
-  }
-
-  componentWillUnmount() {
-    this.state.mediaQueryList.removeListener(this.mediaQueryChanged);
-  }
-
-  /**
-   * Hides the sidebar depending on the width of the window.
-   * @private
-   */
-  mediaQueryChanged() {
-    this.setState({ sidebarDocked: this.state.mediaQueryList.matches });
-  }
-
-  /**
-   * Updates title panel above main content depending on the route.
-   * @param  {string} title Title to update title panel with.
-   * @private
-   */
-  updateTitle(title) {
-    this.setState({ title });
+  handleClick() {
+    console.log('App.jsx:handleClick()');
   }
 
   render() {
@@ -76,21 +33,7 @@ class App extends React.Component {
       <div className="Sidebar">
         <h3 className="Sidebar header">TBPoints</h3>
         <ul className="Sidebar navigation-list">
-          {
-            // Creates list of navigation items by creating a link to the URI
-            // in `availableLinks` object, and matches the page title in the
-            // main content to the route.
-            Object.keys(availableLinks).map((uri, index) =>
-              <li key={index} className="Sidebar navigation-list-item">
-                <Link
-                  onClick={() => this.updateTitle(availableLinks[uri])}
-                  to={uri}
-                >
-                  {availableLinks[uri]}
-                </Link>
-              </li>
-            )
-          }
+          <li className="Sidebar navigation-list-item"><Link to="/">Home</Link></li>
         </ul>
       </div>
     );
@@ -102,12 +45,11 @@ class App extends React.Component {
     return (
       <Sidebar
         sidebar={sidebarContent}
-        docked={this.state.sidebarDocked}
         transitions={this.state.sidebarTransitions}
         styles={sidebarStyles}
       >
+        <MenuButton onClick={() => this.handleClick()} />
         <div className="App">
-          <TitlePanel title={this.state.title} />
           {this.props.children}
         </div>
       </Sidebar>
@@ -117,9 +59,6 @@ class App extends React.Component {
 
 App.propTypes = {
   children: React.PropTypes.node,
-  location: React.PropTypes.shape({
-    pathname: React.PropTypes.string,
-  }),
 };
 
 export default App;
