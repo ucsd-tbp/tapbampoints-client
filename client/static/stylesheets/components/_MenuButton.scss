@@ -1,0 +1,9 @@
+$menu-button-left-padding: 50px;
+
+.MenuButton {
+  &.icon {
+    position: absolute;
+    top: $minimum-top-padding;
+    left: $menu-button-left-padding;
+  }
+}

@@ -1,5 +1,5 @@
-$gutter-padding: 200px;
+$gutter-margin: 200px;
 
 .App {
-  padding: 0 $gutter-padding 0 $gutter-padding;
+  margin: $minimum-top-padding $gutter-margin 0 $gutter-margin;
 }

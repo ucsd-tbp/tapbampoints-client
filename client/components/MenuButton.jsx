@@ -1,8 +1,8 @@
 import React from 'react';
 
 const MenuButton = props =>
-  <div onClick={() => props.onClick()}>
-    <i className="fa fa-bars fa-5x" aria-hidden="true" />
+  <div className="MenuButton" onClick={() => props.onClick()}>
+    <i className="MenuButton icon light-emphasis fa fa-bars fa-2x" aria-hidden="true" />
   </div>;
 
 MenuButton.propTypes = {
