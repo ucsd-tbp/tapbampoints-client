@@ -3,6 +3,9 @@
  * sidebar and updates the main content's title based on the route. The
  * component that corresponds to the clicked sidebar navigation item is
  * rendered in `this.props.children`.
+ *
+ * See https://github.com/balloob/react-sidebar for documentation on
+ * sidebar component used.
  */
 
 import React from 'react';
@@ -16,37 +19,39 @@ class App extends React.Component {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.onSetOpen = this.onSetOpen.bind(this);
 
     this.state = {
-      sidebarTransitions: false,
+      sidebarOpen: false,
     };
   }
 
+  onSetOpen(open) {
+    this.setState({ sidebarOpen: open });
+  }
+
   handleClick() {
-    console.log('App.jsx:handleClick()');
+    this.setState({ sidebarOpen: true });
   }
 
   render() {
     // Sets up navigation list in sidebar.
     const sidebarContent = (
       // TODO Remove dashboard depending on admin status of logged-in user.
-      <div className="Sidebar">
-        <h3 className="Sidebar header">TBPoints</h3>
-        <ul className="Sidebar navigation-list">
-          <li className="Sidebar navigation-list-item"><Link to="/">Home</Link></li>
+      <div className="SidebarContent">
+        <h3 className="SidebarContent header">TBPoints</h3>
+        <ul className="SidebarContent navigation-list">
+          <li className="SidebarContent navigation-list-item"><Link to="/">Home</Link></li>
         </ul>
       </div>
     );
 
-    // The react-sidebar package requires styles to be passed in as an object,
-    // so styles for this component can't be put in an external SCSS file.
-    const sidebarStyles = { sidebar: { width: '200px' } };
-
     return (
       <Sidebar
         sidebar={sidebarContent}
-        transitions={this.state.sidebarTransitions}
-        styles={sidebarStyles}
+        open={this.state.sidebarOpen}
+        onSetOpen={this.onSetOpen}
+        sidebarClassName={'Sidebar'}
       >
         <MenuButton onClick={() => this.handleClick()} />
         <div className="App">

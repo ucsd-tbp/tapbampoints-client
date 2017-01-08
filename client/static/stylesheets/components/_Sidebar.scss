@@ -1,6 +1,11 @@
 $list-item-margin: 5px;
 
 .Sidebar {
+  background-color: #fff;
+  width: 350px;
+}
+
+.SidebarContent {
   &.header {
     text-align: center;
   }

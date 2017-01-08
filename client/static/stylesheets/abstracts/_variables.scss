@@ -1,10 +1,12 @@
 // Named colors.
 $seal-brown: #59260B;
-$dark-grey: #545454;
+$light-grey: #e4e4e4;
+$dark-grey: #848484;
 
 // Colors used in application color schene.
 $primary-color: $seal-brown;
-$light-emphasis-color: $dark-grey;
+$light-emphasis-color: $light-grey;
 
 // Layout-related constants.
 $minimum-top-padding: 50px;
+$gutter-margin: 200px;
