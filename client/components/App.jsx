@@ -18,7 +18,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
     this.onSetOpen = this.onSetOpen.bind(this);
 
     this.state = {
@@ -30,10 +29,6 @@ class App extends React.Component {
     this.setState({ sidebarOpen: open });
   }
 
-  handleClick() {
-    this.setState({ sidebarOpen: true });
-  }
-
   render() {
     // Sets up navigation list in sidebar.
     const sidebarContent = (
@@ -41,7 +36,12 @@ class App extends React.Component {
       <div className="SidebarContent">
         <h3 className="SidebarContent header">TBPoints</h3>
         <ul className="SidebarContent navigation-list">
-          <li className="SidebarContent navigation-list-item"><Link to="/">Home</Link></li>
+          <li className="SidebarContent navigation-list-item">
+            <Link to="/" onClick={() => this.onSetOpen(false)}>Home</Link>
+          </li>
+          <li className="SidebarContent navigation-list-item">
+            <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+          </li>
         </ul>
       </div>
     );
@@ -53,7 +53,7 @@ class App extends React.Component {
         onSetOpen={this.onSetOpen}
         sidebarClassName={'Sidebar'}
       >
-        <MenuButton onClick={() => this.handleClick()} />
+        <MenuButton onClick={() => this.onSetOpen(true)} />
         <div className="App">
           {this.props.children}
         </div>
