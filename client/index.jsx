@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import App from './components/App';
+import App from './containers/App';
 import AdminDashboard from './components/AdminDashboard';
 import FilterableEventList from './components/FilterableEventList';
 

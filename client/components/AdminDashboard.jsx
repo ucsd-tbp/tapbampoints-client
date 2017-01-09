@@ -2,7 +2,7 @@ import React from 'react';
 
 const AdminDashboard = () => (
   <div>
-    <h3 className="content-title">Administration Dashboard</h3>
+    <h3>Administration Dashboard</h3>
     <p>
       The administration dashboard contains diagnostic information on new
       member registrations and event sign-ups. Officers can use the suggested

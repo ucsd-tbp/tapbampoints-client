@@ -12,15 +12,15 @@ import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
 
-import MenuButton from './MenuButton';
+import MenuButton from '../components/MenuButton';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onSetOpen = this.onSetOpen.bind(this);
+    console.log('firing App constructor');
 
-    
+    this.onSetOpen = this.onSetOpen.bind(this);
 
     this.state = {
       sidebarOpen: false,
