@@ -20,6 +20,8 @@ class App extends React.Component {
 
     this.onSetOpen = this.onSetOpen.bind(this);
 
+    
+
     this.state = {
       sidebarOpen: false,
     };
@@ -46,12 +48,19 @@ class App extends React.Component {
       </div>
     );
 
+    // Fades out black overlay when closing sidebar.
+    // See https://github.com/balloob/react-sidebar/pull/85.
+    const overlayStyles = {
+      overlay: { transition: 'opacity .3s ease-out, visibility .3s ease-out' },
+    };
+
     return (
       <Sidebar
         sidebar={sidebarContent}
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetOpen}
         sidebarClassName={'Sidebar'}
+        styles={overlayStyles}
       >
         <MenuButton onClick={() => this.onSetOpen(true)} />
         <div className="App">

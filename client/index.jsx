@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import App from './components/App';
 import AdminDashboard from './components/AdminDashboard';
@@ -11,7 +11,7 @@ require('./static/stylesheets/main.scss');
 
 ReactDOM.render((
   // TODO Configure server to use browser history.
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={FilterableEventList} />
       <Route path="/dashboard" component={AdminDashboard} />

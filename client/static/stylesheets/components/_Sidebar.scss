@@ -3,9 +3,12 @@ $list-item-margin: 5px;
 .Sidebar {
   background-color: #fff;
   width: 350px;
+  transition: all .3s
 }
 
 .SidebarContent {
+  margin: $minimum-top-padding $list-item-margin $minimum-top-padding $list-item-margin;
+
   &.header {
     text-align: center;
   }

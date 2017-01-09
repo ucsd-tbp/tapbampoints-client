@@ -1,6 +1,8 @@
 $menu-button-left-padding: 50px;
 
 .MenuButton {
+  cursor: pointer;
+
   &.icon {
     position: absolute;
     top: $minimum-top-padding;
