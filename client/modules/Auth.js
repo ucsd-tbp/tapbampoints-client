@@ -3,6 +3,7 @@
  * login and logout users.
  */
 class Auth {
+  
   /**
    * Logs in a user by storing a token into local storage.
    * @param {token} token Token to place into local storage.
@@ -33,3 +34,5 @@ class Auth {
     return localStorage.getItem('token');
   }
 }
+
+export default Auth;

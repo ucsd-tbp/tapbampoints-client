@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 /**
  * Renders a login form with fields for an email and a password.
@@ -21,7 +22,9 @@ class LoginForm extends React.Component {
   }
 
   handleSubmit(event) {
-    alert(`email: ${this.state.email} password: ${this.state.password}`);
+    this.props.onAuthChange(true);
+    browserHistory.push('/');
+
     event.preventDefault();
   }
 
@@ -55,5 +58,9 @@ class LoginForm extends React.Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  onAuthChange: React.PropTypes.func,
+};
 
 export default LoginForm;

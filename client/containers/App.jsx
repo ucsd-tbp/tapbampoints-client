@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
 
+import Auth from '../modules/Auth';
 import MenuButton from '../components/MenuButton';
 
 /**
@@ -18,14 +19,26 @@ class App extends React.Component {
     super(props);
 
     this.onSetOpen = this.onSetOpen.bind(this);
+    this.handleAuthChange = this.handleAuthChange.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
 
     this.state = {
       sidebarOpen: false,
+      isLoggedIn: Auth.isUserAuthenticated(),
     };
   }
 
   onSetOpen(open) {
     this.setState({ sidebarOpen: open });
+  }
+
+  handleAuthChange(isLoggedIn) {
+    this.setState({ isLoggedIn });
+  }
+
+  handleLogout() {
+    Auth.deauthenticateUser();
+    this.setState({ isLoggedIn: false });
   }
 
   render() {
@@ -35,12 +48,41 @@ class App extends React.Component {
       <div className="SidebarContent">
         <h3 className="SidebarContent header">TBPoints</h3>
         <ul className="SidebarContent navigation-list">
+
           <li className="SidebarContent navigation-list-item">
-            <Link to="/" onClick={() => this.onSetOpen(false)}>Home</Link>
+            <Link to="/" onClick={() => this.onSetOpen(false)}>Events</Link>
           </li>
-          <li className="SidebarContent navigation-list-item">
-            <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
-          </li>
+
+          {
+            // TODO Should only need one ternary operator for this logic.
+            // Fields to display if the user is logged in.
+            this.state.isLoggedIn &&
+            <li className="SidebarContent navigation-list-item">
+              <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+            </li>
+          }
+
+          {
+            // Fields to display if the user is logged in.
+            this.state.isLoggedIn &&
+            <li className="SidebarContent navigation-list-item">
+              <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Users</Link>
+            </li>
+          }
+
+          {
+            // Shows login or logout buttons depending on whether user is logged in.
+            this.state.isLoggedIn ? (
+              <li className="SidebarContent navigation-list-item">
+                <Link to="/" onClick={this.handleLogout}>Logout</Link>
+              </li>
+            ) : (
+              <li className="SidebarContent navigation-list-item">
+                <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
+              </li>
+            )
+          }
+
         </ul>
       </div>
     );
@@ -50,6 +92,12 @@ class App extends React.Component {
     const overlayStyles = {
       overlay: { transition: 'opacity .3s ease-out, visibility .3s ease-out' },
     };
+
+    const childrenWithProps = React.Children.map(this.props.children,
+      child => React.cloneElement(child,
+        { isLoggedIn: this.state.isLoggedIn, onAuthChange: this.handleAuthChange },
+      )
+    );
 
     return (
       <Sidebar
@@ -61,7 +109,7 @@ class App extends React.Component {
       >
         <MenuButton onClick={() => this.onSetOpen(true)} />
         <div className="App">
-          {this.props.children}
+          {childrenWithProps}
         </div>
       </Sidebar>
     );

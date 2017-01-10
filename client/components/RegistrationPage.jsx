@@ -3,14 +3,14 @@ import React from 'react';
 import LoginForm from './LoginForm';
 import RegistrationForm from './RegistrationForm';
 
-const RegistrationPage = () => (
+const RegistrationPage = props => (
   <section className="RegistrationPage">
     <div className="RegistrationPage left">
       <h3>Login</h3>
       <p>Stay logged in to sign up to events and to keep track of your
       quarterly points.</p>
 
-      <LoginForm />
+      <LoginForm {...props} />
     </div>
     <div className="RegistrationPage right">
       <h3>Register</h3>
@@ -18,7 +18,7 @@ const RegistrationPage = () => (
       the barcode on your ID card with your name and email so that we can keep
       track of your points.</p>
 
-      <RegistrationForm />
+      <RegistrationForm {...props} />
     </div>
   </section>
 );

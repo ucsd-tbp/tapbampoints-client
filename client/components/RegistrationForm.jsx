@@ -25,7 +25,7 @@ class RegistrationForm extends React.Component {
   }
 
   handleSubmit(event) {
-    alert(`email: ${this.state.email} password: ${this.state.password}`);
+    console.log(`submitted ${this.state.email}`);
     event.preventDefault();
   }
 
