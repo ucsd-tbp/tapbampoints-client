@@ -22,6 +22,8 @@ class LoginForm extends React.Component {
   }
 
   handleSubmit(event) {
+    console.log(process.env.API_ROOT);
+
     this.props.onAuthChange(true);
     browserHistory.push('/');
 
