@@ -1,0 +1,58 @@
+$input-border-blur-distance: 3px;
+$input-shadow-size: 1px;
+
+label,
+input[type='text'],
+input[type='password'] {
+  display: block;
+  width: 100%;
+  font-family: $base-font-family;
+  letter-spacing: $base-letter-spacing;
+  font-size: $body-font-size;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+input[type='text'],
+input[type='password'] {
+  margin-top: 5px;
+  padding: .5rem;
+  border-radius: $common-border-radius;
+  border: solid 1px $light-emphasis-color;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+  outline: none;
+  border: solid 1px $light-emphasis-color;
+  box-shadow: 0 0 $input-border-blur-distance $input-shadow-size $light-emphasis-color;
+}
+
+button,
+input[type='submit'] {
+  font-family: $base-font-family;
+  letter-spacing: $base-letter-spacing;
+  font-size: $body-font-size;
+  color: $primary-color;
+  background-color: white;
+  border: 1px solid $primary-color;
+  border-radius: $common-border-radius;
+  padding: .5rem;
+  width: 150px;
+  transition: all .2s;
+}
+
+button:hover,
+input[type='submit']:hover {
+  color: white;
+  background-color: $primary-color;
+}
+
+button:focus,
+input[type='submit']:focus {
+  outline: none;
+}

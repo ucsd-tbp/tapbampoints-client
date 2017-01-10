@@ -1,24 +1,21 @@
-/**
- * Primary container component for the entire application. Contains the
- * sidebar and updates the main content's title based on the route. The
- * component that corresponds to the clicked sidebar navigation item is
- * rendered in `this.props.children`.
- *
- * See https://github.com/balloob/react-sidebar for documentation on
- * sidebar component used.
- */
-
 import React from 'react';
 import Sidebar from 'react-sidebar';
 import { Link } from 'react-router';
 
 import MenuButton from '../components/MenuButton';
 
+/**
+ * Primary container component for the entire application. Contains the
+ * sidebar and updates the main content's title based on the route. The
+ * component that corresponds to the clicked sidebar navigation item is
+ * rendered in `this.props.children`.
+ *
+ * @see https://github.com/balloob/react-sidebar for documentation on
+ * sidebar component used.
+ */
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    console.log('firing App constructor');
 
     this.onSetOpen = this.onSetOpen.bind(this);
 
