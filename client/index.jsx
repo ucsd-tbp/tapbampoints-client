@@ -6,7 +6,7 @@ import App from './containers/App';
 
 import AdminDashboard from './components/AdminDashboard';
 import FilterableEventList from './components/FilterableEventList';
-import LoginForm from './components/LoginForm';
+import RegistrationPage from './components/RegistrationPage';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -18,7 +18,7 @@ ReactDOM.render((
       <IndexRoute component={FilterableEventList} />
 
       <Route path="/dashboard" component={AdminDashboard} />
-      <Route path="/login" component={LoginForm} />
+      <Route path="/login" component={RegistrationPage} />
 
     </Route>
   </Router>
