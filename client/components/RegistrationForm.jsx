@@ -25,7 +25,7 @@ class RegistrationForm extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log(`submitted ${this.state.email}`);
+    this.props.onAuthChange(true);
     event.preventDefault();
   }
 
@@ -78,5 +78,9 @@ class RegistrationForm extends React.Component {
     );
   }
 }
+
+RegistrationForm.propTypes = {
+  onAuthChange: React.PropTypes.func,
+};
 
 export default RegistrationForm;

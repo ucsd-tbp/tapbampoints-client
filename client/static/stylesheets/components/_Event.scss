@@ -1,0 +1,28 @@
+$event-card-spacing: 50px;
+$event-card-padding: 10px;
+
+.Event {
+  margin: $event-card-spacing 0 $event-card-spacing 0;
+  padding-bottom: $event-card-padding;
+
+  border-radius: $common-border-radius;
+  border: solid 1px $light-grey;
+
+  .title {
+    background-color: $primary-color;
+    color: white;
+    padding: $event-card-padding;
+  }
+
+  .split {
+    display: flex;
+
+    span { color: $light-grey; }
+  }
+
+  .left,
+  .right {
+    flex: 1;
+    padding: 1em;
+  }
+}

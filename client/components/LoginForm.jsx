@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
         });
       }).catch((error) => {
         error.json().then((data) => {
-          console.log(data.error);
+          console.error(data.error);
         });
       });
   }
