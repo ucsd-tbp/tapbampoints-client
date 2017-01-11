@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from 'react-sidebar';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import Auth from '../modules/Auth';
 import MenuButton from '../components/MenuButton';
@@ -37,8 +37,9 @@ class App extends React.Component {
   }
 
   handleLogout() {
+    this.setState({ sidebarOpen: false, isLoggedIn: false });
     Auth.deauthenticateUser();
-    this.setState({ isLoggedIn: false });
+    browserHistory.push('/');
   }
 
   render() {
