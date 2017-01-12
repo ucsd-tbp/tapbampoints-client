@@ -1,6 +1,8 @@
 import React from 'react';
 import format from 'date-fns/format';
 
+import Auth from '../modules/Auth';
+
 class Event extends React.Component {
   constructor(props) {
     super(props);
@@ -109,11 +111,10 @@ class Event extends React.Component {
           )}
         </div>
 
-        {!isIncomplete &&
-          <div className="center">
-            <button>View</button>
-          </div>
-        }
+        <div className="center">
+          {!isIncomplete && Auth.isUserAuthenticated() && <button>Start Sign-ins</button>}
+          {!isIncomplete && <button>View</button>}
+        </div>
 
       </div>
     );

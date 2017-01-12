@@ -5,13 +5,15 @@ $event-card-padding: 10px;
   margin: $event-card-spacing 0 $event-card-spacing 0;
   padding-bottom: $event-card-padding;
 
-  border-radius: $common-border-radius;
   border: solid 1px $light-grey;
+  border-radius: $common-border-radius;
 
   .title {
     background-color: $primary-color;
     color: white;
     padding: $event-card-padding;
+    border-top-left-radius: $common-border-radius;
+    border-top-right-radius: $common-border-radius;
   }
 
   .split {
@@ -24,5 +26,10 @@ $event-card-padding: 10px;
   .right {
     flex: 1;
     padding: 1em;
+    margin-right: 25px;
+  }
+
+  button {
+    margin-left: 10px;
   }
 }
