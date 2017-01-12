@@ -12,7 +12,6 @@ import RegistrationPage from './components/RegistrationPage';
 require('./static/stylesheets/main.scss');
 
 ReactDOM.render((
-  // TODO Configure server to use browser history.
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={FilterableEventList} />
