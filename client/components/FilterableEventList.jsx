@@ -20,18 +20,17 @@ class FilterableEventList extends React.Component {
   }
 
   render() {
-    console.log(this.state.currentEvents);
-
     const currentEvents = this.state.currentEvents.map(event =>
       <Event
         key={event.id}
         summary={event.summary}
         description={event.description || 'No description provided.'}
-        location={event.location}
-        start={event.start|| (new Date()).toISOString()}
-        end={event.end|| (new Date()).toISOString()}
+        location={event.location || 'No location provided.'}
+        start={event.start || (new Date()).toISOString()}
+        end={event.end || (new Date()).toISOString()}
         points={event.points}
         type={event.type.summary}
+        id={event.id}
       />
     );
 

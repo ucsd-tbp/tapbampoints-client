@@ -1,5 +1,6 @@
 import React from 'react';
 import format from 'date-fns/format';
+import { Link } from 'react-router';
 
 import Auth from '../modules/Auth';
 
@@ -105,14 +106,17 @@ class Event extends React.Component {
             </div>
           ) : (
             <div className="right">
-              <p>{this.props.points} points maximum</p>
+              <p>{this.props.points} point(s) maximum</p>
               <p>{this.props.type}</p>
             </div>
           )}
         </div>
 
         <div className="center">
-          {!isIncomplete && Auth.isUserAuthenticated() && <button>Start Sign-ins</button>}
+          {!isIncomplete && Auth.isUserAuthenticated() &&
+            <Link to={`/events/register/${this.props.id}`}><button>Start Sign-ins</button></Link>
+          }
+
           {!isIncomplete && <button>View</button>}
         </div>
 
@@ -122,7 +126,7 @@ class Event extends React.Component {
 }
 
 Event.propTypes = {
-  id: React.PropTypes.string,
+  id: React.PropTypes.number,
   summary: React.PropTypes.string.isRequired,
   description: React.PropTypes.string,
   location: React.PropTypes.string.isRequired,
