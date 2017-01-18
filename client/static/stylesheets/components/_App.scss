@@ -1,3 +1,7 @@
 .App {
-  margin: $minimum-top-padding $gutter-margin 0 $gutter-margin;
+  margin: $container-vertical-padding $gutter-margin $container-vertical-padding $gutter-margin;
+
+  @media (max-width: $tablet-breakpoint-width) {
+    margin: $mobile-container-vertical-padding $mobile-gutter-margin $mobile-container-vertical-padding $mobile-gutter-margin
+  }
 }

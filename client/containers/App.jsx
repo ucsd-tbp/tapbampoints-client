@@ -111,7 +111,7 @@ class App extends React.Component {
         sidebar={sidebarContent}
         open={this.state.sidebarOpen}
         onSetOpen={this.onSetOpen}
-        sidebarClassName={'Sidebar'}
+        sidebarClassName="Sidebar"
         styles={overlayStyles}
       >
         <MenuButton onClick={() => this.onSetOpen(true)} />

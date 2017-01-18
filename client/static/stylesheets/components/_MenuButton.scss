@@ -5,7 +5,7 @@ $menu-button-left-padding: 50px;
 
   &.icon {
     position: absolute;
-    top: $minimum-top-padding;
+    top: $container-vertical-padding;
     left: $menu-button-left-padding;
   }
 }

@@ -7,7 +7,7 @@ $list-item-margin: 5px;
 }
 
 .SidebarContent {
-  margin: $minimum-top-padding $list-item-margin $minimum-top-padding $list-item-margin;
+  margin: $container-vertical-padding $list-item-margin $container-vertical-padding $list-item-margin;
 
   &.header {
     text-align: center;
