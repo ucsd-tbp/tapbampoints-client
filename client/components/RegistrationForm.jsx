@@ -1,86 +1,62 @@
 import React from 'react';
 
-/**
- * Renders a login form with fields for an email and a password.
- */
-class RegistrationForm extends React.Component {
-  constructor(props) {
-    super(props);
+const RegistrationForm = props => (
+  <div>
+    <h3>Register</h3>
+      <p>If you've been to an event, you'll need to make an account to register
+      the barcode on your ID card with your name and email so that we can keep
+      track of your points.</p>
 
-    this.state = {
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      barcode: '',
-      house: '',
-      memberStatus: '',
-    };
+      <form onSubmit={props.onSubmit}>
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+      <label htmlFor="email">Email
+        <input
+          name="email"
+          type="text"
+          value={props.credentials.email}
+          onChange={props.onChange}
+          placeholder="user@email.com"
+        />
+      </label>
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+      <label htmlFor="password">Password
+        <input
+          name="password"
+          type="password"
+          value={props.credentials.password}
+          onChange={props.onChange}
+          placeholder="at least 6 characters"
+        />
+      </label>
 
-  handleSubmit(event) {
-    this.props.onAuthChange(true);
-    event.preventDefault();
-  }
+      <label htmlFor="passwordConfirmation">Confirm Password
+        <input
+          name="passwordConfirmation"
+          type="password"
+          value={props.credentials.passwordConfirmation}
+          onChange={props.onChange}
+          placeholder="retype password"
+        />
+      </label>
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
+      <label htmlFor="barcode">Barcode
+        <input
+          name="barcode"
+          type="text"
+          value={props.credentials.barcode}
+          onChange={props.onChange}
+        />
+      </label>
 
-        <label htmlFor="email">Email
-          <input
-            name="email"
-            type="text"
-            value={this.state.email}
-            onChange={this.handleChange}
-            placeholder="user@email.com"
-          />
-        </label>
+      <input type="submit" value="Register" />
 
-        <label htmlFor="password">Password
-          <input
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            placeholder="at least 6 characters"
-          />
-        </label>
-
-        <label htmlFor="passwordConfirmation">Confirm Password
-          <input
-            name="passwordConfirmation"
-            type="password"
-            value={this.state.passwordConfirmation}
-            onChange={this.handleChange}
-            placeholder="retype password"
-          />
-        </label>
-
-        <label htmlFor="barcode">Barcode
-          <input
-            name="barcode"
-            type="text"
-            value={this.state.barcode}
-            onChange={this.handleChange}
-          />
-        </label>
-
-        <input type="submit" value="Register" />
-
-      </form>
-    );
-  }
-}
+    </form>
+  </div>
+  );
 
 RegistrationForm.propTypes = {
-  onAuthChange: React.PropTypes.func,
+  onChange: React.PropTypes.func,
+  onSubmit: React.PropTypes.func,
 };
 
 export default RegistrationForm;

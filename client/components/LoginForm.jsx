@@ -1,93 +1,43 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
-import 'whatwg-fetch';
 
-import API from '../modules/API';
-import Auth from '../modules/Auth';
+const LoginForm = props => (
+  <div>
+    <h3>Login</h3>
+    <p>Stay logged in to sign up to events and to keep track of your
+    quarterly points.</p>
 
-/**
- * Renders a login form with fields for an email and a password.
- */
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
+    <form onSubmit={props.onSubmit}>
 
-    this.state = {
-      email: '',
-      password: '',
-    };
+      <label htmlFor="email">Email
+        <input
+          name="email"
+          type="text"
+          value={props.credentials.email}
+          onChange={props.onChange}
+          placeholder="user@email.com"
+        />
+      </label>
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+      <label htmlFor="password">Password
+        <input
+          name="password"
+          type="password"
+          value={props.credentials.password}
+          onChange={props.onChange}
+          placeholder="at least 6 characters"
+        />
+      </label>
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+      <input type="submit" value="Login" />
 
-  // TODO Extract state and data management to a container component.
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const request = new Request(`${process.env.API_ROOT}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-      }),
-    });
-
-    fetch(request)
-      .then(API.checkStatus)
-      .then((response) => {
-        response.json().then((data) => {
-          Auth.authenticateUser(data.token);
-          this.props.onAuthChange(true);
-          browserHistory.push('/');
-        });
-      }).catch((error) => {
-        error.json().then((data) => {
-          console.error(data.error);
-        });
-      });
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-
-        <label htmlFor="email">Email
-          <input
-            name="email"
-            type="text"
-            value={this.state.email}
-            onChange={this.handleChange}
-            placeholder="user@email.com"
-          />
-        </label>
-
-        <label htmlFor="password">Password
-          <input
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            placeholder="at least 6 characters"
-          />
-        </label>
-
-        <input type="submit" value="Login" />
-
-      </form>
-    );
-  }
-}
+    </form>
+  </div>
+);
 
 LoginForm.propTypes = {
-  onAuthChange: React.PropTypes.func,
+  credentials: React.PropTypes.objectOf(React.PropTypes.string),
+  onChange: React.PropTypes.func,
+  onSubmit: React.PropTypes.func,
 };
 
 export default LoginForm;

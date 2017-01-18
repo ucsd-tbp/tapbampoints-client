@@ -2,14 +2,18 @@ import React from 'react';
 
 import TwoColumnSplit from '../layouts/TwoColumnSplit';
 
-import LoginForm from './LoginForm';
-import RegistrationForm from './RegistrationForm';
+import LoginFormContainer from '../containers/LoginFormContainer';
+import RegistrationFormContainer from '../containers/RegistrationFormContainer';
 
 const AuthenticationPage = props => (
   <TwoColumnSplit>
-    <LoginForm {...props} />
-    <RegistrationForm {...props} />
+    <LoginFormContainer onAuthChange={props.onAuthChange} />
+    <RegistrationFormContainer onAuthChange={props.onAuthChange} />
   </TwoColumnSplit>
 );
+
+AuthenticationPage.propTypes = {
+  onAuthChange: React.PropTypes.func,
+};
 
 export default AuthenticationPage;
