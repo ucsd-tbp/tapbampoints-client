@@ -62,8 +62,7 @@ class SuggestedEventList extends React.Component {
     fetch(request)
       .then(API.checkStatus)
       .then((response) => {
-        response.json().then((data) => {
-          console.log(data);
+        response.json().then(() => {
         });
       })
       .catch((error) => {

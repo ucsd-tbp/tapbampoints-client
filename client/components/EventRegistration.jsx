@@ -27,6 +27,8 @@ class EventRegistration extends React.Component {
   }
 
   reset(event) {
+    event.preventDefault();
+
     this.setState({
       barcode: '',
       email: '',
@@ -144,5 +146,9 @@ class EventRegistration extends React.Component {
     );
   }
 }
+
+EventRegistration.propTypes = {
+  params: React.PropTypes.objectOf(React.PropTypes.number),
+};
 
 export default EventRegistration;

@@ -11,6 +11,9 @@ import MenuButton from '../components/MenuButton';
  * component that corresponds to the clicked sidebar navigation item is
  * rendered in `this.props.children`.
  *
+ * Also contains authentication state on whether a user or an officer is logged
+ * in. Passes this authentication state down as props to children components.
+ *
  * @see https://github.com/balloob/react-sidebar for documentation on
  * sidebar component used.
  */
@@ -28,6 +31,9 @@ class App extends React.Component {
     };
   }
 
+  /**
+   * Opens or closes the sidebar depending on value of `open`.
+   */
   onSetOpen(open) {
     this.setState({ sidebarOpen: open });
   }
@@ -89,11 +95,11 @@ class App extends React.Component {
     );
 
     // Fades out black overlay when closing sidebar.
-    // See https://github.com/balloob/react-sidebar/pull/85.
     const overlayStyles = {
       overlay: { transition: 'opacity .3s ease-out, visibility .3s ease-out' },
     };
 
+    // Copies isLoggedIn and onAuthChange to all children as props.
     const childrenWithProps = React.Children.map(this.props.children,
       child => React.cloneElement(child,
         { isLoggedIn: this.state.isLoggedIn, onAuthChange: this.handleAuthChange },

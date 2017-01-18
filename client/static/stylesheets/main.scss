@@ -1,10 +1,20 @@
+// Variables and mixins.
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 
+// Styling for entire application. Includes typography for headers, body copy,
+// links, and styling for form input boxes and buttons. Also includes a file
+// with utility classes.
 @import 'base/typography';
 @import 'base/utilities';
 @import 'base/forms';
 
+// Layout components used to organize presentational components on the page.
+@import 'layouts/TwoColumnSplit';
+
+// Each file corresponds to styling for a particular component. Only layout and
+// presentational components (i.e. not container components) have corresponding
+// stylesheets.
 @import 'components/App';
 @import 'components/MenuButton';
 @import 'components/Sidebar';

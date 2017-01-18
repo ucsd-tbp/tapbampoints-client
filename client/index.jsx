@@ -12,11 +12,11 @@ import EventRegistration from './components/EventRegistration';
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
 
+// TODO Protect routes based on logged in or admin status.
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={FilterableEventList} />
-
       <Route path="/dashboard" component={AdminDashboard} />
       <Route path="/login" component={RegistrationPage} />
 
