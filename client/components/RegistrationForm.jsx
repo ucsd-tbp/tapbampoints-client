@@ -3,11 +3,11 @@ import React from 'react';
 const RegistrationForm = props => (
   <div>
     <h3>Register</h3>
-      <p>If you've been to an event, you'll need to make an account to register
-      the barcode on your ID card with your name and email so that we can keep
-      track of your points.</p>
+    <p>If you've been to an event, you'll need to make an account to register
+    the barcode on your ID card with your name and email so that we can keep
+    track of your points.</p>
 
-      <form onSubmit={props.onSubmit}>
+    <form onSubmit={props.onSubmit}>
 
       <label htmlFor="email">Email
         <input
@@ -52,9 +52,10 @@ const RegistrationForm = props => (
 
     </form>
   </div>
-  );
+);
 
 RegistrationForm.propTypes = {
+  credentials: React.PropTypes.objectOf(React.PropTypes.string),
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
 };

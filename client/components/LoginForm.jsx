@@ -1,5 +1,13 @@
 import React from 'react';
 
+/**
+ * Displays login form.
+ *
+ * @param {Object} props Requires a function `onChange` to update state based
+ * on user input and a function `onSubmit` to handle form submission. Also
+ * requires credentials (email and password) passed as props to update based on
+ * UI state.
+ */
 const LoginForm = props => (
   <div>
     <h3>Login</h3>
