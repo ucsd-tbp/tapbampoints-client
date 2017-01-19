@@ -22,3 +22,6 @@ $tablet-breakpoint-width: 800px;
 
 // Border style to add to divs for testing purposes.
 $test-border: 1px solid $dark-grey;
+
+// Base transition for simple elements like links.
+$base-transition: .3s all;

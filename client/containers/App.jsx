@@ -53,10 +53,9 @@ class App extends React.Component {
     const sidebarContent = (
       // TODO Remove dashboard depending on admin status of logged-in user.
       <div className="SidebarContent">
-        <h3 className="SidebarContent header">TBPoints</h3>
-        <ul className="SidebarContent navigation-list">
+        <ul className="navigation-section">
 
-          <li className="SidebarContent navigation-list-item">
+          <li className="navigation-item">
             <Link to="/" onClick={() => this.onSetOpen(false)}>Events</Link>
           </li>
 
@@ -64,7 +63,7 @@ class App extends React.Component {
             // TODO Should only need one ternary operator for this logic.
             // Fields to display if the user is logged in.
             this.state.isLoggedIn &&
-            <li className="SidebarContent navigation-list-item">
+            <li className="navigation-item">
               <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
             </li>
           }
@@ -72,7 +71,7 @@ class App extends React.Component {
           {
             // Fields to display if the user is logged in.
             this.state.isLoggedIn &&
-            <li className="SidebarContent navigation-list-item">
+            <li className="navigation-item">
               <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Users</Link>
             </li>
           }
@@ -80,11 +79,11 @@ class App extends React.Component {
           {
             // Shows login or logout buttons depending on whether user is logged in.
             this.state.isLoggedIn ? (
-              <li className="SidebarContent navigation-list-item">
+              <li className="navigation-item">
                 <Link to="/" onClick={this.handleLogout}>Logout</Link>
               </li>
             ) : (
-              <li className="SidebarContent navigation-list-item">
+              <li className="navigation-item">
                 <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
               </li>
             )

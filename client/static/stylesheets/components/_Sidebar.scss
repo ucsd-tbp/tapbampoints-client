@@ -1,23 +1,33 @@
 $list-item-margin: 5px;
+$sidebar-content-margin: $container-vertical-padding + 75px;
+$sidebar-gutter: 50px;
 
 .Sidebar {
-  background-color: #fff;
-  width: 350px;
+  padding: $sidebar-gutter;
+  background-color: white;
+  width: 250px;
   transition: all .3s
 }
 
 .SidebarContent {
-  margin: $container-vertical-padding $list-item-margin $container-vertical-padding $list-item-margin;
+  margin: $sidebar-content-margin $list-item-margin $container-vertical-padding $list-item-margin;
 
-  &.header {
-    text-align: center;
-  }
-
-  &.navigation-list {
+  > .navigation-section {
     list-style: none;
+    text-align: right;
+    padding: 0;
+
+    > .navigation-item {
+      margin: $list-item-margin 0 $list-item-margin 0;
+    }
   }
 
-  &.navigation-list-item {
-    margin: $list-item-margin 0 $list-item-margin 0;
+  a {
+    font-size: 1.2rem;
+    color: $body-text-color;
+    border: none;
+    transition: $base-transition;
+
+    &:hover { color: $understated; }
   }
 }
