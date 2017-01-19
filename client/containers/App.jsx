@@ -26,7 +26,7 @@ class App extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
 
     this.state = {
-      sidebarOpen: false,
+      isSidebarOpen: false,
       isLoggedIn: Auth.isUserAuthenticated(),
     };
   }
@@ -35,7 +35,7 @@ class App extends React.Component {
    * Opens or closes the sidebar depending on value of `open`.
    */
   onSetOpen(open) {
-    this.setState({ sidebarOpen: open });
+    this.setState({ isSidebarOpen: open });
   }
 
   handleAuthChange(isLoggedIn) {
@@ -43,7 +43,7 @@ class App extends React.Component {
   }
 
   handleLogout() {
-    this.setState({ sidebarOpen: false, isLoggedIn: false });
+    this.setState({ isSidebarOpen: false, isLoggedIn: false });
     Auth.deauthenticateUser();
     browserHistory.push('/');
   }
@@ -109,12 +109,15 @@ class App extends React.Component {
     return (
       <Sidebar
         sidebar={sidebarContent}
-        open={this.state.sidebarOpen}
+        open={this.state.isSidebarOpen}
         onSetOpen={this.onSetOpen}
         sidebarClassName="Sidebar"
         styles={overlayStyles}
       >
-        <MenuButton onClick={() => this.onSetOpen(true)} />
+        <MenuButton
+          onClick={() => this.onSetOpen(!this.state.isSidebarOpen)}
+          isSidebarOpen={this.state.isSidebarOpen}
+        />
         <div className="App">
           {childrenWithProps}
         </div>

@@ -1,11 +1,69 @@
-$menu-button-left-padding: 50px;
+$menu-button-width: 35px;
+$menu-button-height: 20px;
+
+$menu-button-transition: .3s ease-in-out;
+
+$menu-button-line-height: 3px;
+$menu-button-line-border-radius: 5px;
 
 .MenuButton {
   cursor: pointer;
+  z-index: 100; // Puts menu button over sidebar when opened.
 
-  &.icon {
+  // Dimensions of menu button.
+  width: $menu-button-width;
+  height: $menu-button-height;
+
+  // Positioning of menu button (centers menu button in the left gutter).
+  position: absolute;
+  top: $container-vertical-padding;
+  left: ($gutter-margin / 2) - ($menu-button-width / 2);
+
+  transform: rotate(0deg);
+  transition: $menu-button-transition;
+
+  > .menu-button-line {
+    // Dimensions and positioning of <span> elements inside .MenuButton div.
+    display: block;
     position: absolute;
-    top: $container-vertical-padding;
-    left: $menu-button-left-padding;
+    left: 0;
+    height: $menu-button-line-height;
+    width: 100%;
+
+    // Initial appearance before transition.
+    background: $understated;
+    border-radius: $menu-button-line-height;
+    opacity: 1;
+
+    transform: rotate(0deg);
+    transition: $menu-button-transition;
+
+    // Places each <span> evenly over height of .MenuButton div.
+    &:nth-child(1) { top: 0px; }
+    &:nth-child(2) { top: $menu-button-height / 2; }
+    &:nth-child(3) { top: $menu-button-height; }
+  }
+
+  // Handles animating transition to an X when clicked.
+  &.opened {
+    .menu-button-line { background: black; }
+
+    // Top <span> slides down and rotates to form one line of the X.
+    .menu-button-line:nth-child(1) {
+      top: $menu-button-height / 2;
+      transform: rotate(135deg);
+    }
+
+    // Middle <span> slides left and disappears.
+    .menu-button-line:nth-child(2) {
+      opacity: 0;
+      left: -($menu-button-height / 2);
+    }
+
+    // Right <span> slides up and rotates to form other line of the X.
+    .menu-button-line:nth-child(3) {
+      top: $menu-button-height / 2;
+      transform: rotate(-135deg);
+    }
   }
 }
