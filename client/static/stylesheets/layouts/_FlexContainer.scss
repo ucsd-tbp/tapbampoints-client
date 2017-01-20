@@ -1,12 +1,5 @@
-.TwoColumnSplit {
+.FlexContainer {
   display: flex;
-
-  > .left-column,
-  > .right-column {
-    padding: 25px;
-    flex: 1;
-    border: $test-border;
-  }
 
   // Stacks both columns on smaller viewport widths.
   @media (max-width: $tablet-breakpoint-width) { display: block; }

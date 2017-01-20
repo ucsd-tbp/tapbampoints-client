@@ -11,6 +11,8 @@
 
 // Layout components used to organize presentational components on the page.
 @import 'layouts/TwoColumnSplit';
+@import 'layouts/FlexContainer';
+@import 'layouts/FlexItem';
 
 // Each file corresponds to styling for a particular component. Only layout and
 // presentational components (i.e. not container components) have corresponding

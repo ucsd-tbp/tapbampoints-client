@@ -1,0 +1,7 @@
+.FlexItem {
+  padding: $container-padding;
+  flex: 1;
+
+  // Displays a gray border for testing purposes.
+  border: $test-border;
+}
