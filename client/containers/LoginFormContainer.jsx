@@ -56,16 +56,15 @@ class LoginFormContainer extends React.Component {
     // Makes POST request to log in user with given credentials.
     fetch(request)
       .then(API.checkStatus)
-      .then(response => Promise.all([response, response.json()]))
-      .then((data) => {
+      .then((response) => {
         // Stores JWT and notifies application that user has logged in.
-        Auth.authenticateUser(data.token);
+        Auth.authenticateUser(response.token);
         this.props.onAuthChange(true);
 
         // Redirects to index route.
         browserHistory.push('/');
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error(error.error));
   }
 
   render() {
