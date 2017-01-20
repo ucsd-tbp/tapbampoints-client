@@ -1,7 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 
-import Event from './Event';
+import EventCard from './EventCard';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';
@@ -33,13 +33,11 @@ class SuggestedEventList extends React.Component {
     // Only retrieves events in the two-month date range, sorted by start date
     // in ascending order.
     fetch(requestURL)
+      .then(API.checkStatus)
       .then((response) => {
-        response.json().then((data) => {
-          // Reverses array so that events are sorted in descending order.
-          data.items.reverse();
-
-          this.setState({ suggestedEvents: data.items });
-        });
+        // Reverses array so that events are sorted in descending order.
+        response.items.reverse();
+        this.setState({ suggestedEvents: response.items });
       })
       .catch(error => console.error(error));
   }
@@ -75,7 +73,7 @@ class SuggestedEventList extends React.Component {
 
   render() {
     const suggestedEvents = this.state.suggestedEvents.map(event =>
-      <Event
+      <EventCard
         key={event.id}
         summary={event.summary}
         description={event.description || 'No description provided.'}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Event from './Event';
+import EventCard from './EventCard';
 
 class FilterableEventList extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class FilterableEventList extends React.Component {
 
   render() {
     const currentEvents = this.state.currentEvents.map(event =>
-      <Event
+      <EventCard
         key={event.id}
         summary={event.summary}
         description={event.description || 'No description provided.'}
