@@ -7,7 +7,6 @@ import App from './containers/App';
 import AdminDashboard from './components/AdminDashboard';
 import AuthenticationPage from './components/AuthenticationPage';
 import EventRegistration from './components/EventRegistration';
-import FilterableEventList from './components/FilterableEventList';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -16,7 +15,7 @@ require('./static/stylesheets/main.scss');
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={FilterableEventList} />
+      <IndexRoute component={AdminDashboard} />
       <Route path="/dashboard" component={AdminDashboard} />
       <Route path="/login" component={AuthenticationPage} />
 
