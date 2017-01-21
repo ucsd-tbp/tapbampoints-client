@@ -20,13 +20,12 @@ class GoogleCalendarEventsContainer extends React.Component {
   }
 
   componentDidMount() {
-    const lowerBound = subWeeks(new Date(), 1);
-    const upperBound = addMonths(new Date(), 1);
-
     // Constructs URL to make GET request to using the date range.
-    const dateBounds = `timeMin=${lowerBound.toISOString()}&timeMax=${upperBound.toISOString()}`;
-    const requestURL = `${process.env.CALENDAR_API_ROOT}&${dateBounds}`;
+    const lowerDate = subWeeks(new Date(), 1).toISOString();
+    const upperDate = addMonths(new Date(), 1).toISOString();
+    const requestURL = `${process.env.CALENDAR_API_ROOT}&timeMin=${lowerDate}&timeMax=${upperDate}`
 
+    // Gets Google calendar events within the specified time range.
     fetch(requestURL)
       .then(API.checkStatus)
       .then((response) => {
@@ -50,20 +49,7 @@ class GoogleCalendarEventsContainer extends React.Component {
     );
 
     return (
-      <div>
-        <p>
-          Below are events taken from the public Tau Beta Pi events Google calendar. These events
-          typically already have the name, location, start and end times, and date already filled
-          in, but in order to start signing in members, each event needs to know its type (either
-          <span className="academic-highlight">&nbsp;academic/professional</span>,
-          <span className="social-highlight">&nbsp;social</span>, or
-          <span className="service-highlight">&nbsp;outreach/service</span>
-          ), and how many points maximum it's
-          worth. You can fill in those fields below.
-        </p>
-
-        {googleCalendarEvents}
-      </div>
+      <div>{googleCalendarEvents}</div>
     );
   }
 }

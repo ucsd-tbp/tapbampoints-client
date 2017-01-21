@@ -34,6 +34,7 @@ $border-width: 3px;
     label { margin: 10px; }
   }
 
+  // Changes border color depending on event type.
   &.academic-event-type { border-left: $border-width solid $academic-color; }
   &.social-event-type { border-left: $border-width solid $social-color; }
   &.service-event-type { border-left: $border-width solid $service-color; }
