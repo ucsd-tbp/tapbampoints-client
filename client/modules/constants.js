@@ -9,3 +9,9 @@ export const EventTypes = Object.freeze({
   SOCIAL: 2,
   COMMUNITY_SERVCE: 3,
 });
+
+// List of months in order.
+export const MONTHS = Object.freeze([
+  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+  'September', 'October', 'November', 'December'
+]);

@@ -51,9 +51,9 @@ const EventCard = (props) => {
 
       <FlexItem className="event-information">
         <p>
-          <span className="understated">Description </span>This is a short description of the event. This description is added
-          to see what happens when the description gets really, really, long.
-          Potatoes.
+          <span className="understated">Description </span>This is a short description of the event.
+            This description is added to see what happens when the description gets really, really,
+            long. Potatoes.
         </p>
       </FlexItem>
 
