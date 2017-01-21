@@ -7,7 +7,8 @@
 export const EventTypes = Object.freeze({
   ACADEMIC: 1,
   SOCIAL: 2,
-  COMMUNITY_SERVCE: 3,
+  SERVICE: 3,
+  WILDCARD: 4,
 });
 
 // List of months in order.

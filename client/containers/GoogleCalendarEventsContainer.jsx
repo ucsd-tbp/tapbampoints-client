@@ -1,11 +1,12 @@
 import React from 'react';
 import 'whatwg-fetch';
+import { merge, toNumber } from 'lodash';
 
 import addMonths from 'date-fns/add_months';
 import subWeeks from 'date-fns/sub_weeks';
 
 import API from '../modules/API';
-import { ORDERED_MONTHS } from '../modules/constants';
+import { EventTypes, ORDERED_MONTHS } from '../modules/constants';
 
 import CategorizedEventList from '../components/CategorizedEventList';
 
@@ -21,6 +22,8 @@ import CategorizedEventList from '../components/CategorizedEventList';
 class GoogleCalendarEventsContainer extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
       eventsByID: {},
@@ -54,6 +57,8 @@ class GoogleCalendarEventsContainer extends React.Component {
             location: currentEvent.location,
             startDateTime: new Date(currentEvent.start.dateTime),
             endDateTime: new Date(currentEvent.end.dateTime),
+            points: 0,
+            eventType: EventTypes.WILDCARD,
           };
 
           return Object.assign({}, accumulator, { [currentEvent.id]: cleanedEvent });
@@ -64,12 +69,27 @@ class GoogleCalendarEventsContainer extends React.Component {
       .catch(error => console.error(error));
   }
 
+  handleChange(googleCalendarID, event) {
+    // <input type="number"> fields are hard to validate. (see
+    // https://github.com/facebook/react/issues/1549). If the points input
+    // changing, then converts the string value to a number before storing in
+    // state. `toNumber` is used instead of the built-in `parseInt` so that an
+    // empty string returns 0.
+    const value = event.target.name === 'points' || event.target.name === 'eventType'
+      ? toNumber(event.target.value) : event.target.value;
+
+    // Recursively merges event objects and assigns to state.
+    const eventDiff = { [googleCalendarID]: { [event.target.name]: value } };
+    this.setState({ eventsByID: merge(this.state.eventsByID, eventDiff) });
+  }
+
   render() {
     return (
       <CategorizedEventList
         events={Object.values(this.state.eventsByID)}
         groupingFunc={event => event.startDateTime.getMonth()}
         categoryOrder={ORDERED_MONTHS}
+        onChange={this.handleChange}
       />
     );
   }

@@ -20,11 +20,8 @@ const CategorizedEventList = (props) => {
     const categoryEvents = eventsByCategory[index].map(event => (
       <EventCard
         key={event.id}
-        summary={event.summary}
-        description={event.description}
-        location={event.location}
-        startDateTime={event.startDateTime}
-        endDateTime={event.endDateTime}
+        event={event}
+        onChange={props.onChange}
       />
     ));
 
@@ -35,6 +32,7 @@ const CategorizedEventList = (props) => {
 };
 
 CategorizedEventList.propTypes = {
+  // Props for grouping events.
   events: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   groupingFunc: React.PropTypes.func.isRequired,
   categoryOrder: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,

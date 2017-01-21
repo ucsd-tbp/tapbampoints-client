@@ -12,13 +12,15 @@ const EventCard = (props) => {
   let formattedDateString;
 
   // Checks validity of date range and creates date and time string to display.
-  if (!isValid(props.startDateTime) || !isValid(props.endDateTime)) {
+  if (!isValid(props.event.startDateTime) || !isValid(props.event.endDateTime)) {
     formattedDateString = 'No date or time provided.';
   } else {
-    const startDateTime = format(props.startDateTime, 'MMMM Qo, YYYY h:mm A');
-    const endTime = format(props.endDateTime, 'h:mm A');
+    const startDateTime = format(props.event.startDateTime, 'MMMM Qo, YYYY h:mm A');
+    const endTime = format(props.event.endDateTime, 'h:mm A');
     formattedDateString = `${startDateTime} to ${endTime}`;
   }
+
+  const onChange = props.onChange.bind(this, props.event.id);
 
   // Form containing fields to fill in points and event type. All event fields
   // are required in props except for points and event type, and if these
@@ -30,19 +32,17 @@ const EventCard = (props) => {
       <FlexContainer className="event-form-container">
         <FlexItem className="event-form-item">
           <label htmlFor="points">Points
-            <input
-              name="points"
-              type="number"
-              onChange={props.onChange}
-              placeholder="0"
-            />
+            <input name="points" type="number" value={props.event.points} onChange={onChange} />
           </label>
         </FlexItem>
 
         <FlexItem className="event-form-item">
           <label htmlFor="eventType">Type
-            <select>
-              <option value={1}>Academic</option>
+            <select name="eventType" value={props.event.eventType} onChange={onChange}>
+              <option value={EventTypes.ACADEMIC}>Academic</option>
+              <option value={EventTypes.SOCIAL}>House or Social</option>
+              <option value={EventTypes.SERVICE}>Community Service or Outreach</option>
+              <option value={EventTypes.WILDCARD}>Wildcard</option>
             </select>
           </label>
         </FlexItem>
@@ -60,18 +60,18 @@ const EventCard = (props) => {
     <FlexContainer className="EventCard academic-event-type">
 
       <FlexItem className="event-summary">
-        <h3>{props.summary}</h3>
+        <h3>{props.event.summary}</h3>
         <p><span className="understated">Date </span>{formattedDateString}</p>
         <p>
           <span className="understated">Location </span>
-          {props.location || 'No location provided.'}
+          {props.event.location || 'No location provided.'}
         </p>
       </FlexItem>
 
       <FlexItem className="event-information">
         <p>
           <span className="understated">Description </span>
-          {truncate(props.description, { length: 140 }) || 'No description provided.'}
+          {truncate(props.event.description, { length: 140 }) || 'No description provided.'}
         </p>
       </FlexItem>
 
@@ -85,23 +85,27 @@ const EventCard = (props) => {
 };
 
 EventCard.propTypes = {
-  // Minimum info to render event card.
-  summary: React.PropTypes.string.isRequired,
+  event: React.PropTypes.shape({
+    // Minimum info to render event card.
+    id: React.PropTypes.string.isRequired,
+    summary: React.PropTypes.string.isRequired,
 
-  // Given placeholders if empty or invalid.
-  description: React.PropTypes.string,
-  location: React.PropTypes.string,
-  startDateTime: React.PropTypes.instanceOf(Date),
-  endDateTime: React.PropTypes.instanceOf(Date),
+    // Given placeholders if empty or invalid.
+    description: React.PropTypes.string,
+    location: React.PropTypes.string,
+    startDateTime: React.PropTypes.instanceOf(Date),
+    endDateTime: React.PropTypes.instanceOf(Date),
 
-  // Optional since Google calendar events don't have points or types.
-  points: React.PropTypes.number,
-  eventType: React.PropTypes.oneOf([EventTypes.ACADEMIC, EventTypes.SOCIAL, EventTypes.SERVICE]),
+    // Optional since Google calendar events don't have points or types.
+    points: React.PropTypes.number,
+    eventType: React.PropTypes.oneOf(
+      [EventTypes.ACADEMIC, EventTypes.SOCIAL, EventTypes.SERVICE, EventTypes.WILDCARD]
+    ),
+  }),
 
   // Optional since not all event cards have forms.
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
-  googleCalendarID: React.PropTypes.string,
 };
 
 export default EventCard;
