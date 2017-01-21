@@ -26,8 +26,9 @@ input[type='password'] {
   margin-top: 5px;
   padding: .5rem;
   border-radius: $common-border-radius;
-  border: solid 1px $understated;
+  border: solid 1px $light-grey;
   transition: box-shadow 0.3s, border 0.3s;
+  box-sizing: border-box;
 }
 
 select,
@@ -35,8 +36,8 @@ input[type='text']:focus,
 input[type='number']:focus,
 input[type='password']:focus {
   outline: none;
-  border: solid 1px $understated;
-  box-shadow: 0 0 $input-border-blur-distance $input-shadow-size $understated;
+  border: solid 1px $light-grey;
+  box-shadow: 0 0 $input-border-blur-distance $input-shadow-size $light-grey;
 }
 
 button,

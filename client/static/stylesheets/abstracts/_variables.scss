@@ -1,5 +1,6 @@
 $seal-brown: #59260B;
 $light-grey: #e4e4e4;
+$medium-grey: #b4b4b4;
 $dark-grey: #848484;
 
 $pink: #CC7E85;
@@ -8,7 +9,7 @@ $light-purple: #9C7A97;
 
 // Colors used in application color schene.
 $primary-color: $seal-brown;
-$understated: $light-grey;
+$understated: $medium-grey;
 
 // Constants for buttons and form elements.
 $common-border-radius: 3px;
@@ -19,6 +20,7 @@ $mobile-gutter-margin: 50px;
 $container-padding: 25px; // Padding between divs and its interior elements.
 $container-vertical-padding: 50px; // Padding between content and top/bottom.
 $mobile-container-vertical-padding: 100px;
+$flex-item-inner-padding: 5px;
 
 // Breakpoints.
 $phone-breakpoint-width: 400px;
