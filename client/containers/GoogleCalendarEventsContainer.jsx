@@ -1,12 +1,12 @@
 import React from 'react';
 import 'whatwg-fetch';
 
-import EventCard from './EventCard';
+import EventCard from '../components/EventCard';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';
 
-class SuggestedEventList extends React.Component {
+class GoogleCalendarEventsContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -102,4 +102,4 @@ class SuggestedEventList extends React.Component {
   }
 }
 
-export default SuggestedEventList;
+export default GoogleCalendarEventsContainer;

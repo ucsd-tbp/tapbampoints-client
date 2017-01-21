@@ -1,12 +1,12 @@
 import React from 'react';
 
-import SuggestedEventList from './SuggestedEventList';
+import GoogleCalendarEventsContainer from '../containers/GoogleCalendarEventsContainer';
 
 const AdminDashboard = () => (
   <div>
     <h3>Administration Dashboard</h3>
 
-    <SuggestedEventList />
+    <GoogleCalendarEventsContainer />
   </div>
 );
 
