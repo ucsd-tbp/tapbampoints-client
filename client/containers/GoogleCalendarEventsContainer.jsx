@@ -1,102 +1,68 @@
 import React from 'react';
 import 'whatwg-fetch';
 
+import addMonths from 'date-fns/add_months';
+import subWeeks from 'date-fns/sub_weeks';
+
 import EventCard from '../components/EventCard';
 
 import API from '../modules/API';
-import Auth from '../modules/Auth';
 
 class GoogleCalendarEventsContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addEvent = this.addEvent.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      suggestedEvents: [],
+      googleCalendarEvents: [],
     };
   }
 
   componentDidMount() {
-    // Makes a date range between one month ago and one month in the future.
-    const upperBound = new Date();
-    const lowerBound = new Date();
-
-    // TODO Replace with functions from date-fns.
-    upperBound.setMonth(upperBound.getMonth() + 1);
-    lowerBound.setMonth(lowerBound.getMonth() - 1);
+    const lowerBound = subWeeks(new Date(), 1);
+    const upperBound = addMonths(new Date(), 1);
 
     // Constructs URL to make GET request to using the date range.
     const dateBounds = `timeMin=${lowerBound.toISOString()}&timeMax=${upperBound.toISOString()}`;
     const requestURL = `${process.env.CALENDAR_API_ROOT}&${dateBounds}`;
 
-    // Only retrieves events in the two-month date range, sorted by start date
-    // in ascending order.
     fetch(requestURL)
       .then(API.checkStatus)
       .then((response) => {
-        // Reverses array so that events are sorted in descending order.
-        response.items.reverse();
-        this.setState({ suggestedEvents: response.items });
+        this.setState({ googleCalendarEvents: response.items });
       })
       .catch(error => console.error(error));
   }
 
-  addEvent(id, newEvent) {
-    // TODO Convert array to a set to avoid going through all events.
-    const updatedEvents = this.state.suggestedEvents.filter(event => event.id !== id);
-
-    this.setState({ suggestedEvents: updatedEvents });
-
-    const request = new Request(`${process.env.API_ROOT}/events`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${Auth.getToken()}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newEvent),
-    });
-
-    fetch(request)
-      .then(API.checkStatus)
-      .then((response) => {
-        response.json().then(() => {
-        });
-      })
-      .catch((error) => {
-        // TODO Modify API.checkStatus to avoid creating another Promise.
-        error.json().then((data) => {
-          console.error(data.error);
-        });
-      });
+  handleChange(event) {
+    console.log(event.target.value);
   }
 
   render() {
-    const suggestedEvents = this.state.suggestedEvents.map(event =>
+    const googleCalendarEvents = this.state.googleCalendarEvents.map(event =>
       <EventCard
         key={event.id}
         summary={event.summary}
-        description={event.description || 'No description provided.'}
-        location={event.location}
-        start={event.start.dateTime || ''}
-        end={event.end.dateTime || ''}
-        onSubmit={this.addEvent}
-        id={event.id}
+        onChange={this.handleChange}
+        onSubmit={() => console.log('submitted event')}
       />
     );
 
     return (
       <div>
         <p>
-          Below are events taken from the public Tau Beta Pi events Google
-          calendar. These events typically already have the name, location,
-          start and end times, and date already filled in, but in order to
-          start signing in members, each event needs to know its type (either
-          social/house, academic/professional, or outreach/service), and how
-          many points maximum it's worth. You can fill in those fields below.
+          Below are events taken from the public Tau Beta Pi events Google calendar. These events
+          typically already have the name, location, start and end times, and date already filled
+          in, but in order to start signing in members, each event needs to know its type (either
+          <span className="academic-highlight">&nbsp;academic/professional</span>,
+          <span className="social-highlight">&nbsp;social</span>, or
+          <span className="service-highlight">&nbsp;outreach/service</span>
+          ), and how many points maximum it's
+          worth. You can fill in those fields below.
         </p>
 
-        {suggestedEvents}
+        {googleCalendarEvents}
       </div>
     );
   }

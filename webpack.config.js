@@ -10,6 +10,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 var DotenvWebpackPlugin = require('dotenv-webpack');
 var DotenvWebpackPluginConfig = new DotenvWebpackPlugin();
 
+// TODO Add tree-shaking to avoid bundling unused dependencies.
 module.exports = {
   entry: './client/index.jsx',
 

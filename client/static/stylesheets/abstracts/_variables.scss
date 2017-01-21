@@ -2,6 +2,10 @@ $seal-brown: #59260B;
 $light-grey: #e4e4e4;
 $dark-grey: #848484;
 
+$pink: #CC7E85;
+$grayish-blue: #7EA2AA;
+$light-purple: #9C7A97;
+
 // Colors used in application color schene.
 $primary-color: $seal-brown;
 $understated: $light-grey;
@@ -25,3 +29,8 @@ $test-border: 1px solid $dark-grey;
 
 // Base transition for simple elements like links.
 $base-transition: .3s all;
+
+// Colors associated with event types.
+$academic-color: $pink;
+$social-color: $grayish-blue;
+$service-color: $light-purple;

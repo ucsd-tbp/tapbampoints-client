@@ -3,7 +3,9 @@ $input-shadow-size: 1px;
 $form-element-spacing: 30px;
 
 label,
+select,
 input[type='text'],
+input[type='number'],
 input[type='password'] {
   display: block;
   width: 100%;
@@ -17,7 +19,9 @@ label {
   margin: $form-element-spacing 0 $form-element-spacing 0;
 }
 
+select,
 input[type='text'],
+input[type='number'],
 input[type='password'] {
   margin-top: 5px;
   padding: .5rem;
@@ -26,7 +30,9 @@ input[type='password'] {
   transition: box-shadow 0.3s, border 0.3s;
 }
 
+select,
 input[type='text']:focus,
+input[type='number']:focus,
 input[type='password']:focus {
   outline: none;
   border: solid 1px $understated;

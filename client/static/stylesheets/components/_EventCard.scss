@@ -1,0 +1,41 @@
+.EventCard {
+  margin: $container-padding;
+
+  // Default border for wildcard event type.
+  border-left: 3px solid $dark-grey;
+
+  > .event-summary {
+    // Some padding to make room for the left border.
+    padding-left: $container-padding;
+  }
+
+  // TODO Add the rest of the event types.
+  &.academic-event-type {
+    border-left: 3px solid $academic-color;
+  }
+
+  // Reduces padding to make overall card height less.
+  > .event-form {
+    padding: 0;
+  }
+
+  // Reduces padding to make overall card height less.
+  .event-form-item {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .event-form-container {
+    // Forces the 'Create' button to wrap to a second row, beneath the input and
+    // select elements.
+    flex-wrap: wrap;
+
+    > .event-create-section {
+      flex: 100%;
+      text-align: center;
+    }
+
+    // FIXME Keep select height same as input text without hard-coding height.
+    select { height: 39px; }
+  }
+}

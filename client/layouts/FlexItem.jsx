@@ -1,13 +1,15 @@
 import React from 'react';
 
 const FlexItem = props => (
-  <div className="FlexItem">
+  // TODO Replace with classnames.
+  <div className={`FlexItem ${props.className || ''}`}>
     {props.children}
   </div>
 );
 
 FlexItem.propTypes = {
   children: React.PropTypes.node,
+  className: React.PropTypes.string,
 };
 
 export default FlexItem;

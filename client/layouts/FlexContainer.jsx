@@ -1,13 +1,14 @@
 import React from 'react';
 
 const FlexContainer = props => (
-  <div className="FlexContainer">
+  <div className={`FlexContainer ${props.className}`}>
     {props.children}
   </div>
 );
 
 FlexContainer.propTypes = {
   children: React.PropTypes.node,
+  className: React.PropTypes.string,
 };
 
 export default FlexContainer;
