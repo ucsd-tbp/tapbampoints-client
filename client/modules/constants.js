@@ -11,7 +11,16 @@ export const EventTypes = Object.freeze({
   WILDCARD: 4,
 });
 
-// List of months in order.
+// Maps an event type to the appropriate class name.
+// See ../static/stylesheets/components/_EventCard.scss.
+export const CLASSNAME_TYPES = Object.freeze({
+  [EventTypes.ACADEMIC]: 'academic-event-type',
+  [EventTypes.SOCIAL]: 'social-event-type',
+  [EventTypes.SERVICE]: 'service-event-type',
+  [EventTypes.WILDCARD]: 'wildcard-event-type',
+});
+
+// List of months in order. Used when grouping elements by month.
 export const ORDERED_MONTHS = Object.freeze([
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
   'September', 'October', 'November', 'December'

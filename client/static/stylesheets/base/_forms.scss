@@ -52,6 +52,26 @@ input[type='submit'] {
   padding: .5rem;
   width: 150px;
   transition: all .2s;
+
+  &.academic-event-type {
+    color: $academic-color;
+    border: 1px solid $academic-color;
+  }
+
+  &.social-event-type {
+    color: $social-color;
+    border: 1px solid $social-color;
+  }
+
+  &.service-event-type {
+    color: $service-color;
+    border: 1px solid $service-color;
+  }
+
+  &.wildcard-event-type {
+    color: $wildcard-color;
+    border: 1px solid $wildcard-color;
+  }
 }
 
 button:hover,
@@ -59,6 +79,26 @@ input[type='submit']:hover {
   color: white;
   background-color: $primary-color;
   cursor: pointer;
+
+  &.academic-event-type {
+    background-color: $academic-color;
+    color: white;
+  }
+
+  &.social-event-type {
+    background-color: $social-color;
+    color: white;
+  }
+
+  &.service-event-type {
+    background-color: $service-color;
+    color: white;
+  }
+
+  &.wildcard-event-type {
+    background-color: $wildcard-color;
+    color: white;
+  }
 }
 
 button:focus,

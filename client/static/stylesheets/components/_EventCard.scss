@@ -1,7 +1,9 @@
 $border-width: 3px;
+$border-transition: 1s all;
 
 .EventCard {
   margin: $container-padding;
+  transition: $border-transition;
 
   // Default border for wildcard event type.
   border-left: $border-width solid $dark-grey;

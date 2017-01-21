@@ -2,11 +2,12 @@ import React from 'react';
 import format from 'date-fns/format';
 import isValid from 'date-fns/is_valid';
 import { truncate } from 'lodash';
+import classnames from 'classnames';
 
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
 
-import { EventTypes } from '../modules/constants';
+import { EventTypes, CLASSNAME_TYPES } from '../modules/constants';
 
 const EventCard = (props) => {
   let formattedDateString;
@@ -48,7 +49,7 @@ const EventCard = (props) => {
         </FlexItem>
 
         <div className="event-form-item event-create-section">
-          <input type="submit" value="Create" />
+          <input type="submit" value="Create" className={CLASSNAME_TYPES[props.event.eventType]} />
         </div>
 
       </FlexContainer>
@@ -57,7 +58,7 @@ const EventCard = (props) => {
   );
 
   return (
-    <FlexContainer className="EventCard academic-event-type">
+    <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.eventType])}>
 
       <FlexItem className="event-summary">
         <h3>{props.event.summary}</h3>
