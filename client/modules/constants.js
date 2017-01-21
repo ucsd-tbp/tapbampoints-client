@@ -11,7 +11,7 @@ export const EventTypes = Object.freeze({
 });
 
 // List of months in order.
-export const MONTHS = Object.freeze([
+export const ORDERED_MONTHS = Object.freeze([
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
   'September', 'October', 'November', 'December'
 ]);

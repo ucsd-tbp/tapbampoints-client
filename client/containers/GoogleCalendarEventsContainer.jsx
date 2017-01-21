@@ -4,9 +4,10 @@ import 'whatwg-fetch';
 import addMonths from 'date-fns/add_months';
 import subWeeks from 'date-fns/sub_weeks';
 
-import EventCard from '../components/EventCard';
-
 import API from '../modules/API';
+import { ORDERED_MONTHS } from '../modules/constants';
+
+import CategorizedEventList from '../components/CategorizedEventList';
 
 /**
  * Creates a list of "suggested events", or a list of events taken from the
@@ -21,10 +22,8 @@ class GoogleCalendarEventsContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-
     this.state = {
-      mappedEvents: {},
+      eventsByID: {},
     };
   }
 
@@ -45,12 +44,11 @@ class GoogleCalendarEventsContainer extends React.Component {
       .then((response) => {
         // Creates a map of an event ID to its event in order to easily look up
         // and delete a given event from the list of suggested events.
-        const mappedEvents = response.items.reduce((events, currentEvent) => {
-          const modifiedEvents = events;
-
+        const eventsByID = response.items.reduce((accumulator, currentEvent) => {
           // Extracts only the necessary info from the JSON response returned
           // by the Google Calendar API.
           const cleanedEvent = {
+            id: currentEvent.id,
             summary: currentEvent.summary,
             description: currentEvent.description,
             location: currentEvent.location,
@@ -58,26 +56,21 @@ class GoogleCalendarEventsContainer extends React.Component {
             endDateTime: new Date(currentEvent.end.dateTime),
           };
 
-          modifiedEvents[currentEvent.id] = cleanedEvent;
-          return modifiedEvents;
+          return Object.assign({}, accumulator, { [currentEvent.id]: cleanedEvent });
         }, {});
 
-        this.setState({ mappedEvents });
+        this.setState({ eventsByID });
       })
       .catch(error => console.error(error));
   }
 
-  handleChange(event) {
-    console.log(event.target.value);
-  }
-
-  handleSubmit(event) {
-    console.log('submitted event');
-  }
-
   render() {
     return (
-      <div><p>Potatoes!</p></div>
+      <CategorizedEventList
+        events={Object.values(this.state.eventsByID)}
+        groupingFunc={event => event.startDateTime.getMonth()}
+        categoryOrder={ORDERED_MONTHS}
+      />
     );
   }
 }
