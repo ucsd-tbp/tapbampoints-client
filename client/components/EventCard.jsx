@@ -22,7 +22,7 @@ function formatDateRange(lowerDateBound, upperDateBound) {
 }
 
 const EventCard = (props) => {
-  const formattedDateString = formatDateRange(props.event.startDateTime, props.event.endDateTime);
+  const formattedDateString = formatDateRange(props.event.start, props.event.end);
 
   // Adds event ID to parameter of handler methods to distinguish between other
   // events in the list.
@@ -101,8 +101,8 @@ EventCard.propTypes = {
     // Given placeholders if empty or invalid.
     description: React.PropTypes.string,
     location: React.PropTypes.string,
-    startDateTime: React.PropTypes.instanceOf(Date),
-    endDateTime: React.PropTypes.instanceOf(Date),
+    start: React.PropTypes.instanceOf(Date),
+    end: React.PropTypes.instanceOf(Date),
 
     // Optional since Google calendar events don't have points or types.
     points: React.PropTypes.number,

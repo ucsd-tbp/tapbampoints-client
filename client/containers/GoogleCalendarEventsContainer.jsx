@@ -89,7 +89,7 @@ class GoogleCalendarEventsContainer extends React.Component {
     return (
       <CategorizedEventList
         events={Object.values(this.state.eventsByID)}
-        groupingFunc={event => event.startDateTime.getMonth()}
+        groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}

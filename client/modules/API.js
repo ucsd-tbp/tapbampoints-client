@@ -68,8 +68,8 @@ class API {
           summary: googleCalendarEvent.summary,
           description: googleCalendarEvent.description,
           location: googleCalendarEvent.location,
-          startDateTime: new Date(googleCalendarEvent.start.dateTime),
-          endDateTime: new Date(googleCalendarEvent.end.dateTime),
+          start: new Date(googleCalendarEvent.start.dateTime),
+          end: new Date(googleCalendarEvent.end.dateTime),
           points: 0,
           eventType: EventTypes.WILDCARD,
         };

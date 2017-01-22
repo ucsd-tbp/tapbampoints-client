@@ -33,8 +33,8 @@ class Events {
 
       return apiEvent.summary === googleCalendarEvent.summary
         && apiEvent.location === googleCalendarEvent.location
-        && isEqual(new Date(apiEvent.start), googleCalendarEvent.startDateTime)
-        && isEqual(new Date(apiEvent.end), googleCalendarEvent.endDateTime);
+        && isEqual(new Date(apiEvent.start), googleCalendarEvent.start)
+        && isEqual(new Date(apiEvent.end), googleCalendarEvent.end);
     });
   }
 
@@ -54,8 +54,8 @@ class Events {
   static convertAPIEvent(apiEvent) {
     const convertedEvent = omit(apiEvent, ['start', 'end', 'type_id']);
 
-    convertedEvent.startDateTime = new Date(apiEvent.start);
-    convertedEvent.endDateTime = new Date(apiEvent.end);
+    convertedEvent.start = new Date(apiEvent.start);
+    convertedEvent.end = new Date(apiEvent.end);
     convertedEvent.eventType = apiEvent.type_id;
 
     return convertedEvent;
@@ -69,10 +69,10 @@ class Events {
    * in the API.
    */
   static convertClientEvent(clientEvent) {
-    const convertedEvent = omit(clientEvent, ['id', 'startDateTime', 'endDateTime', 'eventType']);
+    const convertedEvent = omit(clientEvent, ['id', 'start', 'end', 'eventType']);
 
-    convertedEvent.start = format(clientEvent.startDateTime, DATABASE_DATE_FORMAT);
-    convertedEvent.end = format(clientEvent.endDateTime, DATABASE_DATE_FORMAT);
+    convertedEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
+    convertedEvent.end = format(clientEvent.end, DATABASE_DATE_FORMAT);
     convertedEvent.type_id = clientEvent.eventType;
 
     return convertedEvent;
