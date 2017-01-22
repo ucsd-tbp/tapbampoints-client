@@ -1,7 +1,7 @@
 import format from 'date-fns/format';
-import { omit } from 'lodash';
 
-import { EventTypes, DATABASE_DATE_FORMAT } from './constants';
+import { EventTypes } from './constants';
+import Events from './Events';
 
 /** Utility functions related to API calls. */
 class API {
@@ -25,46 +25,6 @@ class API {
   }
 
   /**
-   * The Event model is represented in the API in almost the same way as events
-   * are represented in this front-end client, except dates are converted to
-   * Date objects for flexibility and type_id renamed to eventType for
-   * consistency.
-   *
-   * `convertAPIEvent` converts the Event model (as JSON) to another object,
-   * except with the fields above changed to the client representation of
-   * events.
-   *
-   * @param {Object} apiEvent Event object directly from API.
-   * @return {Object} Client representation of event object.
-   */
-  static convertAPIEvent(apiEvent) {
-    const convertedEvent = omit(apiEvent, ['start', 'end', 'type_id']);
-
-    convertedEvent.startDateTime = new Date(apiEvent.start);
-    convertedEvent.endDateTime = new Date(apiEvent.end);
-    convertedEvent.eventType = apiEvent.type_id;
-
-    return convertedEvent;
-  }
-
-  /**
-   * The reverse of the transformation detailed in the function above.
-   *
-   * @param {Object} clientEvent Event object according to client.
-   * @return {Object} Event object corresponding to how events are represented
-   * in the API.
-   */
-  static convertClientEvent(clientEvent) {
-    const convertedEvent = omit(clientEvent, ['id', 'startDateTime', 'endDateTime', 'eventType']);
-
-    convertedEvent.start = format(clientEvent.startDateTime, DATABASE_DATE_FORMAT);
-    convertedEvent.end = format(clientEvent.endDateTime, DATABASE_DATE_FORMAT);
-    convertedEvent.type_id = clientEvent.eventType;
-
-    return convertedEvent;
-  }
-
-  /**
    * Creates an event.
    *
    * @param {Object} event Object with event properties to create event with.
@@ -80,7 +40,7 @@ class API {
     const request = new Request(`${process.env.API_ROOT}/events`, {
       method: 'POST',
       headers,
-      body: JSON.stringify(this.convertClientEvent(event)),
+      body: JSON.stringify(Events.convertClientEvent(event)),
     });
 
     return fetch(request).then(this.checkStatus);
@@ -130,9 +90,11 @@ class API {
   /** Retrieves a list of all events. */
   static retrieveEvents() {
     const requestURL = `${process.env.API_ROOT}/events`;
+
+    // TODO Fetch events according to date range.
     return fetch(requestURL)
       .then(this.checkStatus)
-      .then(response => response.map(this.convertAPIEvent));
+      .then(response => response.map(Events.convertAPIEvent));
   }
 }
 

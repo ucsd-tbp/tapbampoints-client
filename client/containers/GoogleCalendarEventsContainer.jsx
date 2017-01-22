@@ -1,13 +1,13 @@
 import React from 'react';
 import 'whatwg-fetch';
-import { filter, keyBy, merge, toNumber } from 'lodash';
+import { keyBy, merge, toNumber } from 'lodash';
 
 import addMonths from 'date-fns/add_months';
 import subWeeks from 'date-fns/sub_weeks';
-import isEqual from 'date-fns/is_equal';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';
+import Events from '../modules/Events';
 import { ORDERED_MONTHS } from '../modules/constants';
 
 import CategorizedEventList from '../components/CategorizedEventList';
@@ -22,35 +22,6 @@ import CategorizedEventList from '../components/CategorizedEventList';
  * like a point value.
  */
 class GoogleCalendarEventsContainer extends React.Component {
-  /**
-   * Given a list of events taken from a Google calendar, compares these events
-   * with a set of events stored in the API and removes events from
-   * `googleCalendarEvents` if the event has already been stored. This avoids
-   * suggesting events for creation if the event has already been created.
-   *
-   * Two events are equal if the summary, description, location, start, and end
-   * times are all equal.
-   *
-   * @param {Array} googleCalendarEvents List of Google calendar events.
-   * @param {Array} apiEvents List of events retrieved from API.
-   * @return Array of events that are in `googleCalendarEvents` but not in
-   * `apiEvents` (the list of events that have already been created).
-   */
-  static removeRepeatedEvents(googleCalendarEvents, apiEvents) {
-    // Maps summaries to API events for faster lookup.
-    const apiEventsBySummary = keyBy(apiEvents, 'summary');
-
-    return filter(googleCalendarEvents, (googleCalendarEvent) => {
-      const apiEvent = apiEventsBySummary[googleCalendarEvent.summary];
-      if (!apiEvent) return true;
-
-      return apiEvent.summary === googleCalendarEvent.summary
-        && apiEvent.location === googleCalendarEvent.location
-        && isEqual(new Date(apiEvent.start), googleCalendarEvent.startDateTime)
-        && isEqual(new Date(apiEvent.end), googleCalendarEvent.endDateTime);
-    });
-  }
-
   constructor(props) {
     super(props);
 
@@ -74,10 +45,12 @@ class GoogleCalendarEventsContainer extends React.Component {
 
     // Retrieves both the Google calendar events and all API events.
     API.retrieveGoogleCalendarEventsBetween(lowerDateBound, upperDateBound)
-      .then(googleCalendarEvents => Promise.all([googleCalendarEvents, API.retrieveEvents()]))
+      .then(googleCalendarEvents => Promise.all([
+        googleCalendarEvents,
+        API.retrieveEvents(),
+      ]))
       .then(([googleCalendarEvents, apiEvents]) => {
-        const filteredEvents =
-          GoogleCalendarEventsContainer.removeRepeatedEvents(googleCalendarEvents, apiEvents);
+        const filteredEvents = Events.removeRepeatedEvents(googleCalendarEvents, apiEvents);
 
         this.setState({ eventsByID: keyBy(filteredEvents, 'id') });
       })

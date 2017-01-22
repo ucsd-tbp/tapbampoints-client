@@ -26,4 +26,5 @@ export const ORDERED_MONTHS = Object.freeze([
   'September', 'October', 'November', 'December'
 ]);
 
+// MySQL date format for date/time objects.
 export const DATABASE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
