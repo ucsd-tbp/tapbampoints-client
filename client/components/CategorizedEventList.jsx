@@ -22,6 +22,7 @@ const CategorizedEventList = (props) => {
         key={event.id}
         event={event}
         onChange={props.onChange}
+        onSubmit={props.onSubmit}
       />
     ));
 

@@ -25,3 +25,5 @@ export const ORDERED_MONTHS = Object.freeze([
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
   'September', 'October', 'November', 'December'
 ]);
+
+export const DATABASE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';

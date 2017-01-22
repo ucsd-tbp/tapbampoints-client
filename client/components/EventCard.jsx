@@ -9,28 +9,36 @@ import FlexItem from '../layouts/FlexItem';
 
 import { EventTypes, CLASSNAME_TYPES } from '../modules/constants';
 
+/**
+ * Converts a date range specified by two `Date` objects to a
+ * human-readable string.
+
+ * @param  {Date} lowerDateBound Lower bound of date range.
+ * @param  {Date} upperDateBound Upper bound of date range.
+ * @return {String} Date range as a human-readable string.
+ */
+function formatDateRange(lowerDateBound, upperDateBound) {
+  return !isValid(lowerDateBound) || !isValid(upperDateBound) ? 'No date or time provided'
+    : `${format(lowerDateBound, 'MMMM Do, YYYY h:mm A')} to ${format(upperDateBound, 'h:mm A')}`;
+}
+
 const EventCard = (props) => {
-  let formattedDateString;
+  const formattedDateString = formatDateRange(props.event.startDateTime, props.event.endDateTime);
 
-  // Checks validity of date range and creates date and time string to display.
-  if (!isValid(props.event.startDateTime) || !isValid(props.event.endDateTime)) {
-    formattedDateString = 'No date or time provided.';
-  } else {
-    const startDateTime = format(props.event.startDateTime, 'MMMM Qo, YYYY h:mm A');
-    const endTime = format(props.event.endDateTime, 'h:mm A');
-    formattedDateString = `${startDateTime} to ${endTime}`;
-  }
-
+  // Adds event ID to parameter of handler methods to distinguish between other
+  // events in the list.
   const onChange = props.onChange.bind(this, props.event.id);
+  const onSubmit = props.onSubmit.bind(this, props.event.id);
 
   // Form containing fields to fill in points and event type. All event fields
   // are required in props except for points and event type, and if these
   // fields aren't provided, then the below form appears for officers to fill
   // them in.
   const incompleteEventForm = (
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={onSubmit}>
 
       <FlexContainer className="event-form-container">
+
         <FlexItem className="event-form-item">
           <label htmlFor="points">Points
             <input name="points" type="number" value={props.event.points} onChange={onChange} />
