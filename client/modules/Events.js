@@ -1,3 +1,5 @@
+// @flow
+
 import { format, isEqual } from 'date-fns';
 import { filter, keyBy, omit } from 'lodash';
 import { DATABASE_DATE_FORMAT } from './constants';
@@ -6,7 +8,6 @@ import { DATABASE_DATE_FORMAT } from './constants';
  * Utility functions related to manipulating different types of events (Google
  * Calendar events, client events, and JSON from the API's event model.)
  */
-
 class Events {
   /**
    * Given a list of events taken from a Google calendar, compares these events
