@@ -1,5 +1,4 @@
-import format from 'date-fns/format';
-import isEqual from 'date-fns/is_equal';
+import { format, isEqual } from 'date-fns';
 import { filter, keyBy, omit } from 'lodash';
 import { DATABASE_DATE_FORMAT } from './constants';
 

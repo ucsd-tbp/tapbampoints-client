@@ -1,9 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 import { keyBy, merge, toNumber } from 'lodash';
-
-import addMonths from 'date-fns/add_months';
-import subWeeks from 'date-fns/sub_weeks';
+import { addMonths, subWeeks } from 'date-fns';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';
@@ -79,12 +77,10 @@ class GoogleCalendarEventsContainer extends React.Component {
 
     // Creates event from Google calendar event.
     API.createEvent(submittedEvent, Auth.getToken())
-      .then((response) => {
+      .then(() => {
         // Removes newly created event from rendered list.
         delete eventsByID[googleCalendarID];
         this.setState({ eventsByID });
-
-        console.log(response);
       })
       .catch(error => console.error(error.error));
   }

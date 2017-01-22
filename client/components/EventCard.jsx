@@ -1,6 +1,5 @@
 import React from 'react';
-import format from 'date-fns/format';
-import isValid from 'date-fns/is_valid';
+import { format, isValid } from 'date-fns';
 import { truncate } from 'lodash';
 import classnames from 'classnames';
 
