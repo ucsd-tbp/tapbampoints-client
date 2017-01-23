@@ -46,6 +46,30 @@ class App extends React.Component {
   }
 
   render() {
+    const loggedInLinks = (
+      <section>
+        <li className="navigation-item">
+          <Link to="/profile" onClick={() => this.onSetOpen(false)}>Profile</Link>
+        </li>
+      </section>
+    );
+
+    const adminLinks = (
+      <section>
+        <li className="navigation-item">
+          <Link to="/admin" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+        </li>
+
+        <li className="navigation-item">
+          <Link to="/admin/statistics" onClick={() => this.onSetOpen(false)}>Statistics</Link>
+        </li>
+
+        <li className="navigation-item">
+          <Link to="/" onClick={this.handleLogout}>Logout</Link>
+        </li>
+      </section>
+    );
+
     // Sets up navigation list in sidebar.
     const sidebarContent = (
       // TODO Remove dashboard depending on admin status of logged-in user.
@@ -56,35 +80,13 @@ class App extends React.Component {
             <Link to="/" onClick={() => this.onSetOpen(false)}>Events</Link>
           </li>
 
-          {
-            // TODO Should only need one ternary operator for this logic.
-            // Fields to display if the user is logged in.
-            this.state.isLoggedIn &&
+          { this.state.isLoggedIn && loggedInLinks }
+          { this.state.isLoggedIn && adminLinks }
+          { !this.state.isLoggedIn && (
             <li className="navigation-item">
-              <Link to="/admin" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+              <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
             </li>
-          }
-
-          {
-            // Fields to display if the user is logged in.
-            this.state.isLoggedIn &&
-            <li className="navigation-item">
-              <Link to="/admin" onClick={() => this.onSetOpen(false)}>Users</Link>
-            </li>
-          }
-
-          {
-            // Shows login or logout buttons depending on whether user is logged in.
-            this.state.isLoggedIn ? (
-              <li className="navigation-item">
-                <Link to="/" onClick={this.handleLogout}>Logout</Link>
-              </li>
-            ) : (
-              <li className="navigation-item">
-                <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
-              </li>
-            )
-          }
+          )}
 
         </ul>
       </div>

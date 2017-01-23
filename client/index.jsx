@@ -13,10 +13,8 @@ import AuthenticationPage from './pages/AuthenticationPage';
 import EventRegistrationPage from './pages/EventRegistrationPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
+import StatisticsPage from './pages/StatisticsPage';
 import UpcomingEventsPage from './pages/UpcomingEventsPage';
-
-import VerifyAuthenticatedContainer from './containers/VerifyAuthenticatedContainer';
-import VerifyAdminContainer from './containers/VerifyAdminContainer';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -37,6 +35,7 @@ const routes = (
       {/* Routes that require the admin role. */}
       <Route path="/admin" onEnter={() => console.warn('entering admin section')}>
         <IndexRoute component={AdminDashboard} />
+        <Route path="/admin/statistics" component={StatisticsPage} />
         <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />
       </Route>
 
