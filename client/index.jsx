@@ -1,3 +1,8 @@
+/**
+ * @file Entry point for the application. Defines the routes and renders the
+ * root React component into the DOM.
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
@@ -6,28 +11,39 @@ import AdminDashboard from './pages/AdminDashboard';
 import App from './pages/App';
 import AuthenticationPage from './pages/AuthenticationPage';
 import EventRegistrationPage from './pages/EventRegistrationPage';
+import NotFoundPage from './pages/NotFoundPage';
+import ProfilePage from './pages/ProfilePage';
 import UpcomingEventsPage from './pages/UpcomingEventsPage';
 
 import VerifyAuthenticatedContainer from './containers/VerifyAuthenticatedContainer';
+import VerifyAdminContainer from './containers/VerifyAdminContainer';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
 
-// TODO Protect routes based on logged in or admin status.
-ReactDOM.render((
+const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={UpcomingEventsPage} />
 
+      {/* Routes that don't require login. */}
       <Route path="/login" component={AuthenticationPage} />
 
-      <Route component={VerifyAuthenticatedContainer}>
+      {/* Routes that require user login. */}
+      <Route onEnter={() => console.warn('entering logged in section')}>
+        <Route path="/profile" component={ProfilePage} />
       </Route>
 
-      <Route path="/dashboard" component={AdminDashboard} />
-      <Route path="/users" component={AdminDashboard} />
-      <Route path="/events/register/:eventID" component={EventRegistrationPage} />
+      {/* Routes that require the admin role. */}
+      <Route path="/admin" onEnter={() => console.warn('entering admin section')}>
+        <IndexRoute component={AdminDashboard} />
+        <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />
+      </Route>
+
+      <Route path="*" component={NotFoundPage} />
 
     </Route>
   </Router>
-), document.getElementById('main-container'));
+);
+
+ReactDOM.render(routes, document.getElementById('main-container'));

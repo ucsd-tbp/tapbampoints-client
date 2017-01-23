@@ -31,9 +31,6 @@ class App extends React.Component {
     };
   }
 
-  /**
-   * Opens or closes the sidebar depending on value of `open`.
-   */
   onSetOpen(open) {
     this.setState({ isSidebarOpen: open });
   }
@@ -64,7 +61,7 @@ class App extends React.Component {
             // Fields to display if the user is logged in.
             this.state.isLoggedIn &&
             <li className="navigation-item">
-              <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+              <Link to="/admin" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
             </li>
           }
 
@@ -72,7 +69,7 @@ class App extends React.Component {
             // Fields to display if the user is logged in.
             this.state.isLoggedIn &&
             <li className="navigation-item">
-              <Link to="/dashboard" onClick={() => this.onSetOpen(false)}>Users</Link>
+              <Link to="/admin" onClick={() => this.onSetOpen(false)}>Users</Link>
             </li>
           }
 

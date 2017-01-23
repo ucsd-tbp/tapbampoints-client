@@ -14,9 +14,19 @@ class Auth {
 
   /**
    * Checks whether a user is logged in by checking the existence of a token.
+   * @return {Boolean} True if a user is logged in.
    */
   static isUserAuthenticated() {
     return localStorage.getItem('token') !== null;
+  }
+
+  /**
+   * Checks whether a user is logged in, and if so, if the user is an admin.
+   * @return {Boolean} True if a token exists in local storage and the token
+   * corresponds to an admin user.
+   */
+  static isAuthenticatedUserAdmin() {
+    // TODO Make API call to /auth/me.
   }
 
   /**
@@ -28,10 +38,18 @@ class Auth {
 
   /**
    * Retrieves token in local storage.
-   * @return Token in local storage.
+   * @return {String} Token in local storage.
    */
   static getToken() {
     return localStorage.getItem('token');
+  }
+
+  /**
+   * Checks validity of token in local storage by verifying against the API.
+   * @return {Boolean} True if the token is valid.
+   */
+  static verifyToken() {
+    // TODO Make API call to /auth/me.
   }
 }
 
