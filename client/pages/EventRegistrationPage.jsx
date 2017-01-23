@@ -1,6 +1,6 @@
 import React from 'react';
 
-class EventRegistration extends React.Component {
+class EventRegistrationPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -138,7 +138,7 @@ class EventRegistration extends React.Component {
     }
 
     return (
-      <div className="EventRegistration">
+      <div className="EventRegistrationPage">
         <h1><span className="light-emphasis">Signing-in for: </span>{this.state.event.summary}</h1>
 
         {currentStep}
@@ -147,8 +147,8 @@ class EventRegistration extends React.Component {
   }
 }
 
-EventRegistration.propTypes = {
+EventRegistrationPage.propTypes = {
   params: React.PropTypes.objectOf(React.PropTypes.number),
 };
 
-export default EventRegistration;
+export default EventRegistrationPage;

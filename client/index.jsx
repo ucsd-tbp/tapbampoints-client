@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import App from './containers/App';
+import App from './pages/App';
 
-import AdminDashboard from './components/AdminDashboard';
-import AuthenticationPage from './components/AuthenticationPage';
-import EventRegistration from './components/EventRegistration';
+import AdminDashboard from './pages/AdminDashboard';
+import AuthenticationPage from './pages/AuthenticationPage';
+import EventRegistrationPage from './pages/EventRegistrationPage';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -19,7 +19,7 @@ ReactDOM.render((
       <Route path="/dashboard" component={AdminDashboard} />
       <Route path="/login" component={AuthenticationPage} />
 
-      <Route path="/events/register/:eventID" component={EventRegistration} />
+      <Route path="/events/register/:eventID" component={EventRegistrationPage} />
 
     </Route>
   </Router>
