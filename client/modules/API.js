@@ -40,7 +40,7 @@ class API {
     const request = new Request(`${process.env.API_ROOT}/events`, {
       method: 'POST',
       headers,
-      body: JSON.stringify(Events.convertClientEvent(event)),
+      body: JSON.stringify(Events.formatForAPI(event)),
     });
 
     return fetch(request).then(this.checkStatus);
@@ -55,36 +55,15 @@ class API {
    * @return List of Google calendar events.
    */
   static retrieveGoogleCalendarEventsBetween(lowerDateBound, upperDateBound) {
-    // Converts JSON response from Google Calendar API into a flat Object of
-    // Event objects mappable to the <EventCard /> component.
-    const cleanGoogleCalenderEvents = (response) => {
-      // Converts array of JSON events return by the Google Calendar API to a
-      // neater, flatter version with only the required properties.
-      return response.items.map((googleCalendarEvent) => {
-        // Extracts only the necessary info from the JSON response returned
-        // by the Google Calendar API.
-        const cleanedEvent = {
-          id: googleCalendarEvent.id,
-          summary: googleCalendarEvent.summary,
-          description: googleCalendarEvent.description,
-          location: googleCalendarEvent.location,
-          start: new Date(googleCalendarEvent.start.dateTime),
-          end: new Date(googleCalendarEvent.end.dateTime),
-          points: 0,
-          eventType: EventTypes.WILDCARD,
-        };
-
-        return cleanedEvent;
-      });
-    };
-
     // Constructs request URL with query parameters for date range bounds.
     const requestURL = process.env.CALENDAR_API_ROOT +
       '&timeMin=' + lowerDateBound.toISOString() +
       '&timeMax=' + upperDateBound.toISOString();
 
     // Gets Google calendar events within the specified time range.
-    return fetch(requestURL).then(this.checkStatus).then(cleanGoogleCalenderEvents);
+    return fetch(requestURL)
+      .then(this.checkStatus)
+      .then((response) => response.items.map(Events.cleanGoogleCalendarEvent));
   }
 
   /** Retrieves a list of all events. */
@@ -94,7 +73,7 @@ class API {
     // TODO Fetch events according to date range.
     return fetch(requestURL)
       .then(this.checkStatus)
-      .then(response => response.map(Events.convertAPIEvent));
+      .then(response => response.map(Events.formatForClient));
   }
 }
 

@@ -2,7 +2,38 @@
 
 import { format, isEqual } from 'date-fns';
 import { filter, keyBy, omit } from 'lodash';
-import { DATABASE_DATE_FORMAT } from './constants';
+import { EventTypes, DATABASE_DATE_FORMAT } from './constants';
+
+/**
+ * Shape of an event object used when creating or updating events from the API.
+ * Properties are in snake case according to the MySQL convention.
+ * @type {APIEvent}
+ */
+export type APIEvent = {
+  id: string,
+  summary: string,
+  description: string,
+  location: string,
+  start: string,
+  end: string,
+  type_id: number,
+};
+
+/**
+ * Shape of an event object used in the client. Start and end dates are `Date`
+ * objects instead of strings for easier manipulation and less calls to
+ * `new Date()`.
+ * @type {ClientEvent}
+ */
+export type ClientEvent = {
+  id: number,
+  summary: string,
+  description: string,
+  location: string,
+  start: Date,
+  end: Date,
+  eventType: number,
+};
 
 /**
  * Utility functions related to manipulating different types of events (Google
@@ -23,7 +54,7 @@ class Events {
    * @return Array of events that are in `googleCalendarEvents` but not in
    * `apiEvents` (the list of events that have already been created).
    */
-  static removeRepeatedEvents(googleCalendarEvents, apiEvents) {
+  static removeRepeatedEvents(googleCalendarEvents, apiEvents : APIEvent[]) {
     // Maps summaries to API events for faster lookup.
     const apiEventsBySummary = keyBy(apiEvents, 'summary');
 
@@ -33,8 +64,8 @@ class Events {
 
       return apiEvent.summary === googleCalendarEvent.summary
         && apiEvent.location === googleCalendarEvent.location
-        && isEqual(new Date(apiEvent.start), googleCalendarEvent.start)
-        && isEqual(new Date(apiEvent.end), googleCalendarEvent.end);
+        && isEqual(new Date(apiEvent.start), googleCalendarEvent.start.dateTime)
+        && isEqual(new Date(apiEvent.end), googleCalendarEvent.end.dateTime);
     });
   }
 
@@ -44,14 +75,14 @@ class Events {
    * Date objects for flexibility and type_id renamed to eventType for
    * consistency.
    *
-   * `convertAPIEvent` converts the Event model (as JSON) to another object,
+   * `formatForClient` converts the Event model (as JSON) to another object,
    * except with the fields above changed to the client representation of
    * events.
    *
    * @param {Object} apiEvent Event object directly from API.
    * @return {Object} Client representation of event object.
    */
-  static convertAPIEvent(apiEvent) {
+  static formatForClient(apiEvent : APIEvent) : ClientEvent {
     const convertedEvent = omit(apiEvent, ['start', 'end', 'type_id']);
 
     convertedEvent.start = new Date(apiEvent.start);
@@ -68,7 +99,7 @@ class Events {
    * @return {Object} Event object corresponding to how events are represented
    * in the API.
    */
-  static convertClientEvent(clientEvent) {
+  static formatForAPI(clientEvent : ClientEvent) : APIEvent {
     const convertedEvent = omit(clientEvent, ['id', 'start', 'end', 'eventType']);
 
     convertedEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
@@ -76,6 +107,24 @@ class Events {
     convertedEvent.type_id = clientEvent.eventType;
 
     return convertedEvent;
+  }
+
+      // Converts array of JSON events return by the Google Calendar API to a
+      // neater, flatter version with only the required properties.
+
+  static cleanGoogleCalendarEvent(googleCalendarEvent) : ClientEvent {
+    // Extracts only the necessary info from the JSON response returned
+    // by the Google Calendar API.
+    return {
+      id: googleCalendarEvent.id,
+      summary: googleCalendarEvent.summary,
+      description: googleCalendarEvent.description,
+      location: googleCalendarEvent.location,
+      start: new Date(googleCalendarEvent.start.dateTime),
+      end: new Date(googleCalendarEvent.end.dateTime),
+      points: 0,
+      eventType: EventTypes.WILDCARD,
+    };
   }
 }
 

@@ -6,8 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint --ext .jsx client/; exit 0",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "test": "echo \"Error: no test specified\"",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "check": "npm run test && npm run lint && npm run flow"
   },
   "author": "Brian Tan",
   "license": "MIT",
