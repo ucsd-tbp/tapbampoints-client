@@ -7,8 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import App from './containers/App';
+
 import AdminDashboard from './pages/AdminDashboard';
-import App from './pages/App';
 import AuthenticationPage from './pages/AuthenticationPage';
 import EventRegistrationPage from './pages/EventRegistrationPage';
 import NotFoundPage from './pages/NotFoundPage';

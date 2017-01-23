@@ -46,6 +46,7 @@ class App extends React.Component {
   }
 
   render() {
+    // Links that only appear when logged in.
     const loggedInLinks = (
       <section className="navigation-item-group">
         <li className="navigation-item">
@@ -54,6 +55,7 @@ class App extends React.Component {
       </section>
     );
 
+    // Links that only appear when the logged in user is an admin.
     const adminLinks = (
       <section className="navigation-item-group">
         <li className="navigation-item">
@@ -69,7 +71,6 @@ class App extends React.Component {
 
     // Sets up navigation list in sidebar.
     const sidebarContent = (
-      // TODO Remove dashboard depending on admin status of logged-in user.
       <div className="SidebarContent">
         <ul className="navigation-section">
 
