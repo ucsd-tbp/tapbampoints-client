@@ -47,7 +47,7 @@ class App extends React.Component {
 
   render() {
     const loggedInLinks = (
-      <section>
+      <section className="navigation-item-group">
         <li className="navigation-item">
           <Link to="/profile" onClick={() => this.onSetOpen(false)}>Profile</Link>
         </li>
@@ -55,7 +55,7 @@ class App extends React.Component {
     );
 
     const adminLinks = (
-      <section>
+      <section className="navigation-item-group">
         <li className="navigation-item">
           <Link to="/admin" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
         </li>
@@ -64,9 +64,6 @@ class App extends React.Component {
           <Link to="/admin/statistics" onClick={() => this.onSetOpen(false)}>Statistics</Link>
         </li>
 
-        <li className="navigation-item">
-          <Link to="/" onClick={this.handleLogout}>Logout</Link>
-        </li>
       </section>
     );
 
@@ -76,17 +73,28 @@ class App extends React.Component {
       <div className="SidebarContent">
         <ul className="navigation-section">
 
-          <li className="navigation-item">
-            <Link to="/" onClick={() => this.onSetOpen(false)}>Events</Link>
-          </li>
+          <section className="navigation-item-group">
+            <li className="navigation-item">
+              <Link to="/" onClick={() => this.onSetOpen(false)}>Events</Link>
+            </li>
+          </section>
 
           { this.state.isLoggedIn && loggedInLinks }
           { this.state.isLoggedIn && adminLinks }
-          { !this.state.isLoggedIn && (
-            <li className="navigation-item">
-              <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
-            </li>
-          )}
+
+          <section className="navigation-item-group">
+            { // Displays either login or logout button.
+              this.state.isLoggedIn ? (
+                <li className="navigation-item">
+                  <Link to="/" onClick={this.handleLogout}>Logout</Link>
+                </li>
+              ) : (
+                <li className="navigation-item">
+                  <Link to="/login" onClick={() => this.onSetOpen(false)}>Login/Register</Link>
+                </li>
+              )
+            }
+          </section>
 
         </ul>
       </div>

@@ -17,8 +17,13 @@ $sidebar-gutter: 50px;
     text-align: right;
     padding: 0;
 
-    > .navigation-item {
+    .navigation-item {
       margin: $list-item-margin 0 $list-item-margin 0;
+    }
+
+    .navigation-item-group + .navigation-item-group {
+      margin: 10px 0 10px 0;
+      border-top: solid 1px $light-grey;
     }
   }
 
@@ -29,4 +34,5 @@ $sidebar-gutter: 50px;
 
     &:hover { color: $understated; }
   }
+
 }
