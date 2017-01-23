@@ -1,7 +1,7 @@
 // @flow
 
 import { format, isEqual } from 'date-fns';
-import { filter, keyBy, omit } from 'lodash';
+import { clone, filter, keyBy } from 'lodash';
 import { EventTypes, DATABASE_DATE_FORMAT } from './constants';
 
 /**
@@ -83,13 +83,15 @@ class Events {
    * @return {Object} Client representation of event object.
    */
   static formatForClient(apiEvent : APIEvent) : ClientEvent {
-    const convertedEvent = omit(apiEvent, ['start', 'end', 'type_id']);
+    const clientEvent = clone(apiEvent);
 
-    convertedEvent.start = new Date(apiEvent.start);
-    convertedEvent.end = new Date(apiEvent.end);
-    convertedEvent.eventType = apiEvent.type_id;
+    clientEvent.start = new Date(apiEvent.start);
+    clientEvent.end = new Date(apiEvent.end);
+    clientEvent.eventType = apiEvent.type_id;
 
-    return convertedEvent;
+    delete clientEvent.type_id;
+
+    return clientEvent;
   }
 
   /**
@@ -100,21 +102,26 @@ class Events {
    * in the API.
    */
   static formatForAPI(clientEvent : ClientEvent) : APIEvent {
-    const convertedEvent = omit(clientEvent, ['id', 'start', 'end', 'eventType']);
+    const apiEvent = clone(clientEvent);
 
-    convertedEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
-    convertedEvent.end = format(clientEvent.end, DATABASE_DATE_FORMAT);
-    convertedEvent.type_id = clientEvent.eventType;
+    apiEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
+    apiEvent.end = format(clientEvent.end, DATABASE_DATE_FORMAT);
+    apiEvent.type_id = clientEvent.eventType;
 
-    return convertedEvent;
+    delete apiEvent.eventType;
+
+    return apiEvent;
   }
 
-      // Converts array of JSON events return by the Google Calendar API to a
-      // neater, flatter version with only the required properties.
-
+  /**
+   * Converts JSON object representing an event returned by the Google Calendar
+   * API to a flatter version with only the required properties.
+   *
+   * @param {Object} googleCalendarEvent Event to clean.
+   * @return {ClientEvent} Event with properties filtered from Google calendar
+   * event.
+   */
   static cleanGoogleCalendarEvent(googleCalendarEvent) : ClientEvent {
-    // Extracts only the necessary info from the JSON response returned
-    // by the Google Calendar API.
     return {
       id: googleCalendarEvent.id,
       summary: googleCalendarEvent.summary,
