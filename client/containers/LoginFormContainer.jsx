@@ -2,7 +2,6 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import 'whatwg-fetch';
 
-import API from '../modules/API';
 import Auth from '../modules/Auth';
 
 import LoginForm from '../components/LoginForm';
@@ -43,22 +42,9 @@ class LoginFormContainer extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    // Builds request with credentials in request body.
-    const request = new Request(`${process.env.API_ROOT}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: this.state.credentials.email,
-        password: this.state.credentials.password,
-      }),
-    });
-
-    // Makes POST request to log in user with given credentials.
-    fetch(request)
-      .then(API.checkStatus)
-      .then((response) => {
-        // Stores JWT and notifies application that user has logged in.
-        Auth.authenticateUser(response.token);
+    Auth.authenticateUser(this.state.credentials.email, this.state.credentials.password)
+      .then(() => {
+        // Notifies root-level component that login has occurred.
         this.props.onAuthChange(true);
 
         // Redirects to index route.

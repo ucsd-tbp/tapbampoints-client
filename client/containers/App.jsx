@@ -28,6 +28,7 @@ class App extends React.Component {
     this.state = {
       isSidebarOpen: false,
       isLoggedIn: Auth.isUserAuthenticated(),
+      isAdmin: false,
     };
   }
 

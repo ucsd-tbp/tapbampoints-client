@@ -11,15 +11,6 @@ export const EventTypes = Object.freeze({
   WILDCARD: 4,
 });
 
-// Maps an event type to the appropriate class name.
-// See ../static/stylesheets/components/_EventCard.scss.
-export const CLASSNAME_TYPES = Object.freeze({
-  [EventTypes.ACADEMIC]: 'academic-event-type',
-  [EventTypes.SOCIAL]: 'social-event-type',
-  [EventTypes.SERVICE]: 'service-event-type',
-  [EventTypes.WILDCARD]: 'wildcard-event-type',
-});
-
 // List of months in order. Used when grouping elements by month.
 export const ORDERED_MONTHS = Object.freeze([
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
@@ -28,3 +19,19 @@ export const ORDERED_MONTHS = Object.freeze([
 
 // MySQL date format for date/time objects.
 export const DATABASE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+// User roles, used for showing restricted routes.
+export const MemberStatuses = Object.freeze({
+  INITIATE: 'Initiate',
+  MEMBER: 'Member',
+  OFFICER: 'Officer',
+});
+
+// Maps an event type to the appropriate class name.
+// See ../static/stylesheets/components/_EventCard.scss.
+export const CLASSNAME_TYPES = Object.freeze({
+  [EventTypes.ACADEMIC]: 'academic-event-type',
+  [EventTypes.SOCIAL]: 'social-event-type',
+  [EventTypes.SERVICE]: 'service-event-type',
+  [EventTypes.WILDCARD]: 'wildcard-event-type',
+});

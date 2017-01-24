@@ -1,15 +1,29 @@
+import API from './API';
+
 /**
  * Utility functions for manipulating the token in local storage in order to
  * login and logout users.
  */
 class Auth {
-
   /**
    * Logs in a user by storing a token into local storage.
    * @param {token} token Token to place into local storage.
    */
-  static authenticateUser(token) {
-    localStorage.setItem('token', token);
+  static authenticateUser(email, password) {
+    // Builds request with credentials in request body.
+    const request = new Request(`${process.env.API_ROOT}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+
+    // Makes POST request to log in user with given credentials.
+    return fetch(request)
+      .then(API.checkStatus)
+      .then(response => localStorage.setItem('token', response.token));
   }
 
   /**
@@ -46,10 +60,16 @@ class Auth {
 
   /**
    * Checks validity of token in local storage by verifying against the API.
-   * @return {Boolean} True if the token is valid.
+   * @return {Promise} Promise that resolves to returned user JSON if token is
+   * valid.
    */
   static verifyToken() {
-    // TODO Make API call to /auth/me.
+    // Constructs GET request to /auth/me with token in Authorization header.
+    const checkValidityRequest = new Request(`${process.env.API_ROOT}/auth/me`, {
+      headers: { 'Authorization': `Bearer ${this.getToken()}` }
+    });
+
+    return fetch(checkValidityRequest).then(API.checkStatus);
   }
 }
 

@@ -7,6 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import { MemberStatuses } from './modules/constants';
+import Hooks from './modules/Hooks';
+
 import App from './containers/App';
 
 import AdminDashboard from './pages/AdminDashboard';
@@ -26,15 +29,15 @@ const routes = (
       <IndexRoute component={UpcomingEventsPage} />
 
       {/* Routes that don't require login. */}
-      <Route path="/login" component={AuthenticationPage} />
+      <Route path="/login" component={AuthenticationPage} onEnter={Hooks.requireLogout} />
 
       {/* Routes that require user login. */}
-      <Route onEnter={() => console.warn('entering logged in section')}>
+      <Route onEnter={Hooks.protectRouteFor(MemberStatuses.MEMBER)}>
         <Route path="/profile" component={ProfilePage} />
       </Route>
 
       {/* Routes that require the admin role. */}
-      <Route path="/admin" onEnter={() => console.warn('entering admin section')}>
+      <Route path="/admin" onEnter={Hooks.protectRouteFor(MemberStatuses.OFFICER)}>
         <IndexRoute component={AdminDashboard} />
         <Route path="/admin/statistics" component={StatisticsPage} />
         <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />

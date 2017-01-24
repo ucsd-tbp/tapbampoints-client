@@ -64,7 +64,8 @@ class GoogleCalendarEventsContainer extends React.Component {
     const value = event.target.name === 'points' || event.target.name === 'eventType'
       ? toNumber(event.target.value) : event.target.value;
 
-    // Recursively merges event objects and assigns to state.
+    // Recursively merges event objects and assigns to state since React
+    // doesn't automatically merge state recursively.
     const eventDiff = { [googleCalendarID]: { [event.target.name]: value } };
     this.setState({ eventsByID: merge(this.state.eventsByID, eventDiff) });
   }
