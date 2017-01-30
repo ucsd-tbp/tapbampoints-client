@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import { keyBy, merge, toNumber } from 'lodash';
+import { keyBy, merge, toNumber, values } from 'lodash';
 import { addMonths, subWeeks } from 'date-fns';
 
 import API from '../modules/API';
@@ -58,10 +58,10 @@ class GoogleCalendarEventsContainer extends React.Component {
   handleChange(googleCalendarID, event) {
     // <input type="number"> fields are hard to validate. (see
     // https://github.com/facebook/react/issues/1549). If the points input
-    // changing, then converts the string value to a number before storing in
+    // changes, then converts the string value to a number before storing in
     // state. `toNumber` is used instead of the built-in `parseInt` so that an
     // empty string returns 0.
-    const value = event.target.name === 'points' || event.target.name === 'eventType'
+    const value = event.target.name === 'points'
       ? toNumber(event.target.value) : event.target.value;
 
     // Recursively merges event objects and assigns to state since React
@@ -89,7 +89,8 @@ class GoogleCalendarEventsContainer extends React.Component {
   render() {
     return (
       <CategorizedEventList
-        events={Object.values(this.state.eventsByID)}
+        // BUG Object.values doesn't work in Safari, have to use Lodash. (??)
+        events={values(this.state.eventsByID)}
         groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}
         onChange={this.handleChange}

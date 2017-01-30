@@ -45,8 +45,8 @@ const EventCard = (props) => {
         </FlexItem>
 
         <FlexItem className="event-form-item">
-          <label htmlFor="eventType">Type
-            <select name="eventType" value={props.event.eventType} onChange={onChange}>
+          <label htmlFor="type">Type
+            <select name="type" value={props.event.type} onChange={onChange}>
               <option value={EventTypes.ACADEMIC}>Academic</option>
               <option value={EventTypes.SOCIAL}>House or Social</option>
               <option value={EventTypes.SERVICE}>Community Service or Outreach</option>
@@ -56,7 +56,7 @@ const EventCard = (props) => {
         </FlexItem>
 
         <div className="event-form-item event-create-section">
-          <input type="submit" value="Create" className={CLASSNAME_TYPES[props.event.eventType]} />
+          <input type="submit" value="Create" className={CLASSNAME_TYPES[props.event.type]} />
         </div>
 
       </FlexContainer>
@@ -65,7 +65,7 @@ const EventCard = (props) => {
   );
 
   return (
-    <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.eventType])}>
+    <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.type])}>
 
       <FlexItem className="event-summary">
         <h3>{props.event.summary}</h3>
@@ -106,7 +106,7 @@ EventCard.propTypes = {
 
     // Optional since Google calendar events don't have points or types.
     points: React.PropTypes.number,
-    eventType: React.PropTypes.oneOf(
+    type: React.PropTypes.oneOf(
       [EventTypes.ACADEMIC, EventTypes.SOCIAL, EventTypes.SERVICE, EventTypes.WILDCARD]
     ),
   }),

@@ -16,7 +16,7 @@ export type APIEvent = {
   location: string,
   start: string,
   end: string,
-  type_id: number,
+  type: Object,
 };
 
 /**
@@ -32,7 +32,7 @@ export type ClientEvent = {
   location: string,
   start: Date,
   end: Date,
-  eventType: number,
+  type: string,
 };
 
 /**
@@ -72,8 +72,7 @@ class Events {
   /**
    * The Event model is represented in the API in almost the same way as events
    * are represented in this front-end client, except dates are converted to
-   * Date objects for flexibility and type_id renamed to eventType for
-   * consistency.
+   * Date objects for flexibility.
    *
    * `formatForClient` converts the Event model (as JSON) to another object,
    * except with the fields above changed to the client representation of
@@ -87,9 +86,7 @@ class Events {
 
     clientEvent.start = new Date(apiEvent.start);
     clientEvent.end = new Date(apiEvent.end);
-    clientEvent.eventType = apiEvent.type_id;
-
-    delete clientEvent.type_id;
+    clientEvent.type = apiEvent.type.name;
 
     return clientEvent;
   }
@@ -106,9 +103,6 @@ class Events {
 
     apiEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
     apiEvent.end = format(clientEvent.end, DATABASE_DATE_FORMAT);
-    apiEvent.type_id = clientEvent.eventType;
-
-    delete apiEvent.eventType;
 
     return apiEvent;
   }
@@ -130,7 +124,7 @@ class Events {
       start: new Date(googleCalendarEvent.start.dateTime),
       end: new Date(googleCalendarEvent.end.dateTime),
       points: 0,
-      eventType: EventTypes.WILDCARD,
+      type: EventTypes.WILDCARD,
     };
   }
 }

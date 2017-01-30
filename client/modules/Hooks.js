@@ -22,7 +22,11 @@ class Hooks {
 
           callback();
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
+
+          Auth.deauthenticateUser();
+
           // Redirects to login if the token is invalid.
           redirect({
             pathname: '/login',

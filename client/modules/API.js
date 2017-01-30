@@ -68,7 +68,7 @@ class API {
 
   /** Retrieves a list of all events. */
   static retrieveEvents() {
-    const requestURL = `${process.env.API_ROOT}/events`;
+    const requestURL = `${process.env.API_ROOT}/events?embed=type`;
 
     // TODO Fetch events according to date range.
     return fetch(requestURL)
