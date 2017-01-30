@@ -27,21 +27,29 @@ class App extends React.Component {
 
     this.state = {
       isSidebarOpen: false,
-      isLoggedIn: Auth.isUserAuthenticated(),
-      isAdmin: false,
+      loggedInUser: null,
     };
+  }
+
+  componentDidMount() {
+    if (!Auth.isUserAuthenticated()) return;
+
+    // When entering the application, retrieves the role based on the currently
+    // stored token.
+    Auth.verifyToken()
+      .then(user => this.setState({ loggedInUser: user }));
   }
 
   onSetOpen(open) {
     this.setState({ isSidebarOpen: open });
   }
 
-  handleAuthChange(isLoggedIn) {
-    this.setState({ isLoggedIn });
+  handleAuthChange(currentUser) {
+    this.setState({ loggedInUser: currentUser });
   }
 
   handleLogout() {
-    this.setState({ isSidebarOpen: false, isLoggedIn: false });
+    this.setState({ isSidebarOpen: false, loggedInUser: null });
     Auth.deauthenticateUser();
     browserHistory.push('/');
   }
@@ -81,12 +89,12 @@ class App extends React.Component {
             </li>
           </section>
 
-          { this.state.isLoggedIn && loggedInLinks }
-          { this.state.isLoggedIn && adminLinks }
+          { Auth.isUserAuthenticated() && loggedInLinks }
+          { Auth.hasAdministrativePermission(this.state.loggedInUser) && adminLinks }
 
           <section className="navigation-item-group">
             { // Displays either login or logout button.
-              this.state.isLoggedIn ? (
+              Auth.isUserAuthenticated() ? (
                 <li className="navigation-item">
                   <Link to="/" onClick={this.handleLogout}>Logout</Link>
                 </li>
@@ -107,10 +115,10 @@ class App extends React.Component {
       overlay: { transition: 'opacity .3s ease-out, visibility .3s ease-out' },
     };
 
-    // Copies isLoggedIn and onAuthChange to all children as props.
+    // Copies currently logged in user and auth change handler to all children as props.
     const childrenWithProps = React.Children.map(this.props.children,
       child => React.cloneElement(child,
-        { isLoggedIn: this.state.isLoggedIn, onAuthChange: this.handleAuthChange },
+        { loggedInUser: this.state.loggedInUser, onAuthChange: this.handleAuthChange },
       )
     );
 

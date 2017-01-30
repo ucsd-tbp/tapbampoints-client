@@ -1,4 +1,8 @@
+import { isEmpty } from 'lodash';
+
 import API from './API';
+import { Roles } from './constants';
+
 
 /**
  * Utility functions for manipulating the token in local storage in order to
@@ -29,6 +33,29 @@ class Auth {
   }
 
   /**
+   * Checks validity of token in local storage by verifying against the API.
+   * @return {Promise} Promise that resolves to returned user JSON if token is
+   * valid.
+   */
+  static verifyToken() {
+    // Constructs GET request to /auth/me with token in Authorization header.
+    const checkValidityRequest = new Request(`${process.env.API_ROOT}/auth/me`, {
+      headers: { 'Authorization': `Bearer ${this.getToken()}` }
+    });
+
+    return fetch(checkValidityRequest).then(API.checkStatus);
+  }
+
+  /** Checks whether a user has administrative permissions. */
+  static hasAdministrativePermission(user) {
+    if (isEmpty(user)) {
+      return false;
+    }
+
+    return user.role.name === Roles.OFFICER || user.role.name === Roles.ADMIN;
+  }
+
+  /**
    * Checks whether a user is logged in by checking the existence of a token.
    * @return {Boolean} True if a user is logged in.
    */
@@ -49,20 +76,6 @@ class Auth {
    */
   static getToken() {
     return localStorage.getItem('token');
-  }
-
-  /**
-   * Checks validity of token in local storage by verifying against the API.
-   * @return {Promise} Promise that resolves to returned user JSON if token is
-   * valid.
-   */
-  static verifyToken() {
-    // Constructs GET request to /auth/me with token in Authorization header.
-    const checkValidityRequest = new Request(`${process.env.API_ROOT}/auth/me`, {
-      headers: { 'Authorization': `Bearer ${this.getToken()}` }
-    });
-
-    return fetch(checkValidityRequest).then(API.checkStatus);
   }
 }
 

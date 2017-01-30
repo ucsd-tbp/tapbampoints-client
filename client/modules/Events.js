@@ -104,6 +104,8 @@ class Events {
     apiEvent.start = format(clientEvent.start, DATABASE_DATE_FORMAT);
     apiEvent.end = format(clientEvent.end, DATABASE_DATE_FORMAT);
 
+    delete apiEvent.id;
+
     return apiEvent;
   }
 
