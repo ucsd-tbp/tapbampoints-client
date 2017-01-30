@@ -43,9 +43,10 @@ class LoginFormContainer extends React.Component {
     event.preventDefault();
 
     Auth.authenticateUser(this.state.credentials.email, this.state.credentials.password)
-      .then(() => {
+      .then(() => Auth.verifyToken())
+      .then((user) => {
         // Notifies root-level component that login has occurred.
-        this.props.onAuthChange(true);
+        this.props.onAuthChange(user);
 
         // Redirects to index route.
         browserHistory.push('/');
