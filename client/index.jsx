@@ -7,7 +7,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import { MemberStatuses } from './modules/constants';
+import { Roles } from './modules/constants';
 import Hooks from './modules/Hooks';
 
 import App from './containers/App';
@@ -32,12 +32,12 @@ const routes = (
       <Route path="/login" component={AuthenticationPage} onEnter={Hooks.requireLogout} />
 
       {/* Routes that require user login. */}
-      <Route onEnter={Hooks.protectRouteFor(MemberStatuses.MEMBER)}>
+      <Route onEnter={Hooks.protectRouteFor(Roles.MEMBER)}>
         <Route path="/profile" component={ProfilePage} />
       </Route>
 
       {/* Routes that require the admin role. */}
-      <Route path="/admin" onEnter={Hooks.protectRouteFor(MemberStatuses.OFFICER)}>
+      <Route path="/admin" onEnter={Hooks.protectRouteFor(Roles.OFFICER)}>
         <IndexRoute component={AdminDashboard} />
         <Route path="/admin/statistics" component={StatisticsPage} />
         <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />

@@ -23,7 +23,9 @@ class Auth {
     // Makes POST request to log in user with given credentials.
     return fetch(request)
       .then(API.checkStatus)
-      .then(response => localStorage.setItem('token', response.token));
+      .then((response) => {
+        localStorage.setItem('token', response.token)
+      });
   }
 
   /**

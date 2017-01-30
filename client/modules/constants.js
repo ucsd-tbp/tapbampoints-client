@@ -5,10 +5,10 @@
 // updating an event. The integer constants that each are mapped to are
 // important, since they must match the primary key as stored in the API.
 export const EventTypes = Object.freeze({
-  ACADEMIC: 1,
-  SOCIAL: 2,
-  SERVICE: 3,
-  WILDCARD: 4,
+  ACADEMIC: 'academic',
+  SOCIAL: 'social',
+  SERVICE: 'service',
+  WILDCARD: 'wildcard',
 });
 
 // List of months in order. Used when grouping elements by month.
@@ -21,10 +21,13 @@ export const ORDERED_MONTHS = Object.freeze([
 export const DATABASE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 // User roles, used for showing restricted routes.
-export const MemberStatuses = Object.freeze({
-  INITIATE: 'Initiate',
-  MEMBER: 'Member',
-  OFFICER: 'Officer',
+export const Roles = Object.freeze({
+  INITIATE: 'initiate',
+  PENDING_MEMBER: 'pending',
+  INACTIVE_MEMBER: 'inactive',
+  MEMBER: 'member',
+  OFFICER: 'officer',
+  ADMIN: 'admin',
 });
 
 // Maps an event type to the appropriate class name.

@@ -1,6 +1,6 @@
 import Auth from './Auth';
 
-import { MemberStatuses } from './constants';
+import { Roles } from './constants';
 
 /** Functions used as hooks when entering and leaving routes. */
 class Hooks {
@@ -15,7 +15,8 @@ class Hooks {
       Auth.verifyToken()
         .then((user) => {
           // Redirects to login if admin status is required.
-          if (role === MemberStatuses.OFFICER && user.member_status !== MemberStatuses.OFFICER) {
+          if (role === Roles.OFFICER
+              && user.role.name !== Roles.OFFICER && user.role.name !== Roles.ADMIN) {
             redirect('/404');
           }
 
