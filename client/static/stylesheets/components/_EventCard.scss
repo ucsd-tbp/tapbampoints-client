@@ -18,6 +18,7 @@ $border-transition: 1s all;
     // select elements.
     flex-wrap: wrap;
 
+    // TODO Add these flex options to FlexItem instead of hard-coding it here.
     > .event-create-section {
       flex: 100%;
       text-align: center;

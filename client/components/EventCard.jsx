@@ -38,13 +38,13 @@ const EventCard = (props) => {
 
       <FlexContainer className="event-form-container">
 
-        <FlexItem className="event-form-item">
+        <FlexItem className="event-form-item equal-width">
           <label htmlFor="points">Points
             <input name="points" type="number" value={props.event.points} onChange={onChange} />
           </label>
         </FlexItem>
 
-        <FlexItem className="event-form-item">
+        <FlexItem className="event-form-item equal-width">
           <label htmlFor="type">Type
             <select name="type" value={props.event.type} onChange={onChange}>
               <option value={EventTypes.ACADEMIC}>Academic</option>
@@ -73,7 +73,7 @@ const EventCard = (props) => {
   return (
     <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.type])}>
 
-      <FlexItem className="event-summary">
+      <FlexItem className="event-summary equal-width">
         <h3>{props.event.summary}</h3>
         <p><span className="understated">Date </span>{formattedDateString}</p>
         <p>
@@ -82,14 +82,14 @@ const EventCard = (props) => {
         </p>
       </FlexItem>
 
-      <FlexItem className="event-information">
+      <FlexItem className="event-information equal-width">
         <p>
           <span className="understated">Description </span>
           {truncate(props.event.description, { length: 140 }) || 'No description provided.'}
         </p>
       </FlexItem>
 
-      <FlexItem className="event-actions">
+      <FlexItem className="event-actions equal-width">
 
         { props.displayForm ? incompleteEventForm : eventActions }
 
