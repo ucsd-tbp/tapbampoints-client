@@ -64,6 +64,12 @@ const EventCard = (props) => {
     </form>
   );
 
+  // Only appears when event is complete, i.e. has points and event type
+  // properties.
+  const eventActions = (
+    <h3>event actions</h3>
+  );
+
   return (
     <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.type])}>
 
@@ -85,7 +91,7 @@ const EventCard = (props) => {
 
       <FlexItem className="event-actions">
 
-        {incompleteEventForm}
+        { props.displayForm ? incompleteEventForm : eventActions }
 
       </FlexItem>
     </FlexContainer>
@@ -114,6 +120,9 @@ EventCard.propTypes = {
   // Optional since not all event cards have forms.
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
+
+  // Whether to display form for points and event type.
+  displayForm: React.PropTypes.bool,
 };
 
 export default EventCard;
