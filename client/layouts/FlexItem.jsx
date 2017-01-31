@@ -1,8 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 
 const FlexItem = props => (
-  // TODO Replace with classnames.
-  <div className={`FlexItem ${props.className || ''}`}>
+  <div className={classnames('FlexItem', props.className)}>
     {props.children}
   </div>
 );

@@ -1,7 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 
 const FlexContainer = props => (
-  <div className={`FlexContainer ${props.className}`}>
+  <div className={classnames('FlexContainer', props.className)}>
     {props.children}
   </div>
 );

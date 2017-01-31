@@ -18,7 +18,7 @@ import EventRegistrationPage from './pages/EventRegistrationPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import StatisticsPage from './pages/StatisticsPage';
-import UpcomingEventsPage from './pages/UpcomingEventsPage';
+import HomePage from './pages/HomePage';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -26,7 +26,7 @@ require('./static/stylesheets/main.scss');
 const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={UpcomingEventsPage} />
+      <IndexRoute component={HomePage} />
 
       {/* Routes that don't require login. */}
       <Route path="/login" component={AuthenticationPage} onEnter={Hooks.requireLogout} />

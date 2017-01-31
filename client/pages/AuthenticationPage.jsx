@@ -9,8 +9,13 @@ import RegistrationFormContainer from '../containers/RegistrationFormContainer';
 const AuthenticationPage = props => (
   // TODO Pass location props for redirecting after successful login.
   <FlexContainer>
-    <FlexItem><LoginFormContainer onAuthChange={props.onAuthChange} /></FlexItem>
-    <FlexItem><RegistrationFormContainer onAuthChange={props.onAuthChange} /></FlexItem>
+    <FlexItem className="equal-width">
+      <LoginFormContainer onAuthChange={props.onAuthChange} />
+    </FlexItem>
+
+    <FlexItem className="equal-width">
+      <RegistrationFormContainer onAuthChange={props.onAuthChange} />
+    </FlexItem>
   </FlexContainer>
 );
 

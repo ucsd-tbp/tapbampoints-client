@@ -1,4 +1,10 @@
 .FlexItem {
+  // Padding between borders and inner content.
   padding: $flex-item-inner-padding;
-  flex: 1;
+
+  // Spaces each flex item equally with other flex items.
+  &.equal-width { flex: 1; }
+
+  // Gives this flex item double of the remaining space.
+  &.double-width { flex: 2; }
 }
