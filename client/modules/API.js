@@ -75,6 +75,12 @@ class API {
       .then(this.checkStatus)
       .then(response => response.map(Events.formatForClient));
   }
+
+  /** Retrieves a list of all announcements. */
+  static retrieveAnnouncements() {
+    const requestURL = `${process.env.API_ROOT}/announcements`;
+    return fetch(requestURL).then(this.checkStatus);
+  }
 }
 
 export default API;
