@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
+@import url('https://fonts.googleapis.com/css?family=Dosis');
 
 $base-letter-spacing: 1px;
-$body-font-size: 1rem;
 $base-font-family: 'Abel', sans-serif;
+
+$body-font-size: 1rem;
 $body-text-color: black;
+
+$header-font-family: 'Dosis', sans-serif;
+
+$bold: 400;
 
 h1,
 h2,
@@ -15,6 +21,16 @@ label,
 input[type='text'] {
   font-family: $base-font-family;
   letter-spacing: $base-letter-spacing;
+  -webkit-font-smoothing: antialiased;
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $header-font-family;
+  font-weight: $bold;
 }
 
 a { text-decoration: none; }
