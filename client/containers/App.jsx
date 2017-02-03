@@ -61,6 +61,10 @@ class App extends React.Component {
         <li className="navigation-item">
           <Link to="/profile" onClick={() => this.onSetOpen(false)}>Profile</Link>
         </li>
+
+        <li className="navigation-subitem">
+          <Link to="/profile" onClick={() => this.onSetOpen(false)}>update info</Link>
+        </li>
       </section>
     );
 
@@ -68,13 +72,34 @@ class App extends React.Component {
     const adminLinks = (
       <section className="navigation-item-group">
         <li className="navigation-item">
-          <Link to="/admin" onClick={() => this.onSetOpen(false)}>Dashboard</Link>
+          <Link to="/admin" onClick={() => this.onSetOpen(false)}>Admin Dashboard</Link>
         </li>
 
-        <li className="navigation-item">
+        <li className="navigation-subitem">
+          <Link to="/admin/events/create" onClick={() => this.onSetOpen(false)}>
+            Create an Event
+          </Link>
+        </li>
+
+        <li className="navigation-subitem">
+          <Link to="/admin" onClick={() => this.onSetOpen(false)}>Start Event Sign-ins</Link>
+        </li>
+
+        <li className="navigation-subitem">
+          <Link to="/admin" onClick={() => this.onSetOpen(false)}>
+            Make an Announcement
+          </Link>
+        </li>
+
+        <li className="navigation-subitem">
           <Link to="/admin/statistics" onClick={() => this.onSetOpen(false)}>Statistics</Link>
         </li>
 
+        <li className="navigation-subitem">
+          <Link to="/admin" onClick={() => this.onSetOpen(false)}>
+            Update House Roster
+          </Link>
+        </li>
       </section>
     );
 

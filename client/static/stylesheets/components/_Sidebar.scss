@@ -14,11 +14,30 @@ $sidebar-gutter: 50px;
 
   > .navigation-section {
     list-style: none;
-    text-align: right;
     padding: 0;
 
     .navigation-item {
       margin: $list-item-margin 0 $list-item-margin 0;
+
+      a {
+        font-size: 1.2rem;
+        color: $body-text-color;
+        transition: $base-transition;
+
+        &:hover { color: $understated; }
+      }
+    }
+
+    .navigation-subitem {
+      a {
+        margin-left: 15px;
+        font-size: $body-font-size;
+        color: $dark-grey;
+        text-transform: lowercase;
+        transition: $base-transition;
+
+        &:hover { color: $understated; }
+      }
     }
 
     .navigation-item-group + .navigation-item-group {
@@ -27,12 +46,8 @@ $sidebar-gutter: 50px;
     }
   }
 
-  a {
-    font-size: 1.2rem;
-    color: $body-text-color;
-    transition: $base-transition;
 
-    &:hover { color: $understated; }
-  }
+
+
 
 }

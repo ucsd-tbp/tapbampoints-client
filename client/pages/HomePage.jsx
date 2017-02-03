@@ -8,7 +8,7 @@ import FlexItem from '../layouts/FlexItem';
 const HomePage = () => (
   <FlexContainer className="HomePage">
     <FlexItem className="equal-width">
-      <h3 className="no-margin">Announcements</h3>
+      <h3>Announcements</h3>
       <p>Check out the latest announcements!</p>
     </FlexItem>
     <FlexItem className="double-width">

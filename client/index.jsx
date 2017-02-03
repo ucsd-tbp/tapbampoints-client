@@ -15,6 +15,7 @@ import App from './containers/App';
 import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
 import EventRegistrationPage from './pages/EventRegistrationPage';
+import GoogleCalendarEventsPage from './pages/GoogleCalendarEventsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
 import StatisticsPage from './pages/StatisticsPage';
@@ -40,6 +41,7 @@ const routes = (
       <Route path="/admin" onEnter={Hooks.protectRouteFor(Roles.OFFICER)}>
         <IndexRoute component={AdminDashboard} />
         <Route path="/admin/statistics" component={StatisticsPage} />
+        <Route path="/admin/events/create" component={GoogleCalendarEventsPage} />
         <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />
       </Route>
 
