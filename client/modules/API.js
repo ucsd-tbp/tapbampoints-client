@@ -67,8 +67,13 @@ class API {
   }
 
   /** Retrieves a list of all events. */
-  static retrieveEvents() {
-    const requestURL = `${process.env.API_ROOT}/events?embed=type`;
+  static retrieveEventsBetween(lowerDateBound, upperDateBound) {
+    // Minimum is based on end time and maximum on start time to copy the
+    // behavior of the timeMin and timeMax query parameters in the Google
+    // Calendar v3 API.
+    const requestURL = process.env.API_ROOT + '/events?embed=type' +
+      '&endMin=' + lowerDateBound.toISOString() +
+      '&startMax=' + upperDateBound.toISOString();
 
     // TODO Fetch events according to date range.
     return fetch(requestURL)

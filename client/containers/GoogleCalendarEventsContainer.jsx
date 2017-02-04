@@ -45,7 +45,7 @@ class GoogleCalendarEventsContainer extends React.Component {
     API.retrieveGoogleCalendarEventsBetween(lowerDateBound, upperDateBound)
       .then(googleCalendarEvents => Promise.all([
         googleCalendarEvents,
-        API.retrieveEvents(),
+        API.retrieveEventsBetween(lowerDateBound, upperDateBound),
       ]))
       .then(([googleCalendarEvents, apiEvents]) => {
         const filteredEvents = Events.removeRepeatedEvents(googleCalendarEvents, apiEvents);
