@@ -14,6 +14,8 @@ import App from './containers/App';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
+import CreateAnnouncementPage from './pages/CreateAnnouncementPage';
+import CurrentEventsPage from './pages/CurrentEventsPage';
 import EventRegistrationPage from './pages/EventRegistrationPage';
 import GoogleCalendarEventsPage from './pages/GoogleCalendarEventsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -40,9 +42,15 @@ const routes = (
       {/* Routes that require the admin role. */}
       <Route path="/admin" onEnter={Hooks.protectRouteFor(Roles.OFFICER)}>
         <IndexRoute component={AdminDashboard} />
-        <Route path="/admin/statistics" component={StatisticsPage} />
+
+        {/* Pages for creating events, viewing events, event sign-ins. */}
         <Route path="/admin/events/create" component={GoogleCalendarEventsPage} />
+        <Route path="/admin/announcements/create" component={CreateAnnouncementPage} />
+        <Route path="/events" component={CurrentEventsPage} />
         <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />
+
+        {/* Sign-up related statistics. */}
+        <Route path="/admin/statistics" component={StatisticsPage} />
       </Route>
 
       <Route path="*" component={NotFoundPage} />

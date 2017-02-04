@@ -82,23 +82,17 @@ class App extends React.Component {
         </li>
 
         <li className="navigation-subitem">
-          <Link to="/admin" onClick={() => this.onSetOpen(false)}>Start Event Sign-ins</Link>
+          <Link to="/events" onClick={() => this.onSetOpen(false)}>Current Events</Link>
         </li>
 
         <li className="navigation-subitem">
-          <Link to="/admin" onClick={() => this.onSetOpen(false)}>
+          <Link to="/admin/announcements/create" onClick={() => this.onSetOpen(false)}>
             Make an Announcement
           </Link>
         </li>
 
         <li className="navigation-subitem">
           <Link to="/admin/statistics" onClick={() => this.onSetOpen(false)}>Statistics</Link>
-        </li>
-
-        <li className="navigation-subitem">
-          <Link to="/admin" onClick={() => this.onSetOpen(false)}>
-            Update House Roster
-          </Link>
         </li>
       </section>
     );
