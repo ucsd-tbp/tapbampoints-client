@@ -23,7 +23,7 @@ const CategorizedEventList = (props) => {
         event={event}
         onChange={props.onChange}
         onSubmit={props.onSubmit}
-        displayForm
+        shouldDisplayForm={props.shouldDisplayForm}
       />
     ));
 

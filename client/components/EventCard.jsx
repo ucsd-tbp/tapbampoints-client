@@ -91,7 +91,7 @@ const EventCard = (props) => {
 
       <FlexItem className="event-actions equal-width">
 
-        { props.displayForm ? incompleteEventForm : eventActions }
+        { props.shouldDisplayForm ? incompleteEventForm : eventActions }
 
       </FlexItem>
     </FlexContainer>
@@ -101,7 +101,10 @@ const EventCard = (props) => {
 EventCard.propTypes = {
   event: React.PropTypes.shape({
     // Minimum info to render event card.
-    id: React.PropTypes.string.isRequired,
+    id: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number,
+    ]).isRequired,
     summary: React.PropTypes.string.isRequired,
 
     // Given placeholders if empty or invalid.
@@ -121,8 +124,8 @@ EventCard.propTypes = {
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
 
-  // Whether to display form for points and event type.
-  displayForm: React.PropTypes.bool,
+  // Whether to display points/type form.
+  shouldDisplayForm: React.PropTypes.bool,
 };
 
 export default EventCard;

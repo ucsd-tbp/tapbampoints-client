@@ -2,7 +2,7 @@ import React from 'react';
 
 import GoogleCalendarEventsContainer from '../containers/GoogleCalendarEventsContainer';
 
-const GoogleCalendarEventsPage = props => (
+const GoogleCalendarEventsPage = () => (
   <div>
     <h3>Google Calendar Events</h3>
 

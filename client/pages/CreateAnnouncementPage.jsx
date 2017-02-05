@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CreateAnnouncementPage = props => (
+const CreateAnnouncementPage = () => (
   <div>
     <h3>Make an Announcement</h3>
     <p className="understated">

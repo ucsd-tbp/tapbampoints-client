@@ -1,11 +1,8 @@
 import React from 'react';
 
-import FlexContainer from '../layouts/FlexContainer';
-import FlexItem from '../layouts/FlexItem';
-
 import CurrentEventsContainer from '../containers/CurrentEventsContainer';
 
-const CurrentEventsPage = props => (
+const CurrentEventsPage = () => (
   <div className="CurrentEventsPage">
     <h3>Current Events</h3>
     <p>

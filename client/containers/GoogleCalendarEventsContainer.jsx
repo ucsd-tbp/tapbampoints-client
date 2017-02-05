@@ -95,6 +95,7 @@ class GoogleCalendarEventsContainer extends React.Component {
         categoryOrder={ORDERED_MONTHS}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
+        shouldDisplayForm
       />
     );
   }
