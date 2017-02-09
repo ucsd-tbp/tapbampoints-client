@@ -1,6 +1,6 @@
 .FlexItem {
   // Padding between borders and inner content.
-  padding: $flex-item-inner-padding;
+  margin: $flex-item-inner-content-margin;
 
   // Spaces each flex item equally with other flex items.
   &.equal-width { flex: 1; }

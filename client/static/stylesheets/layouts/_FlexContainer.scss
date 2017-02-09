@@ -1,6 +1,8 @@
 .FlexContainer {
   display: flex;
 
-  // Stacks both columns on smaller viewport widths.
-  @media (max-width: $tablet-breakpoint-width) { display: block; }
+  &.stack { flex-direction: column; }
+
+  // Places buttons in a row for smaller viewport width.
+  @media (max-width: $tablet-breakpoint-width) { flex-direction: row; }
 }

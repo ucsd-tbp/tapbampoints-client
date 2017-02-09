@@ -1,6 +1,6 @@
 import React from 'react';
 import { format, isValid } from 'date-fns';
-import { truncate } from 'lodash';
+import { isUndefined, truncate } from 'lodash';
 import classnames from 'classnames';
 
 import FlexContainer from '../layouts/FlexContainer';
@@ -24,51 +24,71 @@ function formatDateRange(lowerDateBound, upperDateBound) {
 const EventCard = (props) => {
   const formattedDateString = formatDateRange(props.event.start, props.event.end);
 
-  // Adds event ID to parameter of handler methods to distinguish between other
-  // events in the list.
-  const onChange = props.onChange.bind(this, props.event.id);
-  const onSubmit = props.onSubmit.bind(this, props.event.id);
+  let incompleteEventForm;
+  let eventActions;
 
-  // Form containing fields to fill in points and event type. All event fields
-  // are required in props except for points and event type, and if these
-  // fields aren't provided, then the below form appears for officers to fill
-  // them in.
-  const incompleteEventForm = (
-    <form onSubmit={onSubmit}>
+  // May be undefined if the event form shouldn't be displayed.
+  if (props.shouldDisplayForm) {
+    // Adds event ID to parameter of handler methods to distinguish between other
+    // events in the list.
+    const onChange = props.onChange.bind(this, props.event.id);
+    const onSubmit = props.onSubmit.bind(this, props.event.id);
 
-      <FlexContainer className="event-form-container">
+    // Form containing fields to fill in points and event type. All event fields
+    // are required in props except for points and event type, and if these
+    // fields aren't provided, then the below form appears for officers to fill
+    // them in.
+    incompleteEventForm = (
+      <FlexItem className="equal-width">
+        <form onSubmit={onSubmit}>
 
-        <FlexItem className="event-form-item equal-width">
-          <label htmlFor="points">Points
-            <input name="points" type="number" value={props.event.points} onChange={onChange} />
-          </label>
-        </FlexItem>
+          <FlexContainer className="event-form-container">
 
-        <FlexItem className="event-form-item equal-width">
-          <label htmlFor="type">Type
-            <select name="type" value={props.event.type} onChange={onChange}>
-              <option value={EventTypes.ACADEMIC}>Academic</option>
-              <option value={EventTypes.SOCIAL}>House or Social</option>
-              <option value={EventTypes.SERVICE}>Community Service or Outreach</option>
-              <option value={EventTypes.WILDCARD}>Wildcard</option>
-            </select>
-          </label>
-        </FlexItem>
+            <FlexItem className="event-form-item equal-width">
+              <label htmlFor="points">Points
+                <input name="points" type="number" value={props.event.points} onChange={onChange} />
+              </label>
+            </FlexItem>
 
-        <div className="event-form-item event-create-section">
-          <input type="submit" value="Create" className={CLASSNAME_TYPES[props.event.type]} />
-        </div>
+            <FlexItem className="event-form-item equal-width">
+              <label htmlFor="type">Type
+                <select name="type" value={props.event.type} onChange={onChange}>
+                  <option value={EventTypes.ACADEMIC}>Academic</option>
+                  <option value={EventTypes.SOCIAL}>House or Social</option>
+                  <option value={EventTypes.SERVICE}>Community Service or Outreach</option>
+                  <option value={EventTypes.WILDCARD}>Wildcard</option>
+                </select>
+              </label>
+            </FlexItem>
 
-      </FlexContainer>
+            <div className="event-form-item event-create-section">
+              <input type="submit" value="Create" className={CLASSNAME_TYPES[props.event.type]} />
+            </div>
 
-    </form>
-  );
+          </FlexContainer>
 
-  // Only appears when event is complete, i.e. has points and event type
-  // properties.
-  const eventActions = (
-    <h3>event actions</h3>
-  );
+        </form>
+      </FlexItem>
+    );
+  } else {
+    // Only appears when event is complete, i.e. has points and event type
+    // properties.
+    eventActions = (
+      <FlexItem>
+
+        <FlexContainer className="stack">
+          <FlexItem>
+            <button className={CLASSNAME_TYPES[props.event.type]}>View</button>
+          </FlexItem>
+
+          <FlexItem>
+            <button className="admin-button">Start Sign-ins</button>
+          </FlexItem>
+        </FlexContainer>
+
+      </FlexItem>
+    );
+  }
 
   return (
     <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.type])}>
@@ -89,11 +109,8 @@ const EventCard = (props) => {
         </p>
       </FlexItem>
 
-      <FlexItem className="event-actions equal-width">
+      { props.shouldDisplayForm ? incompleteEventForm : eventActions }
 
-        { props.shouldDisplayForm ? incompleteEventForm : eventActions }
-
-      </FlexItem>
     </FlexContainer>
   );
 };

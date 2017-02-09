@@ -5,6 +5,16 @@
 .understated { color: $understated; }
 .inline { display: inline; }
 
-.academic-highlight { color: $academic-color; }
-.social-highlight { color: $social-color; }
-.service-highlight { color: $service-color; }
+.academic-color { color: $academic-color; }
+.social-color { color: $social-color; }
+.service-color { color: $service-color; }
+
+.admin-button {
+  color: $dark-grey;
+  border: 1px solid $dark-grey;
+
+  &:hover {
+    color: white;
+    background-color: $dark-grey;
+  }
+}
