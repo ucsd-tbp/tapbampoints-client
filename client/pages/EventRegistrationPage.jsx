@@ -9,11 +9,11 @@ class EventRegistrationPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      step: 'barcode',
+      step: 'pid',
       event: {
         summary: '',
       },
-      barcode: '',
+      pid: '',
       email: '',
     };
   }
@@ -30,9 +30,9 @@ class EventRegistrationPage extends React.Component {
     event.preventDefault();
 
     this.setState({
-      barcode: '',
+      pid: '',
       email: '',
-      step: 'barcode',
+      step: 'pid',
     });
   }
 
@@ -44,7 +44,7 @@ class EventRegistrationPage extends React.Component {
     event.preventDefault();
 
     switch (this.state.step) {
-      case 'barcode':
+      case 'pid':
         this.setState({ step: 'email' });
         break;
 
@@ -53,30 +53,30 @@ class EventRegistrationPage extends React.Component {
         break;
 
       case 'done':
-        this.setState({ step: 'barcode' });
+        this.setState({ step: 'pid' });
         break;
 
       default:
-        console.error('Invalid step. One of barcode, email, or done.');
+        console.error('Invalid step. One of pid, email, or done.');
     }
   }
 
   render() {
     let currentStep;
     switch (this.state.step) {
-      case 'barcode':
+      case 'pid':
         currentStep = (
           <div>
-            <h3>Slide your ID card, or type your barcode in the box below.</h3>
+            <h3>Slide your ID card, or type your pid in the box below.</h3>
 
             <div className="form-step">
               <form onSubmit={this.handleSubmit}>
 
-                <label htmlFor="barcode">Barcode
+                <label htmlFor="pid">PID
                   <input
-                    name="barcode"
+                    name="pid"
                     type="text"
-                    value={this.state.barcode}
+                    value={this.state.pid}
                     onChange={this.handleChange}
                     autoFocus
                   />
@@ -94,7 +94,7 @@ class EventRegistrationPage extends React.Component {
         currentStep = (
           <div>
             <h3>
-              We can't find your barcode! Put in your email below so that we
+              We can't find your pid! Put in your email below so that we
               can email you instructions on setting up an account.
             </h3>
 

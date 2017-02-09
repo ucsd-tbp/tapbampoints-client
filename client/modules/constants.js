@@ -38,3 +38,10 @@ export const CLASSNAME_TYPES = Object.freeze({
   [EventTypes.SERVICE]: 'service-event-type',
   [EventTypes.WILDCARD]: 'wildcard-event-type',
 });
+
+// Steps for signing into an event.
+export const EventSigninSteps = Object.freeze({
+  IDENTIFICATION,
+  NOT_YET_REGISTERED,
+  COMPLETE,
+});

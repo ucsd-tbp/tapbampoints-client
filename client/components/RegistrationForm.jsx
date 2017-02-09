@@ -3,9 +3,11 @@ import React from 'react';
 const RegistrationForm = props => (
   <div>
     <h3>Register</h3>
-    <p>If you've been to an event, you'll need to make an account to register
-    the barcode on your ID card with your name and email so that we can keep
-    track of your points.</p>
+    <p>
+      If you've been to an event, you'll need to make an account to register
+      the the PID with your name and email so that we can keep track of your
+      points.
+  </p>
 
     <form onSubmit={props.onSubmit}>
 
@@ -39,11 +41,11 @@ const RegistrationForm = props => (
         />
       </label>
 
-      <label htmlFor="barcode">Barcode
+      <label htmlFor="pid">PID
         <input
-          name="barcode"
+          name="pid"
           type="text"
-          value={props.credentials.barcode}
+          value={props.credentials.pid}
           onChange={props.onChange}
         />
       </label>

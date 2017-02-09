@@ -14,7 +14,7 @@ class RegistrationFormContainer extends React.Component {
         email: '',
         password: '',
         passwordConfirmation: '',
-        barcode: '',
+        pid: '',
         house: '',
         memberStatus: '',
       },
