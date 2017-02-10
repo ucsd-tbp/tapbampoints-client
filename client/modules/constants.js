@@ -41,7 +41,7 @@ export const CLASSNAME_TYPES = Object.freeze({
 
 // Steps for signing into an event.
 export const EventSigninSteps = Object.freeze({
-  IDENTIFICATION,
-  NOT_YET_REGISTERED,
-  COMPLETE,
+  IDENTIFICATION: 'identification',
+  NOT_YET_REGISTERED: 'not yet registered',
+  COMPLETE: 'complete',
 });

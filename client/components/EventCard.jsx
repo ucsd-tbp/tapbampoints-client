@@ -1,7 +1,8 @@
 import React from 'react';
 import { format, isValid } from 'date-fns';
-import { isUndefined, truncate } from 'lodash';
+import { truncate } from 'lodash';
 import classnames from 'classnames';
+import { Link } from 'react-router';
 
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
@@ -82,7 +83,9 @@ const EventCard = (props) => {
           </FlexItem>
 
           <FlexItem>
-            <button className="admin-button">Start Sign-ins</button>
+            <button className="admin-button">
+              <Link to={`/admin/events/register/${props.event.id}`}>Start Sign-ins</Link>
+            </button>
           </FlexItem>
         </FlexContainer>
 

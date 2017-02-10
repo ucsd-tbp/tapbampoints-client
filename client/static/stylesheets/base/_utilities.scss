@@ -5,16 +5,22 @@
 .understated { color: $understated; }
 .inline { display: inline; }
 
+// Colors associated with each event category.
 .academic-color { color: $academic-color; }
 .social-color { color: $social-color; }
 .service-color { color: $service-color; }
 
+// Buttons for admin operations.
 .admin-button {
   color: $dark-grey;
   border: 1px solid $dark-grey;
+  > a { transition: $base-transition; }
 
   &:hover {
     color: white;
     background-color: $dark-grey;
+    > a { color: white; }
   }
+
+  > a { color: $dark-grey; }
 }

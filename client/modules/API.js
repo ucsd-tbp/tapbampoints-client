@@ -81,10 +81,46 @@ class API {
       .then(response => response.map(Events.formatForClient));
   }
 
-  /** Retrieves a list of all announcements. */
+  /**
+   * Retrieves a list of all announcements.
+   * @return {Promise<Collection>} Promise that resolves to an array of all
+   * announcements.
+   */
   static retrieveAnnouncements() {
     const requestURL = `${process.env.API_ROOT}/announcements`;
     return fetch(requestURL).then(this.checkStatus);
+  }
+
+  /**
+   * Retrieves an event given its ID.
+   *
+   * @param {Integer} eventID ID of event to look up.
+   * @return {Promise<Event>} Promise that resolves to retrieved event.
+   */
+  static retrieveEvent(eventID) {
+    // TODO Embed based on an optional `options` param.
+    const requestURL = `${process.env.API_ROOT}/events/${eventID}?embed=type`;
+    return fetch(requestURL).then(this.checkStatus);
+  }
+
+  static registerAttendee(pid) {
+    // FIXME Replace stub email with actual.
+    const body = {
+      email: `stub${Date.now()}@tbp.ucsd.edu`,
+      pid: pid,
+    };
+
+    // Includes authorization header if token is present.
+    const headers = { 'Content-Type': 'application/json' };
+
+    // Prepares POST request to create event with JWT for authentication.
+    const request = new Request(`${process.env.API_ROOT}/auth/register`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    });
+
+    return fetch(request).then(this.checkStatus);
   }
 }
 
