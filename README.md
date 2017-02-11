@@ -10,7 +10,7 @@ To get this project running locally, first install all dependencies.
 npm install
 ```
 
-The app uses a `.env` file at the project root for sensitive application-wide constants. The `.env` file should be formatted
+The app uses a `.env` file at the project root for sensitive application-wide constants. The `.env` file should be formatted:
 
 ```
 API_ROOT = http://localhost:8000
@@ -24,13 +24,13 @@ Once you have the API ru, run `npm start` to start the webpack development serve
 
 ### Contributing
 
-Loosely following the [Airbnb ES6 style guide](https://github.com/airbnb/javascript), and style is enforced via ESLint. Run the lint script with
+A lint script is provided to catch common mistakes like incorrect import strings, forgetting an `export default` for a component, wrapping JS with curly braces in JSX files, and also to enforce consistent use of semicolons, indentation and similar stuff (loosely following the [Airbnb ES6 style guide](https://github.com/airbnb/javascript)). Run the lint script with:
 
 ```
 npm run lint
 ```
 
-A couple of files also use [Flow static type checking](https://flowtype.org). Run the Flow server with
+A couple of files also use [Flow static type checking](https://flowtype.org). Run the Flow server with:
 
 ```
 npm run flow

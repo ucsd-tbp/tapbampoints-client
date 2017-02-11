@@ -15,9 +15,6 @@ class CurrentEventsContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
     this.state = {
       eventsByID: {},
     };
@@ -36,15 +33,6 @@ class CurrentEventsContainer extends React.Component {
       .then(events => this.setState({ eventsByID: keyBy(events, 'id') }));
   }
 
-  handleChange() {
-    console.warn('firing CurrentEventsContainer#handleChange');
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    console.warn('firing CurrentEventsContainer#handleSubmit');
-  }
-
   render() {
     return (
       <CategorizedEventList
@@ -52,8 +40,6 @@ class CurrentEventsContainer extends React.Component {
         events={values(this.state.eventsByID)}
         groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}
-        onChange={this.handleChange}
-        onSubmit={this.handleSubmit}
       />
     );
   }

@@ -4,12 +4,12 @@ import { toInteger } from 'lodash';
 import EventSigninFormContainer from '../containers/EventSigninFormContainer';
 
 // Passes the eventID in the URL to render the event sign-in form.
-const EventRegistrationPage = props =>
+const EventSigninPage = props =>
   <EventSigninFormContainer eventID={toInteger(props.params.eventID)} />;
 
-EventRegistrationPage.propTypes = {
+EventSigninPage.propTypes = {
   // Contains eventID URL parameter.
   params: React.PropTypes.objectOf(React.PropTypes.string),
 };
 
-export default EventRegistrationPage;
+export default EventSigninPage;

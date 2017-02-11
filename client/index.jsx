@@ -16,7 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
 import CreateAnnouncementPage from './pages/CreateAnnouncementPage';
 import CurrentEventsPage from './pages/CurrentEventsPage';
-import EventRegistrationPage from './pages/EventRegistrationPage';
+import EventSigninPage from './pages/EventSigninPage';
 import GoogleCalendarEventsPage from './pages/GoogleCalendarEventsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ProfilePage from './pages/ProfilePage';
@@ -47,12 +47,13 @@ const routes = (
         <Route path="/admin/events/create" component={GoogleCalendarEventsPage} />
         <Route path="/admin/announcements/create" component={CreateAnnouncementPage} />
         <Route path="/events" component={CurrentEventsPage} />
-        <Route path="/admin/events/register/:eventID" component={EventRegistrationPage} />
+        <Route path="/admin/events/register/:eventID" component={EventSigninPage} />
 
         {/* Sign-up related statistics. */}
         <Route path="/admin/statistics" component={StatisticsPage} />
       </Route>
 
+      {/* Renders 404 page if none of the above routes match. */}
       <Route path="*" component={NotFoundPage} />
 
     </Route>
