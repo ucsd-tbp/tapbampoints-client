@@ -14,7 +14,7 @@ The app uses a `.env` file at the project root for sensitive application-wide co
 
 ```
 API_ROOT = http://localhost:8000
-CALENDAR_API_ROOT = https://www.googleapis.com/calendar/v3/calendars/tbp.ucsd@gmail.com/events?key=AIzaSyA3HKUOtyGIytV7gIP-W4lzhrwZT4tBKy8&orderBy=startTime&singleEvents=true
+CALENDAR_API_ROOT = https://www.googleapis.com/calendar/v3/calendars/tbp.ucsd@gmail.com/events?key=GOOGLE_API_KEY&orderBy=startTime&singleEvents=true
 GOOGLE_API_KEY = YOUR_GOOGLE_API_KEY
 ```
 

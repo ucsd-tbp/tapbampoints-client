@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash';
 import API from './API';
 import { Roles } from './constants';
 
-
 /**
  * Utility functions for manipulating the token in local storage in order to
  * login and logout users.
