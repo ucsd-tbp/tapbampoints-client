@@ -9,10 +9,10 @@ const EventSigninForm = (props) => {
     // card or manually input their PID.
   const identificationForm = (
     <FlexItem>
-      <h3>Slide your ID card, or type your pid in the box below.</h3>
+      <h3>Slide your ID card, or type your PID in the box below.</h3>
 
       {/* Form containing a single input field for the PID. */}
-      <form onSubmit={props.onSubmit}>
+      <form className="step-presentation" onSubmit={props.onSubmit}>
         <label htmlFor="pid">PID
           <input
             name="pid"
@@ -37,7 +37,7 @@ const EventSigninForm = (props) => {
       </h3>
 
       {/* Form containing a single input field for the email. */}
-      <form onSubmit={props.onSubmit}>
+      <form className="step-presentation" onSubmit={props.onSubmit}>
         <label htmlFor="email">Email
           <input
             name="email"

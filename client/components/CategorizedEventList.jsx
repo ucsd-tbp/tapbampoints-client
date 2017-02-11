@@ -16,7 +16,7 @@ const CategorizedEventList = (props) => {
 
     // Adds a category and its set of events to the array of components for
     // rendering.
-    const categoryHeader = <EventCategoryHeader key={index} category={category} />;
+    const categoryHeader = <EventCategoryHeader key={category} category={category} />;
     const categoryEvents = eventsByCategory[index].map(event => (
       <EventCard
         key={event.id}
