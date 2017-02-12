@@ -1,4 +1,7 @@
-/** @file Project-wide constants, each with an additional description. */
+/**
+ * @file Project-wide constants, each with an additional description. Constants
+ *int CapitalizedCamelCase are used as enums.
+ */
 
 // Maps an event type to the primary key of that event type as stored in the
 // database, and is used when POSTing to the /events endpoint when creating or
@@ -45,3 +48,5 @@ export const EventSigninSteps = Object.freeze({
   NOT_YET_REGISTERED: 'not yet registered',
   COMPLETE: 'complete',
 });
+
+export const PID_LENGTH = 9;

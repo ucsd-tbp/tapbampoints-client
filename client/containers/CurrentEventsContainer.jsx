@@ -36,7 +36,6 @@ class CurrentEventsContainer extends React.Component {
   render() {
     return (
       <CategorizedEventList
-        // BUG Object.values doesn't work in Safari, have to use Lodash. (??)
         events={values(this.state.eventsByID)}
         groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}

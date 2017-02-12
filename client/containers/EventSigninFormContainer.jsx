@@ -1,8 +1,9 @@
 import React from 'react';
 
 import API from '../modules/API';
+import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninSteps } from '../modules/constants';
+import { EventSigninSteps, PID_LENGTH } from '../modules/constants';
 
 class EventSigninFormContainer extends React.Component {
   constructor(props) {
@@ -22,6 +23,9 @@ class EventSigninFormContainer extends React.Component {
       },
     };
 
+    this.handleIdentificationStep = this.handleIdentificationStep.bind(this);
+    this.handleUnregisteredAttendee = this.handleUnregisteredAttendee.bind(this);
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -36,7 +40,34 @@ class EventSigninFormContainer extends React.Component {
       .catch(error => console.error(error));
   }
 
-  /** Updates identification key passed into form. k*/
+  /**
+   * Retrieves a user given the entered PID. If a user corresponding to the PID
+   * doesn't exist, then moves form to the email prompt. Otherwise, marks the
+   * retrieved user as having attended this event.
+   */
+  handleIdentificationStep() {
+    const pid = Events.parsePID(this.state.identification.pid);
+
+    if (pid < PID_LENGTH) {
+      return Promise.reject(new Error('PID is invalid, try again.'));
+    }
+
+    return API.retrieveUser(pid)
+      .catch((error) => {
+        // Switches to email form and throws to break out of promise chain.
+        this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
+        throw error;
+      })
+      .then((user) => {
+        console.warn(`Found user with ID ${user.id}.`);
+      });
+  }
+
+  handleUnregisteredAttendee() {
+
+  }
+
+  /** Updates identification key passed into form. */
   handleChange(event) {
     const identification = this.state.identification;
     identification[event.target.name] = event.target.value;
@@ -52,20 +83,22 @@ class EventSigninFormContainer extends React.Component {
   handleSubmit(event) {
     if (event) event.preventDefault();
 
+    // TODO Add errors to an <Errors /> component.
     switch (this.state.step) {
-      case EventSigninSteps.IDENTIFICATION:
-        // FIXME Parse ID cards properly!
-        API.registerAttendee(this.state.identification.pid)
-          .then(() => this.setState({
-            step: EventSigninSteps.COMPLETE,
-            identification: { email: '', pid: '' },
-          }))
-          .catch(error => console.error(error));
 
+      case EventSigninSteps.IDENTIFICATION:
+        this.handleIdentificationStep()
+          .catch((error) => console.error(error.message));
         break;
+
+      case EventSigninSteps.NOT_YET_REGISTERED:
+        this.handleUnregisteredAttendee();
+        break;
+
       case EventSigninSteps.COMPLETE:
         this.setState({ step: EventSigninSteps.IDENTIFICATION });
         break;
+
       default:
         this.setState({ step: EventSigninSteps.IDENTIFICATION });
     }

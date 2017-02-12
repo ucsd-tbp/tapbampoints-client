@@ -19,6 +19,7 @@ const EventSigninForm = (props) => {
             type="password"
             value={props.identification.pid}
             onChange={props.onChange}
+            placeholder="A12345678"
             autoFocus
           />
         </label>

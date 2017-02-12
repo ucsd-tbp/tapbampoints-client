@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { isEmpty } from 'lodash';
 
 import { EventTypes } from './constants';
 import Events from './Events';
@@ -94,7 +95,7 @@ class API {
   /**
    * Retrieves an event given its ID.
    *
-   * @param {Integer} eventID ID of event to look up.
+   * @param {number} eventID ID of event to look up.
    * @return {Promise<Event>} Promise that resolves to retrieved event.
    */
   static retrieveEvent(eventID) {
@@ -103,24 +104,36 @@ class API {
     return fetch(requestURL).then(this.checkStatus);
   }
 
-  static registerAttendee(pid) {
-    // FIXME Replace stub email with actual.
-    const body = {
-      email: `stub${Date.now()}@tbp.ucsd.edu`,
-      pid: pid,
-    };
+  /**
+   * Retrieves a user given a unique identifier.
+   *
+   * @param {number|string} identifier Unique ID to look up user with, usually
+   * the PID or user ID.
+   * @return {User} Promise resolving to found user.
+   */
+  static retrieveUser(value, identifier = 'pid') {
+    const requestURL = `${process.env.API_ROOT}/users?${identifier}=${value}`;
 
-    // Includes authorization header if token is present.
-    const headers = { 'Content-Type': 'application/json' };
+    return fetch(requestURL)
+      .then(this.checkStatus)
+      .then((users) => {
+        // If the resulting array is empty, then the user wasn't found.
+        if (isEmpty(users)) {
+          throw new Error(`User could not be found!`);
+        }
 
-    // Prepares POST request to create event with JWT for authentication.
-    const request = new Request(`${process.env.API_ROOT}/auth/register`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-    });
+        // Otherwise, the user is the only element in the array since the
+        // identifier is enforced to be unique.
+        return users[0];
+      })
+  }
 
-    return fetch(request).then(this.checkStatus);
+  /**
+   * Adds an attendee to an event.
+   * @param {number} userID ID of user to add as attendee.
+   * @param {number} eventID ID of event to mark that user attended.
+   */
+  static registerAttendeeForEvent(userID, eventID) {
   }
 }
 

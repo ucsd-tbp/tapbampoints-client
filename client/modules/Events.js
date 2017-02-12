@@ -2,7 +2,7 @@
 
 import { format, isEqual } from 'date-fns';
 import { clone, filter, keyBy } from 'lodash';
-import { EventTypes, DATABASE_DATE_FORMAT } from './constants';
+import { DATABASE_DATE_FORMAT, EventTypes, PID_LENGTH } from './constants';
 
 /**
  * Shape of an event object used when creating or updating events from the API.
@@ -129,6 +129,22 @@ class Events {
       type: EventTypes.WILDCARD,
     };
   }
+
+  /** Extracts the PID from data given by the magnetic stripe card reader. */
+  static parsePID(input) {
+    // If manually entered PID, then don't try to parse.
+    if (input.length === PID_LENGTH) return input;
+
+    // If given input is less than minimum PID length, indicate error.
+    if (input.length < PID_LENGTH) return '';
+
+    // TODO Undergrad PIDs start with 'A'. What about extension/grad students?
+    const prefix = input.substring(1, 3) === '09' ? 'A' : 'U';
+    const pidNumber = input.substring(3, 11);
+
+    return prefix + pidNumber;
+  }
+
 }
 
 export default Events;
