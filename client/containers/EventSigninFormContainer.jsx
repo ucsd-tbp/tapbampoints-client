@@ -3,8 +3,14 @@ import React from 'react';
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninSteps, PID_LENGTH } from '../modules/constants';
+import { EventSigninMode, EventSigninSteps, PID_LENGTH } from '../modules/constants';
 
+/**
+ * Handles all state for the multi-step event sign-in form. Retrieves the event
+ * this form is for based on URL parameter passed in from `EventSigninPage`.
+ * Handles the logic for creating unverified users and assigning points to
+ * existing users.
+ */
 class EventSigninFormContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +22,9 @@ class EventSigninFormContainer extends React.Component {
       // Current form step.
       step: EventSigninSteps.IDENTIFICATION,
 
+      // Event sign-in mode.
+      mode: EventSigninMode.SIGNOUT_ONLY,
+
       // The email may be unset if the attendee only inputs the PID.
       identification: {
         pid: '',
@@ -23,6 +32,8 @@ class EventSigninFormContainer extends React.Component {
       },
     };
 
+    // Custom functions for form behavior in each step.
+    this.assignPoints = this.assignPoints.bind(this);
     this.handleIdentificationStep = this.handleIdentificationStep.bind(this);
     this.handleUnregisteredAttendee = this.handleUnregisteredAttendee.bind(this);
 
@@ -35,9 +46,32 @@ class EventSigninFormContainer extends React.Component {
    * order to show relevant event info on sign-in page.
    */
   componentDidMount() {
+    // TODO Update sign-in mode based on event time.
     API.retrieveEvent(this.props.eventID)
       .then(event => this.setState({ event }))
       .catch(error => console.error(error));
+  }
+
+  /**
+   * Assigns points based on the sign-in mode that this event is in.
+   * @param {User} user User to assign points to.
+   */
+  assignPoints(user) {
+    console.warn(`calculating points to assign for user with ID ${user.id}`);
+
+    switch (this.state.mode) {
+      case EventSigninMode.SIGNOUT_ONLY:
+        break;
+
+      case EventSigninMode.SIGNIN_AND_SIGNOUT:
+        break;
+
+      case EventSigninMode.SIGNIN_ONCE:
+        break;
+
+      default:
+        throw new Error('Invalid sign-in mode!');
+    }
   }
 
   /**
@@ -58,9 +92,7 @@ class EventSigninFormContainer extends React.Component {
         this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
         throw error;
       })
-      .then((user) => {
-        console.warn(`Found user with ID ${user.id}.`);
-      });
+      .then(user => this.assignPoints(user));
   }
 
   handleUnregisteredAttendee() {
@@ -88,11 +120,12 @@ class EventSigninFormContainer extends React.Component {
 
       case EventSigninSteps.IDENTIFICATION:
         this.handleIdentificationStep()
-          .catch((error) => console.error(error.message));
+          .catch(error => console.error(error.message));
         break;
 
       case EventSigninSteps.NOT_YET_REGISTERED:
-        this.handleUnregisteredAttendee();
+        this.handleUnregisteredAttendee()
+          .catch(error => console.error(error.message));
         break;
 
       case EventSigninSteps.COMPLETE:
