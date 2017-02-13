@@ -130,10 +130,13 @@ class API {
 
   /**
    * Adds an attendee to an event.
+   *
    * @param {number} userID ID of user to add as attendee.
    * @param {number} eventID ID of event to mark that user attended.
+   * @param {number} pointsToAssign Number of points to assign.
    */
-  static registerAttendeeForEvent(userID, eventID) {
+  static registerAttendeeForEvent(userID, eventID, pointsToAssign) {
+
   }
 }
 

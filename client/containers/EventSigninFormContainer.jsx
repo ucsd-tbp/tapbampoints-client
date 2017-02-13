@@ -1,9 +1,10 @@
 import React from 'react';
+import { differenceInMinutes } from 'date-fns';
 
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninMode, EventSigninSteps, PID_LENGTH } from '../modules/constants';
+import { EventSigninModes, EventSigninSteps, PID_LENGTH } from '../modules/constants';
 
 /**
  * Handles all state for the multi-step event sign-in form. Retrieves the event
@@ -23,7 +24,7 @@ class EventSigninFormContainer extends React.Component {
       step: EventSigninSteps.IDENTIFICATION,
 
       // Event sign-in mode.
-      mode: EventSigninMode.SIGNOUT_ONLY,
+      mode: EventSigninModes.SIGNOUT_ONLY,
 
       // The email may be unset if the attendee only inputs the PID.
       identification: {
@@ -57,21 +58,32 @@ class EventSigninFormContainer extends React.Component {
    * @param {User} user User to assign points to.
    */
   assignPoints(user) {
-    console.warn(`calculating points to assign for user with ID ${user.id}`);
+    let pointsToAssign = 0;
 
     switch (this.state.mode) {
-      case EventSigninMode.SIGNOUT_ONLY:
+      // Bases points on time between event start time and when the attendee
+      // signed out.
+      case EventSigninModes.SIGNOUT_ONLY:
+        pointsToAssign = Events.calculatePoints(this.state.event.start, new Date());
         break;
 
-      case EventSigninMode.SIGNIN_AND_SIGNOUT:
+      // Bases points on the time interval between when the attendee signed in
+      // and signed out.
+      case EventSigninModes.SIGNIN_AND_SIGNOUT:
+        // TODO Get timestamp of attendance record if exists to calculate points.
         break;
 
-      case EventSigninMode.SIGNIN_ONCE:
+      // Grants event's maximum point value from a single sign-in.
+      case EventSigninModes.SIGNIN_ONCE:
+        pointsToAssign = Events.calculatePoints(this.state.event.start, this.state.event.end);
         break;
 
       default:
         throw new Error('Invalid sign-in mode!');
     }
+
+    return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign)
+      .then(this.checkStatus);
   }
 
   /**

@@ -145,6 +145,36 @@ class Events {
     return prefix + pidNumber;
   }
 
+  /**
+   * Calculates points given a time interval.
+   *
+   * When dealing with a portion of an hour, the elapsed minutes value is
+   * rounded up to the higher 30-minute interval, and points are calculated
+   * based on this rounded minute value, where 60 minutes = 1 points. Since
+   * partial hours are rounded to 30-minute intervals, the points value can
+   * only be a multiple of 0.5.
+   *
+   * @example An attendee staying at an event for 125 minutes (a bit over two
+   * hours) is the same as 120 + 5 minutes. 5 minutes is rounded up to 30, so
+   * the attendee gets 120 + 30 = 150 minutes, which is 2.5 points.
+   *
+   * @param {Date} intervalStart Start of time interval.
+   * @param {Date} intervalEnd End of time interval.
+   *
+   * @return {number} Points value calculated from time interval.
+   */
+  static calculatePoints(intervalStart, intervalEnd) {
+    const rawMinutesDifference = differenceInMinutes(intervalStart, intervalEnd);
+
+    const minutesRemainder = rawMinutesDifference % 60;
+    const hourIntervalsInMinutes = rawMinutesDifference - minutesRemainder;
+
+    // Rounds up to higher 30-minute interval.
+    const roundedMinutes = minutesRemainder + (30 - (minutesRemainder % 30));
+
+    // Gives half a point per half hour.
+    return (roundedMinutes + hourIntervalsInMinutes) / 60.0;
+  }
 }
 
 export default Events;
