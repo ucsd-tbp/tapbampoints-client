@@ -42,3 +42,9 @@ a,
 p {
   font-size: $body-font-size;
 }
+
+.smallcaps {
+  font-size: .9rem;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+}

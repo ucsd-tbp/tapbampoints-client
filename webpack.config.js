@@ -12,7 +12,7 @@ var DotenvWebpackPluginConfig = new DotenvWebpackPlugin();
 
 // TODO Add tree-shaking to avoid bundling unused dependencies.
 module.exports = {
-  entry: './client/index.jsx',
+  entry: ['babel-polyfill', './client/index.jsx'],
 
   resolve: {
     // Lets JSX files be imported without adding the .jsx suffix.

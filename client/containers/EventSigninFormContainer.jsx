@@ -25,6 +25,7 @@ class EventSigninFormContainer extends React.Component {
 
       // Event sign-in mode.
       mode: EventSigninModes.SIGNIN_ONCE,
+      modeCycle: this.cycleThroughEventModes(),
 
       // The email may be unset if the attendee only inputs the PID.
       identification: {
@@ -35,6 +36,7 @@ class EventSigninFormContainer extends React.Component {
 
     // Custom functions for form behavior in each step.
     this.assignPoints = this.assignPoints.bind(this);
+    this.cycleThroughEventModes = this.cycleThroughEventModes.bind(this);
     this.handleIdentificationStep = this.handleIdentificationStep.bind(this);
     this.handleUnregisteredAttendee = this.handleUnregisteredAttendee.bind(this);
 
@@ -61,12 +63,13 @@ class EventSigninFormContainer extends React.Component {
       EventSigninModes.SIGNOUT_ONLY,
     ];
 
-    let index = 0;
+    let index = modes.indexOf(this.state.mode);
 
     // Infinitely cycles through event modes.
-    for (;;) {
-      yield this.setState({ mode: modes[index] });
+    while (true) {
+      console.log(`current state: ${modes[index]}`);
       index = (index + 1) % modes.length;
+      yield this.setState({ mode: modes[index] });
     }
   }
 
@@ -182,9 +185,10 @@ class EventSigninFormContainer extends React.Component {
         event={this.state.event}
         step={this.state.step}
         identification={this.state.identification}
+        mode={this.state.mode}
+        onModeChange={() => this.state.modeCycle.next()}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
-        onModeChange={() => cycleThroughEventModes.next()}
       />
     );
   }
