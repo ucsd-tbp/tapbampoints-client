@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 
+import Auth from './Auth';
 import { EventTypes } from './constants';
 import Events from './Events';
 
@@ -136,7 +137,18 @@ class API {
    * @param {number} pointsToAssign Number of points to assign.
    */
   static registerAttendeeForEvent(userID, eventID, pointsToAssign) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Auth.getToken()}`,
+    };
 
+    const request = new Request(`${process.env.API_ROOT}/users/${userID}/events/${eventID}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ points_earned: pointsToAssign }),
+    });
+
+    return fetch(request).then(this.checkStatus);
   }
 }
 

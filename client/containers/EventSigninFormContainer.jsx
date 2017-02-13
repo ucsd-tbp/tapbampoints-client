@@ -1,10 +1,10 @@
 import React from 'react';
-import { differenceInMinutes } from 'date-fns';
 
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninModes, EventSigninSteps, PID_LENGTH } from '../modules/constants';
+import { EventSigninModes, EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE }
+  from '../modules/constants';
 
 /**
  * Handles all state for the multi-step event sign-in form. Retrieves the event
@@ -24,7 +24,7 @@ class EventSigninFormContainer extends React.Component {
       step: EventSigninSteps.IDENTIFICATION,
 
       // Event sign-in mode.
-      mode: EventSigninModes.SIGNOUT_ONLY,
+      mode: EventSigninModes.SIGNIN_ONCE,
 
       // The email may be unset if the attendee only inputs the PID.
       identification: {
@@ -53,6 +53,23 @@ class EventSigninFormContainer extends React.Component {
       .catch(error => console.error(error));
   }
 
+  /** Cycles through mode array. */
+  * cycleThroughEventModes() {
+    const modes = [
+      EventSigninModes.SIGNIN_ONCE,
+      EventSigninModes.SIGNIN_AND_SIGNOUT,
+      EventSigninModes.SIGNOUT_ONLY,
+    ];
+
+    let index = 0;
+
+    // Infinitely cycles through event modes.
+    for (;;) {
+      yield this.setState({ mode: modes[index] });
+      index = (index + 1) % modes.length;
+    }
+  }
+
   /**
    * Assigns points based on the sign-in mode that this event is in.
    * @param {User} user User to assign points to.
@@ -64,6 +81,7 @@ class EventSigninFormContainer extends React.Component {
       // Bases points on time between event start time and when the attendee
       // signed out.
       case EventSigninModes.SIGNOUT_ONLY:
+
         pointsToAssign = Events.calculatePoints(this.state.event.start, new Date());
         break;
 
@@ -71,7 +89,7 @@ class EventSigninFormContainer extends React.Component {
       // and signed out.
       case EventSigninModes.SIGNIN_AND_SIGNOUT:
         // TODO Get timestamp of attendance record if exists to calculate points.
-        break;
+        throw new Error('Sign-in and sign-out mode not yet supported!');
 
       // Grants event's maximum point value from a single sign-in.
       case EventSigninModes.SIGNIN_ONCE:
@@ -82,8 +100,9 @@ class EventSigninFormContainer extends React.Component {
         throw new Error('Invalid sign-in mode!');
     }
 
-    return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign)
-      .then(this.checkStatus);
+    // An event can give at most 3 points.
+    pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
+    return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign);
   }
 
   /**
@@ -104,11 +123,15 @@ class EventSigninFormContainer extends React.Component {
         this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
         throw error;
       })
-      .then(user => this.assignPoints(user));
+      .then(user => this.assignPoints(user))
+      .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
+      .catch(error => console.error(error));
   }
 
   handleUnregisteredAttendee() {
-
+    // FIXME Send email for unregistered attendee.
+    this.setState({ step: EventSigninSteps.COMPLETE });
+    return Promise.resolve();
   }
 
   /** Updates identification key passed into form. */
@@ -141,7 +164,11 @@ class EventSigninFormContainer extends React.Component {
         break;
 
       case EventSigninSteps.COMPLETE:
-        this.setState({ step: EventSigninSteps.IDENTIFICATION });
+        // Resets form to first step with empty input fields.
+        this.setState({
+          step: EventSigninSteps.IDENTIFICATION,
+          identification: { pid: '', email: '' },
+        });
         break;
 
       default:
@@ -157,6 +184,7 @@ class EventSigninFormContainer extends React.Component {
         identification={this.state.identification}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
+        onModeChange={() => cycleThroughEventModes.next()}
       />
     );
   }

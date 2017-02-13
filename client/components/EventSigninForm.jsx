@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FlexItem from '../layouts/FlexItem';
+import ChangeSigninModeButton from './ChangeSigninModeButton';
 
 import { EventSigninSteps } from '../modules/constants';
 
@@ -89,6 +90,7 @@ const EventSigninForm = (props) => {
     <FlexItem className="EventSigninForm">
       <h1><span className="light-emphasis">Signing-in for: </span>{props.event.summary}</h1>
       {currentStep}
+      <ChangeSigninModeButton mode={this.state.mode} onClick={props.onModeChange} />
     </FlexItem>
   );
 };
@@ -96,19 +98,20 @@ const EventSigninForm = (props) => {
 EventSigninForm.propTypes = {
   event: React.PropTypes.shape({
     summary: React.PropTypes.string,
-  }),
+  }).isRequired,
 
   identification: React.PropTypes.shape({
     pid: React.PropTypes.string,
     email: React.PropTypes.string,
-  }),
+  }).isRequired,
 
   step: React.PropTypes.oneOf([
     EventSigninSteps.IDENTIFICATION, EventSigninSteps.NOT_YET_REGISTERED, EventSigninSteps.COMPLETE,
-  ]),
+  ]).isRequired,
 
-  onChange: React.PropTypes.func,
-  onSubmit: React.PropTypes.func,
+  onChange: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func.isRequired,
+  onModeChange: React.PropTypes.func.isRequired,
 };
 
 export default EventSigninForm;

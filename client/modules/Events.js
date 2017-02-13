@@ -1,6 +1,6 @@
 // @flow
 
-import { format, isEqual } from 'date-fns';
+import { format, isEqual, differenceInMinutes } from 'date-fns';
 import { clone, filter, keyBy } from 'lodash';
 import { DATABASE_DATE_FORMAT, EventTypes, PID_LENGTH } from './constants';
 
@@ -164,7 +164,9 @@ class Events {
    * @return {number} Points value calculated from time interval.
    */
   static calculatePoints(intervalStart, intervalEnd) {
-    const rawMinutesDifference = differenceInMinutes(intervalStart, intervalEnd);
+    const rawMinutesDifference = differenceInMinutes(intervalEnd, intervalStart);
+
+    console.log(`rawMinutesDifference: ${rawMinutesDifference}`);
 
     const minutesRemainder = rawMinutesDifference % 60;
     const hourIntervalsInMinutes = rawMinutesDifference - minutesRemainder;

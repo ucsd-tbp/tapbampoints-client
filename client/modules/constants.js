@@ -51,9 +51,13 @@ export const EventSigninSteps = Object.freeze({
 
 // Different behaviors for signing-in at events.
 export const EventSigninModes = Object.freeze({
+  SIGNIN_ONCE: 'sign-in once',
   SIGNOUT_ONLY: 'sign-out only',
   SIGNIN_AND_SIGNOUT: 'sign-in and sign-out',
-  SIGNIN_ONCE: 'sign-in once',
-})
+});
 
+// Length of PID, including starting letter.
 export const PID_LENGTH = 9;
+
+// Max number of points an event can give.
+export const MAX_POINTS_VALUE = 3;
