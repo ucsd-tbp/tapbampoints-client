@@ -50,18 +50,6 @@ class EventSigninFormContainer extends React.Component {
   }
 
   /**
-   * Assigns points based on number of points entered in form.
-   * @param {User} user User to assign points to.
-   */
-  assignPoints(user) {
-    let pointsToAssign = 0;
-
-    // An event can give at most 3 points.
-    pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
-    return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign);
-  }
-
-  /**
    * Retrieves a user given the entered PID. If a user corresponding to the PID
    * doesn't exist, then moves form to the email prompt. Otherwise, marks the
    * retrieved user as having attended this event.
@@ -80,14 +68,31 @@ class EventSigninFormContainer extends React.Component {
         throw error;
       })
       .then(user => this.assignPoints(user))
-      .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
+      .then(() => this.setState({ step: EventSigninSteps.POINTS_INPUT }))
       .catch(error => console.error(error));
   }
 
   handleUnregisteredAttendee() {
     // FIXME Send email for unregistered attendee.
+    this.setState({ step: EventSigninSteps.POINTS_INPUT });
+    return Promise.resolve();
+  }
+
+  /**
+   * Assigns points based on number of points entered in form.
+   * @param {User} user User to assign points to.
+   */
+  assignPoints() {
+    let pointsToAssign = 0;
+
+    // An event can give at most 3 points.
+    pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
+
     this.setState({ step: EventSigninSteps.COMPLETE });
     return Promise.resolve();
+
+    // return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign)
+      // .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
   }
 
   /** Updates identification key passed into form. */
@@ -116,6 +121,11 @@ class EventSigninFormContainer extends React.Component {
 
       case EventSigninSteps.NOT_YET_REGISTERED:
         this.handleUnregisteredAttendee()
+          .catch(error => console.error(error.message));
+        break;
+
+      case EventSigninSteps.POINTS_INPUT:
+        this.assignPoints()
           .catch(error => console.error(error.message));
         break;
 

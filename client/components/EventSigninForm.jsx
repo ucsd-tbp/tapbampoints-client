@@ -104,7 +104,10 @@ EventSigninForm.propTypes = {
   }).isRequired,
 
   step: React.PropTypes.oneOf([
-    EventSigninSteps.IDENTIFICATION, EventSigninSteps.NOT_YET_REGISTERED, EventSigninSteps.COMPLETE,
+    EventSigninSteps.IDENTIFICATION,
+    EventSigninSteps.NOT_YET_REGISTERED,
+    EventSigninSteps.POINTS_INPUT,
+    EventSigninSteps.COMPLETE,
   ]).isRequired,
 
   onChange: React.PropTypes.func.isRequired,

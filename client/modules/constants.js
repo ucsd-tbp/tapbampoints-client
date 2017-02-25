@@ -1,6 +1,6 @@
 /**
  * @file Project-wide constants, each with an additional description. Constants
- *int CapitalizedCamelCase are used as enums.
+ * in CapitalizedCamelCase are used as enums.
  */
 
 // Maps an event type to the primary key of that event type as stored in the
@@ -46,6 +46,7 @@ export const CLASSNAME_TYPES = Object.freeze({
 export const EventSigninSteps = Object.freeze({
   IDENTIFICATION: 'identification',
   NOT_YET_REGISTERED: 'not yet registered',
+  POINTS_INPUT: 'points input',
   COMPLETE: 'complete',
 });
 
