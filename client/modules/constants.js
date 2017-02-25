@@ -49,13 +49,6 @@ export const EventSigninSteps = Object.freeze({
   COMPLETE: 'complete',
 });
 
-// Different behaviors for signing-in at events.
-export const EventSigninModes = Object.freeze({
-  SIGNIN_ONCE: 'sign-in once',
-  SIGNOUT_ONLY: 'sign-out only',
-  SIGNIN_AND_SIGNOUT: 'sign-in and sign-out',
-});
-
 // Length of PID, including starting letter.
 export const PID_LENGTH = 9;
 

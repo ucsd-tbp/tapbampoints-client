@@ -166,8 +166,6 @@ class Events {
   static calculatePoints(intervalStart, intervalEnd) {
     const rawMinutesDifference = differenceInMinutes(intervalEnd, intervalStart);
 
-    console.log(`rawMinutesDifference: ${rawMinutesDifference}`);
-
     const minutesRemainder = rawMinutesDifference % 60;
     const hourIntervalsInMinutes = rawMinutesDifference - minutesRemainder;
 

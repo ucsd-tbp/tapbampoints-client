@@ -3,7 +3,7 @@ import React from 'react';
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninModes, EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE }
+import { EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE }
   from '../modules/constants';
 
 /**
@@ -23,10 +23,6 @@ class EventSigninFormContainer extends React.Component {
       // Current form step.
       step: EventSigninSteps.IDENTIFICATION,
 
-      // Event sign-in mode.
-      mode: EventSigninModes.SIGNIN_ONCE,
-      modeCycle: this.cycleThroughEventModes(),
-
       // The email may be unset if the attendee only inputs the PID.
       identification: {
         pid: '',
@@ -36,7 +32,6 @@ class EventSigninFormContainer extends React.Component {
 
     // Custom functions for form behavior in each step.
     this.assignPoints = this.assignPoints.bind(this);
-    this.cycleThroughEventModes = this.cycleThroughEventModes.bind(this);
     this.handleIdentificationStep = this.handleIdentificationStep.bind(this);
     this.handleUnregisteredAttendee = this.handleUnregisteredAttendee.bind(this);
 
@@ -49,59 +44,17 @@ class EventSigninFormContainer extends React.Component {
    * order to show relevant event info on sign-in page.
    */
   componentDidMount() {
-    // TODO Update sign-in mode based on event time.
     API.retrieveEvent(this.props.eventID)
       .then(event => this.setState({ event }))
       .catch(error => console.error(error));
   }
 
-  /** Cycles through mode array. */
-  * cycleThroughEventModes() {
-    const modes = [
-      EventSigninModes.SIGNIN_ONCE,
-      EventSigninModes.SIGNIN_AND_SIGNOUT,
-      EventSigninModes.SIGNOUT_ONLY,
-    ];
-
-    let index = modes.indexOf(this.state.mode);
-
-    // Infinitely cycles through event modes.
-    while (true) {
-      console.log(`current state: ${modes[index]}`);
-      index = (index + 1) % modes.length;
-      yield this.setState({ mode: modes[index] });
-    }
-  }
-
   /**
-   * Assigns points based on the sign-in mode that this event is in.
+   * Assigns points based on number of points entered in form.
    * @param {User} user User to assign points to.
    */
   assignPoints(user) {
     let pointsToAssign = 0;
-
-    switch (this.state.mode) {
-      // Bases points on time between event start time and when the attendee
-      // signed out.
-      case EventSigninModes.SIGNOUT_ONLY:
-
-        pointsToAssign = Events.calculatePoints(this.state.event.start, new Date());
-        break;
-
-      // Bases points on the time interval between when the attendee signed in
-      // and signed out.
-      case EventSigninModes.SIGNIN_AND_SIGNOUT:
-        // TODO Get timestamp of attendance record if exists to calculate points.
-        throw new Error('Sign-in and sign-out mode not yet supported!');
-
-      // Grants event's maximum point value from a single sign-in.
-      case EventSigninModes.SIGNIN_ONCE:
-        pointsToAssign = Events.calculatePoints(this.state.event.start, this.state.event.end);
-        break;
-
-      default:
-        throw new Error('Invalid sign-in mode!');
-    }
 
     // An event can give at most 3 points.
     pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
@@ -185,8 +138,6 @@ class EventSigninFormContainer extends React.Component {
         event={this.state.event}
         step={this.state.step}
         identification={this.state.identification}
-        mode={this.state.mode}
-        onModeChange={() => this.state.modeCycle.next()}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
       />
