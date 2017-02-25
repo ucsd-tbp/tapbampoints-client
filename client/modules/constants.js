@@ -46,7 +46,7 @@ export const CLASSNAME_TYPES = Object.freeze({
 export const EventSigninSteps = Object.freeze({
   IDENTIFICATION: 'identification',
   NOT_YET_REGISTERED: 'not yet registered',
-  POINTS_INPUT: 'points input',
+  POINT_SELECTION: 'points input',
   COMPLETE: 'complete',
 });
 

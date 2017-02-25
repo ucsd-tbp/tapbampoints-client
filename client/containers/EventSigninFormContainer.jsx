@@ -68,13 +68,13 @@ class EventSigninFormContainer extends React.Component {
         throw error;
       })
       .then(user => this.assignPoints(user))
-      .then(() => this.setState({ step: EventSigninSteps.POINTS_INPUT }))
+      .then(() => this.setState({ step: EventSigninSteps.POINT_SELECTION }))
       .catch(error => console.error(error));
   }
 
   handleUnregisteredAttendee() {
     // FIXME Send email for unregistered attendee.
-    this.setState({ step: EventSigninSteps.POINTS_INPUT });
+    this.setState({ step: EventSigninSteps.POINT_SELECTION });
     return Promise.resolve();
   }
 
@@ -124,7 +124,7 @@ class EventSigninFormContainer extends React.Component {
           .catch(error => console.error(error.message));
         break;
 
-      case EventSigninSteps.POINTS_INPUT:
+      case EventSigninSteps.POINT_SELECTION:
         this.assignPoints()
           .catch(error => console.error(error.message));
         break;

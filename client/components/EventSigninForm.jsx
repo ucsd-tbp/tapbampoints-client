@@ -106,7 +106,7 @@ EventSigninForm.propTypes = {
   step: React.PropTypes.oneOf([
     EventSigninSteps.IDENTIFICATION,
     EventSigninSteps.NOT_YET_REGISTERED,
-    EventSigninSteps.POINTS_INPUT,
+    EventSigninSteps.POINT_SELECTION,
     EventSigninSteps.COMPLETE,
   ]).isRequired,
 
