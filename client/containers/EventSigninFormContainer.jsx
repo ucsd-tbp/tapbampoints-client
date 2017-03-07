@@ -28,6 +28,8 @@ class EventSigninFormContainer extends React.Component {
         pid: '',
         email: '',
       },
+
+      pointsToAssign: 0,
     };
 
     // Custom functions for form behavior in each step.
@@ -88,7 +90,7 @@ class EventSigninFormContainer extends React.Component {
     // An event can give at most 3 points.
     pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
 
-    this.setState({ step: EventSigninSteps.COMPLETE });
+    this.setState({ step: EventSigninSteps.COMPLETE, pointsToAssign });
     return Promise.resolve();
 
     // return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign)
@@ -110,6 +112,9 @@ class EventSigninFormContainer extends React.Component {
    */
   handleSubmit(event) {
     if (event) event.preventDefault();
+
+    console.warn('submitting event sign-in form');
+    console.warn(event.target);
 
     // TODO Add errors to an <Errors /> component.
     switch (this.state.step) {
@@ -148,6 +153,7 @@ class EventSigninFormContainer extends React.Component {
         event={this.state.event}
         step={this.state.step}
         identification={this.state.identification}
+        pointsToAssign={this.state.pointsToAssign}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
       />

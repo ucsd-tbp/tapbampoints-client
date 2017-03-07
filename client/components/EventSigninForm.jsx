@@ -1,8 +1,9 @@
 import React from 'react';
 
-import FlexItem from '../layouts/FlexItem';
-
 import { EventSigninSteps } from '../modules/constants';
+
+import FlexItem from '../layouts/FlexItem';
+import PointSelectionForm from './PointSelectionForm';
 
 const EventSigninForm = (props) => {
     // First step to sign into an event. Attendee should either slide their ID
@@ -54,6 +55,20 @@ const EventSigninForm = (props) => {
     </FlexItem>
   );
 
+  const pointSelectionStep = (
+    <FlexItem>
+      <h3>Choose the number of points received at this event.</h3>
+
+      <PointSelectionForm
+        max={3}
+        points={props.pointsToAssign}
+        onChange={props.onChange}
+        onSubmit={props.onSubmit}
+        className="step-presentation"
+      />
+    </FlexItem>
+  );
+
   // Indicates that the attendee is done with the form.
   const completeStep = (
     <FlexItem>
@@ -66,19 +81,20 @@ const EventSigninForm = (props) => {
   let currentStep;
   switch (props.step) {
 
-    // Renders first step for the PID.
     case EventSigninSteps.IDENTIFICATION:
       currentStep = identificationForm;
       break;
 
-    // Renders second step for the email.
     case EventSigninSteps.NOT_YET_REGISTERED:
       currentStep = emailForm;
       break;
 
-    // Renders final completion page.
     case EventSigninSteps.COMPLETE:
       currentStep = completeStep;
+      break;
+
+    case EventSigninSteps.POINT_SELECTION:
+      currentStep = pointSelectionStep;
       break;
 
     default:
@@ -109,6 +125,8 @@ EventSigninForm.propTypes = {
     EventSigninSteps.POINT_SELECTION,
     EventSigninSteps.COMPLETE,
   ]).isRequired,
+
+  pointsToAssign: React.PropTypes.number,
 
   onChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
