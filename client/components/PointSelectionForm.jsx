@@ -9,17 +9,17 @@ import FlexContainer from '../layouts/FlexContainer';
  */
 const PointSelectionForm = props => (
   <FlexContainer className={classnames('PointSelectionForm', props.className)}>
-    <form onSubmit={props.onSubmit}>
-      <label htmlFor="points">Points
-        <input
-          name="points"
-          type="number"
-          value={props.pointsToAssign}
-          min="1"
-          max={props.max}
-          onChange={props.onChange}
-        />
-      </label>
+    <form className="primary-number-input" onSubmit={props.onSubmit}>
+      <label htmlFor="points">Points</label>
+
+      <input
+        name="points"
+        type="number"
+        value={props.pointsToAssign}
+        min="0"
+        max={props.max}
+        onChange={props.onChange}
+      />
     </form>
   </FlexContainer>
 );

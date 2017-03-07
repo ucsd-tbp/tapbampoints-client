@@ -1,4 +1,5 @@
 import React from 'react';
+import { toNumber } from 'lodash';
 
 import API from '../modules/API';
 import Events from '../modules/Events';
@@ -21,7 +22,7 @@ class EventSigninFormContainer extends React.Component {
       event: {},
 
       // Current form step.
-      step: EventSigninSteps.IDENTIFICATION,
+      step: EventSigninSteps.POINT_SELECTION,
 
       // The email may be unset if the attendee only inputs the PID.
       identification: {
@@ -99,10 +100,16 @@ class EventSigninFormContainer extends React.Component {
 
   /** Updates identification key passed into form. */
   handleChange(event) {
-    const identification = this.state.identification;
-    identification[event.target.name] = event.target.value;
+    if (this.state.step === EventSigninSteps.IDENTIFICATION) {
+      // Updates credentials when user enters PID or email.
+      const identification = this.state.identification;
+      identification[event.target.name] = event.target.value;
 
-    this.setState({ identification });
+      this.setState({ identification });
+    } else if (this.state.step === EventSigninSteps.POINT_SELECTION) {
+      // Updates number of points to assign.
+      this.setState({ pointsToAssign: toNumber(event.target.value) });
+    }
   }
 
   /**

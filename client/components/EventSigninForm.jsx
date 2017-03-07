@@ -61,7 +61,7 @@ const EventSigninForm = (props) => {
 
       <PointSelectionForm
         max={3}
-        points={props.pointsToAssign}
+        pointsToAssign={props.pointsToAssign}
         onChange={props.onChange}
         onSubmit={props.onSubmit}
         className="step-presentation"
