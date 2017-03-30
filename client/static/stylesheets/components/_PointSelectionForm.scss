@@ -16,12 +16,12 @@
       width: 100px;
 
       // Adds an underline below input field.
-      border-bottom: 2px solid $understated;
+      border-bottom: 2px solid white;
       transition: border .3s;
     }
 
     input[type='number']:focus {
-      border-bottom: 2px solid $dark-grey;
+      border-bottom: 2px solid $light-grey;
     }
 
     > .wrapped-button {

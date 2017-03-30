@@ -1,11 +1,10 @@
 import React from 'react';
-import { toNumber } from 'lodash';
+import { includes, map, toNumber } from 'lodash';
 
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE }
-  from '../modules/constants';
+import { EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE } from '../modules/constants';
 
 /**
  * Handles all state for the multi-step event sign-in form. Retrieves the event
@@ -22,10 +21,11 @@ class EventSigninFormContainer extends React.Component {
       event: {},
 
       // Current form step.
-      step: EventSigninSteps.POINT_SELECTION,
+      step: EventSigninSteps.IDENTIFICATION,
 
       // The email may be unset if the attendee only inputs the PID.
       identification: {
+        id: 0,
         pid: '',
         email: '',
       },
@@ -48,7 +48,15 @@ class EventSigninFormContainer extends React.Component {
    */
   componentDidMount() {
     API.retrieveEvent(this.props.eventID)
-      .then(event => this.setState({ event }))
+      .then((event) => {
+        // Default number of points to assign is based on event length.
+        const defaultPoints = Events.calculatePoints(event.start, event.end);
+        this.setState({
+          pointsToAssign: Math.min(defaultPoints, MAX_POINTS_VALUE),
+        });
+
+        this.setState({ event });
+      })
       .catch(error => console.error(error));
   }
 
@@ -58,24 +66,45 @@ class EventSigninFormContainer extends React.Component {
    * retrieved user as having attended this event.
    */
   handleIdentificationStep() {
-    const pid = Events.parsePID(this.state.identification.pid);
+    // Sanitizes PID if entered in via a barcode reader.
+    let identification = this.state.identification;
 
-    if (pid < PID_LENGTH) {
+    identification.pid = Events.parsePID(identification.pid);
+    this.setState({ identification });
+
+    if (this.state.identification.pid < PID_LENGTH) {
       return Promise.reject(new Error('PID is invalid, try again.'));
     }
 
-    return API.retrieveUser(pid)
+    console.warn(`passed client-side validation for PID ${this.state.identification.pid}`);
+
+    return API.retrieveUser(this.state.identification.pid)
       .catch((error) => {
         // Switches to email form and throws to break out of promise chain.
         this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
         throw error;
       })
-      .then(user => this.assignPoints(user))
-      .then(() => this.setState({ step: EventSigninSteps.POINT_SELECTION }))
+      .then((user) => {
+        // Checks whether the user has already been registered for the event (i.e. user ID is in
+        // the event's list of attendees).
+        if (includes(map(this.state.event.attendees, 'id'), user.id)) {
+          this.setState({ step: EventSigninSteps.COMPLETE });
+        } else {
+          // Updates ID property nested in identification state, since setState() isn't recursive.
+          // ID is placed in state for assignPoints() to find the correct user to give points to.
+          identification = this.state.identification;
+          identification.id = user.id;
+          this.setState({ identification });
+
+          this.setState({ step: EventSigninSteps.POINT_SELECTION });
+        }
+      })
       .catch(error => console.error(error));
   }
 
   handleUnregisteredAttendee() {
+    console.warn(`creating unverified user (PID: ${this.state.identification.pid})`);
+
     // FIXME Send email for unregistered attendee.
     this.setState({ step: EventSigninSteps.POINT_SELECTION });
     return Promise.resolve();
@@ -86,21 +115,20 @@ class EventSigninFormContainer extends React.Component {
    * @param {User} user User to assign points to.
    */
   assignPoints() {
-    let pointsToAssign = 0;
-
     // An event can give at most 3 points.
-    pointsToAssign = Math.min(pointsToAssign, MAX_POINTS_VALUE);
+    const points = Math.min(this.state.pointsToAssign, MAX_POINTS_VALUE);
+    console.warn(`assigning ${points} points to user ID ${this.state.identification.id}`);
 
-    this.setState({ step: EventSigninSteps.COMPLETE, pointsToAssign });
-    return Promise.resolve();
-
-    // return API.registerAttendeeForEvent(user.id, this.state.event.id, pointsToAssign)
-      // .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
+    // Records user attendance at the given event and completes form submission.
+    return API.registerAttendeeForEvent(this.state.identification.id, this.state.event.id, points)
+      .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
+      .catch((error) => console.error(error.message));
   }
 
   /** Updates identification key passed into form. */
   handleChange(event) {
-    if (this.state.step === EventSigninSteps.IDENTIFICATION) {
+    if (this.state.step === EventSigninSteps.IDENTIFICATION
+        || this.state.step === EventSigninSteps.NOT_YET_REGISTERED) {
       // Updates credentials when user enters PID or email.
       const identification = this.state.identification;
       identification[event.target.name] = event.target.value;
@@ -119,9 +147,6 @@ class EventSigninFormContainer extends React.Component {
    */
   handleSubmit(event) {
     if (event) event.preventDefault();
-
-    console.warn('submitting event sign-in form');
-    console.warn(event.target);
 
     // TODO Add errors to an <Errors /> component.
     switch (this.state.step) {

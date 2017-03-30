@@ -101,8 +101,8 @@ class API {
    */
   static retrieveEvent(eventID) {
     // TODO Embed based on an optional `options` param.
-    const requestURL = `${process.env.API_ROOT}/events/${eventID}?embed=type`;
-    return fetch(requestURL).then(this.checkStatus);
+    const requestURL = `${process.env.API_ROOT}/events/${eventID}?embed=attendees,type`;
+    return fetch(requestURL).then(this.checkStatus).then(event => Events.formatForClient(event));
   }
 
   /**
@@ -134,9 +134,9 @@ class API {
    *
    * @param {number} userID ID of user to add as attendee.
    * @param {number} eventID ID of event to mark that user attended.
-   * @param {number} pointsToAssign Number of points to assign.
+   * @param {number} points Number of points to assign.
    */
-  static registerAttendeeForEvent(userID, eventID, pointsToAssign) {
+  static registerAttendeeForEvent(userID, eventID, points) {
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${Auth.getToken()}`,
@@ -145,7 +145,7 @@ class API {
     const request = new Request(`${process.env.API_ROOT}/users/${userID}/events/${eventID}`, {
       method: 'PUT',
       headers,
-      body: JSON.stringify({ points_earned: pointsToAssign }),
+      body: JSON.stringify({ points_earned: points }),
     });
 
     return fetch(request).then(this.checkStatus);

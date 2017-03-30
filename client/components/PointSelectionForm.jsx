@@ -18,7 +18,9 @@ const PointSelectionForm = props => (
           value={props.pointsToAssign}
           min="0"
           max={props.max}
+          step="0.5"
           onChange={props.onChange}
+          autoFocus
         />
       </FlexItem>
 
@@ -27,7 +29,7 @@ const PointSelectionForm = props => (
       </FlexItem>
 
       <FlexItem className="wrapped-button">
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Finish" />
       </FlexItem>
     </form>
 

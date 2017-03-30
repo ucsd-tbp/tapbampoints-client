@@ -34,7 +34,7 @@ const EventSigninForm = (props) => {
   const emailForm = (
     <FlexItem>
       <h3>
-        We can't find your pid! Put in your email below so that we
+        We can't find an account with that PID! Put in your email below so that we
         can email you instructions on setting up an account.
       </h3>
 
@@ -50,7 +50,7 @@ const EventSigninForm = (props) => {
             autoFocus
           />
         </label>
-        <input type="submit" value="Finish" />
+        <input type="submit" value="Continue" />
       </form>
     </FlexItem>
   );
