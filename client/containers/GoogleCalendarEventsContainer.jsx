@@ -1,6 +1,6 @@
 import React from 'react';
 import 'whatwg-fetch';
-import { keyBy, merge, toNumber, values } from 'lodash';
+import { keyBy, map, merge, toNumber, values } from 'lodash';
 import { addMonths, subWeeks } from 'date-fns';
 
 import API from '../modules/API';
@@ -48,7 +48,13 @@ class GoogleCalendarEventsContainer extends React.Component {
         API.retrieveEventsBetween(lowerDateBound, upperDateBound),
       ]))
       .then(([googleCalendarEvents, apiEvents]) => {
-        const filteredEvents = Events.removeRepeatedEvents(googleCalendarEvents, apiEvents);
+        let filteredEvents = Events.removeRepeatedEvents(googleCalendarEvents, apiEvents);
+
+        filteredEvents = map(filteredEvents, (event) => {
+          const updated = event;
+          updated.points = Events.calculatePoints(event.start, event.end);
+          return updated;
+        });
 
         this.setState({ eventsByID: keyBy(filteredEvents, 'id') });
       })

@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
 
-import { EventSigninSteps } from '../modules/constants';
+import { EventSigninSteps, CLASSNAME_TYPES } from '../modules/constants';
 
 import FlexItem from '../layouts/FlexItem';
 import PointSelectionForm from './PointSelectionForm';
@@ -25,7 +25,7 @@ const EventSigninForm = (props) => {
             autoFocus
           />
         </label>
-        <input type="submit" value="Continue" />
+        <input className={CLASSNAME_TYPES[props.event.type]} type="submit" value="Continue" />
       </form>
     </FlexItem>
   );
@@ -51,7 +51,7 @@ const EventSigninForm = (props) => {
             autoFocus
           />
         </label>
-        <input type="submit" value="Continue" />
+        <input className={CLASSNAME_TYPES[props.event.type]} type="submit" value="Continue" />
       </form>
     </FlexItem>
   );
@@ -66,6 +66,7 @@ const EventSigninForm = (props) => {
         onChange={props.onChange}
         onSubmit={props.onSubmit}
         className="step-presentation"
+        type={props.event.type}
       />
     </FlexItem>
   );
@@ -74,7 +75,14 @@ const EventSigninForm = (props) => {
   const completeStep = (
     <FlexItem>
       <h3>Congrats, you're done!</h3>
-      <button type="submit" onClick={props.onSubmit} autoFocus>Start Over</button>
+      <button
+        className={CLASSNAME_TYPES[props.event.type]}
+        type="submit"
+        onClick={props.onSubmit}
+        autoFocus
+      >
+        Start Over
+      </button>
     </FlexItem>
   );
 
@@ -102,8 +110,7 @@ const EventSigninForm = (props) => {
       currentStep = <h3>Something went wrong! Refresh the page.</h3>;
   }
 
-  const readableDate = format(props.event.start, 'dddd, MMMM Mo, [from] h:mm A') + ' '
-    + format(props.event.end, '[to] h:mm A')
+  const readableDate = `${format(props.event.start, 'dddd, MMMM Mo, [from] h:mm A')} ${format(props.event.end, '[to] h:mm A')}`;
 
   return (
     <FlexItem className="EventSigninForm">
@@ -116,9 +123,10 @@ const EventSigninForm = (props) => {
 
 EventSigninForm.propTypes = {
   event: React.PropTypes.shape({
-    summary: React.PropTypes.string,
-    start: React.PropTypes.instanceOf(Date),
-    end: React.PropTypes.instanceOf(Date),
+    summary: React.PropTypes.string.isRequired,
+    start: React.PropTypes.instanceOf(Date).isRequired,
+    end: React.PropTypes.instanceOf(Date).isRequired,
+    type: React.PropTypes.string.isRequired,
   }).isRequired,
 
   identification: React.PropTypes.shape({

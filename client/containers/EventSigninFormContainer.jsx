@@ -49,12 +49,7 @@ class EventSigninFormContainer extends React.Component {
   componentDidMount() {
     API.retrieveEvent(this.props.eventID)
       .then((event) => {
-        // Default number of points to assign is based on event length.
-        const defaultPoints = Events.calculatePoints(event.start, event.end);
-        this.setState({
-          pointsToAssign: Math.min(defaultPoints, MAX_POINTS_VALUE),
-        });
-
+        this.setState({ pointsToAssign: event.points });
         this.setState({ event });
       })
       .catch(error => console.error(error));
@@ -122,7 +117,7 @@ class EventSigninFormContainer extends React.Component {
     // Records user attendance at the given event and completes form submission.
     return API.registerAttendeeForEvent(this.state.identification.id, this.state.event.id, points)
       .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
-      .catch((error) => console.error(error.message));
+      .catch(error => console.error(error.message));
   }
 
   /** Updates identification key passed into form. */

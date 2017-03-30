@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
 
+import { CLASSNAME_TYPES } from '../modules/constants';
+
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
 
@@ -25,11 +27,11 @@ const PointSelectionForm = props => (
       </FlexItem>
 
       <FlexItem>
-        <label htmlFor="points">point(s)</label>
+        <label htmlFor="points">{props.pointsToAssign === 1 ? 'point' : 'points'}</label>
       </FlexItem>
 
       <FlexItem className="wrapped-button">
-        <input type="submit" value="Finish" />
+        <input className={CLASSNAME_TYPES[props.type]} type="submit" value="Finish" />
       </FlexItem>
     </form>
 
@@ -40,6 +42,7 @@ PointSelectionForm.propTypes = {
   pointsToAssign: React.PropTypes.number.isRequired,
   max: React.PropTypes.number.isRequired,
   className: React.PropTypes.string,
+  type: React.PropTypes.string,
 
   onChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
