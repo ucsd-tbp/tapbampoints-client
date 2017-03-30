@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 
 import { EventSigninSteps } from '../modules/constants';
 
@@ -101,9 +102,13 @@ const EventSigninForm = (props) => {
       currentStep = <h3>Something went wrong! Refresh the page.</h3>;
   }
 
+  const readableDate = format(props.event.start, 'dddd, MMMM Mo, [from] h:mm A') + ' '
+    + format(props.event.end, '[to] h:mm A')
+
   return (
     <FlexItem className="EventSigninForm">
       <h1><span className="light-emphasis">Signing-in for: </span>{props.event.summary}</h1>
+      <h3 className="understated">{readableDate}</h3>
       {currentStep}
     </FlexItem>
   );
@@ -112,6 +117,8 @@ const EventSigninForm = (props) => {
 EventSigninForm.propTypes = {
   event: React.PropTypes.shape({
     summary: React.PropTypes.string,
+    start: React.PropTypes.instanceOf(Date),
+    end: React.PropTypes.instanceOf(Date),
   }).isRequired,
 
   identification: React.PropTypes.shape({
