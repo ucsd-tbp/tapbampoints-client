@@ -166,6 +166,8 @@ class Events {
   static calculatePoints(intervalStart, intervalEnd) {
     const rawMinutesDifference = differenceInMinutes(intervalEnd, intervalStart);
 
+    console.log(`raw minutes difference: ${rawMinutesDifference}`);
+
     const minutesRemainder = rawMinutesDifference % 60;
     const hourIntervalsInMinutes = rawMinutesDifference - minutesRemainder;
 
@@ -173,7 +175,7 @@ class Events {
     const roundedMinutes = minutesRemainder + (30 - (minutesRemainder % 30));
 
     // Gives half a point per half hour.
-    return (roundedMinutes + hourIntervalsInMinutes) / 60.0;
+    return (minutesRemainder !== 0 ? roundedMinutes : 0 + hourIntervalsInMinutes) / 60.0;
   }
 }
 
