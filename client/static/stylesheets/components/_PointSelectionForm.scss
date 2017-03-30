@@ -1,20 +1,31 @@
 .PointSelectionForm {
-  border: $test-border;
 
-  > .primary-number-input {
+  .primary-number-input {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+
     input[type='number'] {
       // Resets inherited form styles.
       border: none;
       box-shadow: none;
       border-radius: 0;
 
+      font-size: 2rem;
+      width: 100px;
+
       // Adds an underline below input field.
       border-bottom: 2px solid $understated;
       transition: border .3s;
+    }
 
-      &:focus {
-        border-bottom: 2px solid $dark-grey;
-      }
+    input[type='number']:focus {
+      border-bottom: 2px solid $dark-grey;
+    }
+
+    > .wrapped-button {
+      flex-basis: 100%;
     }
   }
 }

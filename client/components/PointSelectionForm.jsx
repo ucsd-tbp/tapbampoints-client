@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import FlexContainer from '../layouts/FlexContainer';
+import FlexItem from '../layouts/FlexItem';
 
 /**
  * Shows a series of buttons, each with a point value to pass to the `onSubmit`
@@ -10,17 +11,26 @@ import FlexContainer from '../layouts/FlexContainer';
 const PointSelectionForm = props => (
   <FlexContainer className={classnames('PointSelectionForm', props.className)}>
     <form className="primary-number-input" onSubmit={props.onSubmit}>
-      <label htmlFor="points">Points</label>
+      <FlexItem>
+        <input
+          name="points"
+          type="number"
+          value={props.pointsToAssign}
+          min="0"
+          max={props.max}
+          onChange={props.onChange}
+        />
+      </FlexItem>
 
-      <input
-        name="points"
-        type="number"
-        value={props.pointsToAssign}
-        min="0"
-        max={props.max}
-        onChange={props.onChange}
-      />
+      <FlexItem>
+        <label htmlFor="points">point(s)</label>
+      </FlexItem>
+
+      <FlexItem className="wrapped-button">
+        <input type="submit" value="Submit" />
+      </FlexItem>
     </form>
+
   </FlexContainer>
 );
 
