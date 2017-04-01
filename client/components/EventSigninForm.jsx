@@ -35,8 +35,8 @@ const EventSigninForm = (props) => {
   const emailForm = (
     <FlexItem>
       <h3>
-        We can't find an account with that PID! Put in your email below so that we
-        can email you instructions on setting up an account.
+        We can't find an account tied to PID {props.identification.pid}. Put in your email below so
+        that we can email you instructions on setting up an account!
       </h3>
 
       {/* Form containing a single input field for the email. */}
@@ -123,10 +123,10 @@ const EventSigninForm = (props) => {
 
 EventSigninForm.propTypes = {
   event: React.PropTypes.shape({
-    summary: React.PropTypes.string.isRequired,
-    start: React.PropTypes.instanceOf(Date).isRequired,
-    end: React.PropTypes.instanceOf(Date).isRequired,
-    type: React.PropTypes.string.isRequired,
+    summary: React.PropTypes.string,
+    start: React.PropTypes.instanceOf(Date),
+    end: React.PropTypes.instanceOf(Date),
+    type: React.PropTypes.string,
   }).isRequired,
 
   identification: React.PropTypes.shape({

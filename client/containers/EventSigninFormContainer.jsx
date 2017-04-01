@@ -6,6 +6,8 @@ import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
 import { EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE } from '../modules/constants';
 
+// FIXME from here on lies code of the limp noodle variety ... ye have been warned
+
 /**
  * Handles all state for the multi-step event sign-in form. Retrieves the event
  * this form is for based on URL parameter passed in from `EventSigninPage`.
@@ -98,11 +100,21 @@ class EventSigninFormContainer extends React.Component {
   }
 
   handleUnregisteredAttendee() {
-    console.warn(`creating unverified user (PID: ${this.state.identification.pid})`);
+    // If an attendee tries to sign up for an event but hasn't made an account
+    // yet, then makes an account automatically given their email and PID.
+    return API.registerUser({
+      pid: this.state.identification.pid,
+      email: this.state.identification.email,
+    })
+    .then(() => API.retrieveUser(this.state.identification.pid))
+    .then((user) => {
+      const identification = this.state.identification;
+      identification.id = user.id;
+      this.setState({ identification });
 
-    // FIXME Send email for unregistered attendee.
-    this.setState({ step: EventSigninSteps.POINT_SELECTION });
-    return Promise.resolve();
+      this.setState({ step: EventSigninSteps.POINT_SELECTION })
+    })
+    .catch(error => console.error(error));
   }
 
   /**

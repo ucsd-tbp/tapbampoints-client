@@ -106,6 +106,21 @@ class API {
   }
 
   /**
+   * Creates a user account with only an email and PID, and marks account as
+   * unverified. Typically done when an event attendee doesn't yet have an
+   * account (i.e. when going to a TBP event for the first time).
+   */
+  static registerUser(user, verified = false) {
+    const request = new Request(`${process.env.API_ROOT}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    });
+
+    return fetch(request).then(this.checkStatus);
+  }
+
+  /**
    * Retrieves a user given a unique identifier.
    *
    * @param {number|string} identifier Unique ID to look up user with, usually
