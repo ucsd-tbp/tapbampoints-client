@@ -71,23 +71,23 @@ class EventSigninFormContainer extends React.Component {
     identification.pid = Events.parsePID(identification.pid);
     this.setState({ identification });
 
-    if (this.state.identification.pid < PID_LENGTH) {
-      return Promise.reject(new Error('PID is invalid, try again.'));
+    if (this.state.identification.pid.length < PID_LENGTH || !this.state.identification.pid) {
+      return Promise.reject(new Error('Something went wrong! Try entering in your PID again.'));
     }
-
-    console.warn(`passed client-side validation for PID ${this.state.identification.pid}`);
 
     return API.retrieveUser(this.state.identification.pid)
       .catch((error) => {
         // Switches to email form and throws to break out of promise chain.
         this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
-        throw error;
+
+        // Breaks out of promise chain without an error message.
+        throw new Error();
       })
       .then((user) => {
         // Checks whether the user has already been registered for the event (i.e. user ID is in
         // the event's list of attendees).
         if (includes(map(this.state.event.attendees, 'id'), user.id)) {
-          this.setState({ step: EventSigninSteps.COMPLETE });
+          throw new Error('You\'ve already signed-up at this event! Check your profile to see events that you\'ve recently attended.');
         } else {
           // Updates ID property nested in identification state, since setState() isn't recursive.
           // ID is placed in state for assignPoints() to find the correct user to give points to.
@@ -98,7 +98,7 @@ class EventSigninFormContainer extends React.Component {
           this.setState({ step: EventSigninSteps.POINT_SELECTION });
         }
       })
-      .catch(error => console.error(error));
+      .catch(error => this.setState({ errors: this.state.errors.concat(error.message) }));
   }
 
   handleUnregisteredAttendee() {
@@ -161,7 +161,7 @@ class EventSigninFormContainer extends React.Component {
     switch (this.state.step) {
       case EventSigninSteps.IDENTIFICATION:
         this.handleIdentificationStep()
-          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error.message) }));
         break;
 
       case EventSigninSteps.NOT_YET_REGISTERED:

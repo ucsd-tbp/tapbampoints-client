@@ -5,8 +5,8 @@ import React from 'react';
  * validation.
  */
 const ErrorMessages = (props) => {
-  const messages = props.errors.map((error) => (
-    <li>
+  const messages = props.errors.map((error, index) => (
+    <li key={index}>
       <p>{error}</p>
     </li>
   ));
