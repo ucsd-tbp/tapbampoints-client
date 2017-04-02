@@ -1,7 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 import { keyBy, map, merge, toNumber, values } from 'lodash';
-import { addMonths, subWeeks, differenceInHours } from 'date-fns';
+import { addMonths, subWeeks } from 'date-fns';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';

@@ -5,6 +5,7 @@ import { EventSigninSteps, CLASSNAME_TYPES } from '../modules/constants';
 
 import FlexItem from '../layouts/FlexItem';
 import PointSelectionForm from './PointSelectionForm';
+import ErrorMessages from './ErrorMessages';
 
 const EventSigninForm = (props) => {
     // First step to sign into an event. Attendee should either slide their ID
@@ -12,6 +13,8 @@ const EventSigninForm = (props) => {
   const identificationForm = (
     <FlexItem>
       <h3>Slide your ID card, or type your PID in the box below.</h3>
+
+      <ErrorMessages errors={props.errors} />
 
       {/* Form containing a single input field for the PID. */}
       <form className="step-presentation" onSubmit={props.onSubmit}>
@@ -39,6 +42,8 @@ const EventSigninForm = (props) => {
         that we can email you instructions on setting up an account!
       </h3>
 
+      <ErrorMessages errors={props.errors} />
+
       {/* Form containing a single input field for the email. */}
       <form className="step-presentation" onSubmit={props.onSubmit}>
         <label htmlFor="email">Email
@@ -59,6 +64,8 @@ const EventSigninForm = (props) => {
   const pointSelectionStep = (
     <FlexItem>
       <h3>Choose the number of points received at this event.</h3>
+
+      <ErrorMessages errors={props.errors} />
 
       <PointSelectionForm
         max={3}
@@ -145,6 +152,8 @@ EventSigninForm.propTypes = {
 
   onChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func.isRequired,
+
+  errors: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 export default EventSigninForm;

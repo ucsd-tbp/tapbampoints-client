@@ -33,6 +33,8 @@ class EventSigninFormContainer extends React.Component {
       },
 
       pointsToAssign: 0,
+
+      errors: [],
     };
 
     // Custom functions for form behavior in each step.
@@ -112,7 +114,7 @@ class EventSigninFormContainer extends React.Component {
       identification.id = user.id;
       this.setState({ identification });
 
-      this.setState({ step: EventSigninSteps.POINT_SELECTION })
+      this.setState({ step: EventSigninSteps.POINT_SELECTION });
     })
     .catch(error => console.error(error));
   }
@@ -154,23 +156,22 @@ class EventSigninFormContainer extends React.Component {
    */
   handleSubmit(event) {
     if (event) event.preventDefault();
+    this.setState({ errors: [] });
 
-    // TODO Add errors to an <Errors /> component.
     switch (this.state.step) {
-
       case EventSigninSteps.IDENTIFICATION:
         this.handleIdentificationStep()
-          .catch(error => console.error(error.message));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
         break;
 
       case EventSigninSteps.NOT_YET_REGISTERED:
         this.handleUnregisteredAttendee()
-          .catch(error => console.error(error.message));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
         break;
 
       case EventSigninSteps.POINT_SELECTION:
         this.assignPoints()
-          .catch(error => console.error(error.message));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
         break;
 
       case EventSigninSteps.COMPLETE:
@@ -195,6 +196,7 @@ class EventSigninFormContainer extends React.Component {
         pointsToAssign={this.state.pointsToAssign}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
+        errors={this.state.errors}
       />
     );
   }
