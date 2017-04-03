@@ -1,7 +1,38 @@
 import React from 'react';
 
+import FlexContainer from '../layouts/FlexContainer';
+import FlexItem from '../layouts/FlexItem';
+import ErrorMessages from './ErrorMessages';
+import { Houses, Roles } from '../modules/constants';
+
 const RegistrationForm = props => (
   <form onSubmit={props.onSubmit}>
+
+    <ErrorMessages errors={props.errors} />
+
+    <FlexContainer>
+      <FlexItem className="equal-width no-margin-left">
+        <label className="no-margin" htmlFor="firstName">First Name
+          <input
+            name="firstName"
+            type="text"
+            value={props.credentials.firstName}
+            onChange={props.onChange}
+          />
+        </label>
+      </FlexItem>
+
+      <FlexItem className="equal-width no-margin-right">
+        <label className="no-margin" htmlFor="lastName">Last Name
+          <input
+            name="lastName"
+            type="text"
+            value={props.credentials.lastName}
+            onChange={props.onChange}
+          />
+        </label>
+      </FlexItem>
+    </FlexContainer>
 
     <label htmlFor="email">Email
       <input
@@ -42,6 +73,22 @@ const RegistrationForm = props => (
       />
     </label>
 
+    <label htmlFor="house">House
+      <select name="house" value={props.credentials.house} onChange={props.onChange}>
+        <option value={Houses.RED}>Red House</option>
+        <option value={Houses.GREEN}>Green House</option>
+        <option value={Houses.BLUE}>Blue House</option>
+        <option value={Houses.NONE}>None</option>
+      </select>
+    </label>
+
+    <label htmlFor="role">Membership
+      <select name="role" value={props.credentials.role} onChange={props.onChange}>
+        <option value={Roles.INITIATE}>Initiate</option>
+        <option value={Roles.PENDING_MEMBER}>Member</option>
+      </select>
+    </label>
+
     <input type="submit" value="Register" />
 
   </form>
@@ -49,8 +96,11 @@ const RegistrationForm = props => (
 
 RegistrationForm.propTypes = {
   credentials: React.PropTypes.objectOf(React.PropTypes.string),
+
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
+
+  errors: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 export default RegistrationForm;

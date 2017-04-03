@@ -10,9 +10,9 @@ const AuthenticationPage = props => (
   // TODO Pass location props for redirecting after successful login.
   <FlexContainer>
     <FlexItem className="equal-width horizontal-padding">
-        <h3>Login</h3>
-        <p>Stay logged in to sign up to events and to keep track of your
-        quarterly points.</p>
+      <h3>Login</h3>
+      <p>Stay logged in to sign up to events and to keep track of your
+      quarterly points.</p>
 
       <LoginFormContainer onAuthChange={props.onAuthChange} />
     </FlexItem>

@@ -4,7 +4,7 @@ import { includes, map, toNumber } from 'lodash';
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EMAIL_REGEX, EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE } from '../modules/constants';
+import { EMAIL_REGEX, EventSigninSteps, PID_LENGTH } from '../modules/constants';
 
 // FIXME from here on lies code of the limp noodle variety ... ye have been warned
 
@@ -76,7 +76,7 @@ class EventSigninFormContainer extends React.Component {
     }
 
     return API.retrieveUser(this.state.identification.pid)
-      .catch((error) => {
+      .catch(() => {
         // Switches to email form and throws to break out of promise chain.
         this.setState({ step: EventSigninSteps.NOT_YET_REGISTERED });
 
@@ -138,7 +138,10 @@ class EventSigninFormContainer extends React.Component {
     }
 
     // Records user attendance at the given event and completes form submission.
-    return API.registerAttendeeForEvent(this.state.identification.id, this.state.event.id, this.state.pointsToAssign)
+    return API.registerAttendeeForEvent(
+      this.state.identification.id,
+      this.state.event.id,
+      this.state.pointsToAssign)
       .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
       .catch(error => console.error(error.message));
   }
@@ -165,6 +168,8 @@ class EventSigninFormContainer extends React.Component {
    */
   handleSubmit(event) {
     if (event) event.preventDefault();
+
+    // TODO setState() is atomic. Does this always work?
     this.setState({ errors: [] });
 
     switch (this.state.step) {

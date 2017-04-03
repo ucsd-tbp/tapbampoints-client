@@ -7,4 +7,8 @@
 
   // Gives this flex item double of the remaining space.
   &.double-width { flex: 2; }
+
+  // See the first/last name input fields in the RegistrationForm component.
+  &.no-margin-left { margin-left: 0; }
+  &.no-margin-right { margin-right: 0; }
 }

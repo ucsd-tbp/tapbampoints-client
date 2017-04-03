@@ -14,6 +14,13 @@ export const EventTypes = Object.freeze({
   WILDCARD: 'wildcard',
 });
 
+export const Houses = Object.freeze({
+  RED: 'red',
+  GREEN: 'green',
+  BLUE: 'blue',
+  NONE: 'none',
+});
+
 // List of months in order. Used when grouping elements by month.
 export const ORDERED_MONTHS = Object.freeze([
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
@@ -53,8 +60,7 @@ export const EventSigninSteps = Object.freeze({
 // Length of PID, including starting letter.
 export const PID_LENGTH = 9;
 
-// Max number of points an event can give.
-export const MAX_POINTS_VALUE = 3;
-
 // Validates email input fields.
 export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+export const MIN_PASSWORD_LENGTH = 6;
