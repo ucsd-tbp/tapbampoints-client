@@ -25,6 +25,7 @@ const EventSigninForm = (props) => {
             value={props.identification.pid}
             onChange={props.onChange}
             placeholder="A12345678"
+            autoComplete={false}
             autoFocus
           />
         </label>
@@ -53,6 +54,7 @@ const EventSigninForm = (props) => {
             value={props.identification.email}
             onChange={props.onChange}
             placeholder="user@email.com"
+            autoComplete={false}
             autoFocus
           />
         </label>

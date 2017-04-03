@@ -55,3 +55,6 @@ export const PID_LENGTH = 9;
 
 // Max number of points an event can give.
 export const MAX_POINTS_VALUE = 3;
+
+// Validates email input fields.
+export const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

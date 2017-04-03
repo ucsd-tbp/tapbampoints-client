@@ -4,7 +4,7 @@ import { includes, map, toNumber } from 'lodash';
 import API from '../modules/API';
 import Events from '../modules/Events';
 import EventSigninForm from '../components/EventSigninForm';
-import { EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE } from '../modules/constants';
+import { EMAIL_REGEX, EventSigninSteps, PID_LENGTH, MAX_POINTS_VALUE } from '../modules/constants';
 
 // FIXME from here on lies code of the limp noodle variety ... ye have been warned
 
@@ -102,6 +102,10 @@ class EventSigninFormContainer extends React.Component {
   }
 
   handleUnregisteredAttendee() {
+    if (!EMAIL_REGEX.test(this.state.identification.email)) {
+      return Promise.reject(new Error('Email is formatted incorrectly – please try again.'));
+    }
+
     // If an attendee tries to sign up for an event but hasn't made an account
     // yet, then makes an account automatically given their email and PID.
     return API.registerUser({
@@ -124,12 +128,17 @@ class EventSigninFormContainer extends React.Component {
    * @param {User} user User to assign points to.
    */
   assignPoints() {
+    if (this.state.pointsToAssign <= 0) {
+      return Promise.reject(new Error('Number of points must be a positive number.'));
+    }
+
     // An event can give at most 3 points.
-    const points = Math.min(this.state.pointsToAssign, MAX_POINTS_VALUE);
-    console.warn(`assigning ${points} points to user ID ${this.state.identification.id}`);
+    if (this.state.pointsToAssign > this.state.event.points) {
+      return Promise.reject(new Error(`The maximum number of points for this event is ${this.state.event.points}.`));
+    }
 
     // Records user attendance at the given event and completes form submission.
-    return API.registerAttendeeForEvent(this.state.identification.id, this.state.event.id, points)
+    return API.registerAttendeeForEvent(this.state.identification.id, this.state.event.id, this.state.pointsToAssign)
       .then(() => this.setState({ step: EventSigninSteps.COMPLETE }))
       .catch(error => console.error(error.message));
   }
@@ -166,12 +175,12 @@ class EventSigninFormContainer extends React.Component {
 
       case EventSigninSteps.NOT_YET_REGISTERED:
         this.handleUnregisteredAttendee()
-          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error.message) }));
         break;
 
       case EventSigninSteps.POINT_SELECTION:
         this.assignPoints()
-          .catch(error => this.setState({ errors: this.state.errors.concat(error) }));
+          .catch(error => this.setState({ errors: this.state.errors.concat(error.message) }));
         break;
 
       case EventSigninSteps.COMPLETE:

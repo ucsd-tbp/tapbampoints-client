@@ -19,10 +19,10 @@ const PointSelectionForm = props => (
           type="number"
           value={props.pointsToAssign}
           min="0"
-          max={props.max}
           step="0.5"
           onChange={props.onChange}
           autoFocus
+          autoComplete={false}
         />
       </FlexItem>
 
@@ -40,7 +40,6 @@ const PointSelectionForm = props => (
 
 PointSelectionForm.propTypes = {
   pointsToAssign: React.PropTypes.number.isRequired,
-  max: React.PropTypes.number.isRequired,
   className: React.PropTypes.string,
   type: React.PropTypes.string,
 
