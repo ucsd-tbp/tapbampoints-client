@@ -9,11 +9,22 @@ import RegistrationFormContainer from '../containers/RegistrationFormContainer';
 const AuthenticationPage = props => (
   // TODO Pass location props for redirecting after successful login.
   <FlexContainer>
-    <FlexItem className="equal-width">
+    <FlexItem className="equal-width horizontal-padding">
+        <h3>Login</h3>
+        <p>Stay logged in to sign up to events and to keep track of your
+        quarterly points.</p>
+
       <LoginFormContainer onAuthChange={props.onAuthChange} />
     </FlexItem>
 
-    <FlexItem className="equal-width">
+    <FlexItem className="equal-width horizontal-padding">
+      <h3>Register</h3>
+      <p>
+        If you've been to an event, you'll need to make an account to register
+        the the PID with your name and email so that we can keep track of your
+        points.
+      </p>
+
       <RegistrationFormContainer onAuthChange={props.onAuthChange} />
     </FlexItem>
   </FlexContainer>
