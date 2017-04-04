@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ErrorMessages from './ErrorMessages';
+
 /**
  * Displays login form.
  *
@@ -10,6 +12,8 @@ import React from 'react';
  */
 const LoginForm = props => (
   <form onSubmit={props.onSubmit}>
+
+    <ErrorMessages errors={props.errors} />
 
     <label htmlFor="email">Email
       <input
@@ -38,8 +42,11 @@ const LoginForm = props => (
 
 LoginForm.propTypes = {
   credentials: React.PropTypes.objectOf(React.PropTypes.string),
+
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
+
+  errors: React.PropTypes.arrayOf(React.PropTypes.string),
 };
 
 export default LoginForm;

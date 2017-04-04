@@ -20,7 +20,7 @@ function validate(credentials) {
     errors.push('Email has an invalid format.');
   }
 
-  if (credentials.password < MIN_PASSWORD_LENGTH) {
+  if (credentials.password.length < MIN_PASSWORD_LENGTH) {
     errors.push(`Password has to be at least ${MIN_PASSWORD_LENGTH} characters.`);
   } else if (credentials.password !== credentials.passwordConfirmation) {
     errors.push('Passwords don\'t match.');
@@ -66,8 +66,8 @@ class RegistrationFormContainer extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    this.setState({ errors: validate(this.state.credentials) });
     if (validate(this.state.credentials).length > 0) {
+      this.setState({ errors: validate(this.state.credentials) });
       scroller.scrollTo('ErrorMessagesList', SCROLL_ANIMATION_CONFIG);
       return;
     }

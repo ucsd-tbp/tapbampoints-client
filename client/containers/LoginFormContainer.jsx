@@ -1,10 +1,26 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import 'whatwg-fetch';
+import { scroller } from 'react-scroll';
 
 import Auth from '../modules/Auth';
+import { EMAIL_REGEX, SCROLL_ANIMATION_CONFIG } from '../modules/constants';
 
 import LoginForm from '../components/LoginForm';
+
+function validate(credentials) {
+  const errors = [];
+
+  if (!EMAIL_REGEX.test(credentials.email)) {
+    errors.push('Email is formatted incorrectly.');
+  }
+
+  if (credentials.password.length <= 0) {
+    errors.push('Password can\'t be empty.');
+  }
+
+  return errors;
+}
 
 /**
  * Container component that handles the logic for logging a user in via the
@@ -22,6 +38,8 @@ class LoginFormContainer extends React.Component {
         email: '',
         password: '',
       },
+
+      errors: [],
     };
   }
 
@@ -42,6 +60,12 @@ class LoginFormContainer extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    if (validate(this.state.credentials).length > 0) {
+      this.setState({ errors: validate(this.state.credentials) });
+      scroller.scrollTo('ErrorMessagesList', SCROLL_ANIMATION_CONFIG);
+      return;
+    }
+
     Auth.authenticateUser(this.state.credentials.email, this.state.credentials.password)
       .then(() => Auth.verifyToken())
       .then((user) => {
@@ -60,6 +84,7 @@ class LoginFormContainer extends React.Component {
         credentials={this.state.credentials}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
+        errors={this.state.errors}
       />
     );
   }
