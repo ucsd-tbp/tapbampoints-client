@@ -6,6 +6,7 @@ $dark-grey: #848484;
 $pink: #CC7E85;
 $grayish-blue: #7EA2AA;
 $light-purple: #9C7A97;
+$light-green: #86c716;
 
 // Colors used in application color schene.
 $primary-color: $seal-brown;
@@ -37,6 +38,10 @@ $academic-color: $pink;
 $social-color: $grayish-blue;
 $service-color: $light-purple;
 $wildcard-color: $dark-grey;
+
+$red-house-color: $academic-color;
+$blue-house-color: $social-color;
+$green-house-color: $light-green;
 
 // Colors used for flash messages and error messages.
 $error-color: #911710;

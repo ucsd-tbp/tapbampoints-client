@@ -1,9 +1,11 @@
 import React from 'react';
 
+import ProfileContainer from '../containers/ProfileContainer';
+
 const ProfilePage = () => (
   <div>
-    <h3>Your Profile</h3>
-    <p className="understated">This page is still under construction! When it's done, this page will show the amount of points for each category you have from attending events this cycle.</p>
+    <h3>Profile</h3>
+    <ProfileContainer />
   </div>
 );
 

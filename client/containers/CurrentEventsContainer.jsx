@@ -34,12 +34,14 @@ class CurrentEventsContainer extends React.Component {
   }
 
   render() {
-    return (
+    return Object.keys(this.state.eventsByID).length > 0 ? (
       <CategorizedEventList
         events={values(this.state.eventsByID)}
         groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}
       />
+    ) : (
+      <h1 className="understated center">There aren't any events at the moment. :(</h1>
     );
   }
 }
