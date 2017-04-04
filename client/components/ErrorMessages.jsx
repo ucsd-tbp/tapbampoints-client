@@ -1,4 +1,5 @@
 import React from 'react';
+import { Element } from 'react-scroll';
 
 /**
  * Displays a list of errors. Mostly used when showing errors related to form
@@ -12,9 +13,15 @@ const ErrorMessages = (props) => {
   ));
 
   return (
-    <ul className="ErrorMessages">
-      {messages}
-    </ul>
+    <div className="ErrorMessages">
+      <Element name="ErrorMessagesList"></Element>
+
+      { props.errors.length > 0 &&
+        <ul className="messages-list">
+          {messages}
+        </ul>
+      }
+    </div>
   );
 };
 

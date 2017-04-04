@@ -20,6 +20,7 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-router": "^2.8.1",
+    "react-scroll": "^1.4.8",
     "react-sidebar": "^2.2.1",
     "whatwg-fetch": "^2.0.1"
   },

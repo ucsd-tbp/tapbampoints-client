@@ -1,8 +1,9 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { scroller } from 'react-scroll';
 
 import RegistrationForm from '../components/RegistrationForm';
-import { EMAIL_REGEX, Houses, MIN_PASSWORD_LENGTH, Roles } from '../modules/constants';
+import { EMAIL_REGEX, Houses, MIN_PASSWORD_LENGTH, Roles, SCROLL_ANIMATION_CONFIG } from '../modules/constants';
 import Auth from '../modules/Auth';
 import API from '../modules/API';
 import Events from '../modules/Events';
@@ -66,7 +67,7 @@ class RegistrationFormContainer extends React.Component {
 
     this.setState({ errors: validate(this.state.credentials) });
     if (validate(this.state.credentials).length > 0) {
-      window.scrollTo(0, 0);
+      scroller.scrollTo('ErrorMessagesList', SCROLL_ANIMATION_CONFIG);
       return;
     }
 

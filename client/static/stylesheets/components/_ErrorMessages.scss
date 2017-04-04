@@ -1,5 +1,10 @@
 .ErrorMessages {
-  list-style: none;
-  padding: 0;
-  color: $error-color;
-}
+  > .messages-list {
+   list-style: none;
+    color: $error-color;
+    padding: 5px;
+
+    padding-left: 10px;
+    border-left: 1px solid $error-color;
+  }
+ }
