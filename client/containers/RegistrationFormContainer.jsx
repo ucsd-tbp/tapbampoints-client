@@ -65,7 +65,10 @@ class RegistrationFormContainer extends React.Component {
     event.preventDefault();
 
     this.setState({ errors: validate(this.state.credentials) });
-    if (validate(this.state.credentials).length > 0) return;
+    if (validate(this.state.credentials).length > 0) {
+      window.scrollTo(0, 0);
+      return;
+    }
 
     API.registerUser(this.state.credentials, true)
       .then(() => Auth.verifyToken())

@@ -129,9 +129,27 @@ class App extends React.Component {
       </div>
     );
 
-    // Fades out black overlay when closing sidebar.
-    const overlayStyles = {
-      overlay: { transition: 'opacity .3s ease-out, visibility .3s ease-out' },
+    // All of these styles (except for overlay's transition CSS) is to fix
+    // scrolling behavior. See github.com/balloob/react-sidebar/issues/86.
+    const sidebarStyles = {
+      root: {
+        right: 'auto',
+        bottom: 'auto',
+        overflow: 'visible',
+      },
+      content: {
+        left: 'auto',
+        bottom: 'auto',
+        overflow: 'visible',
+      },
+      sidebar: {
+        position: 'fixed',
+      },
+      overlay: {
+        // Fades in/out black overlay over main content.
+        transition: 'opacity .3s ease-out, visibility .3s ease-out',
+        pointerEvents: this.state.isSidebarOpen ? 'auto' : 'none',
+      },
     };
 
     // Copies currently logged in user and auth change handler to all children as props.
@@ -142,13 +160,7 @@ class App extends React.Component {
     );
 
     return (
-      <Sidebar
-        sidebar={sidebarContent}
-        open={this.state.isSidebarOpen}
-        onSetOpen={this.onSetOpen}
-        sidebarClassName="Sidebar"
-        styles={overlayStyles}
-      >
+      <div>
         <MenuButton
           onClick={() => this.onSetOpen(!this.state.isSidebarOpen)}
           isSidebarOpen={this.state.isSidebarOpen}
@@ -156,7 +168,18 @@ class App extends React.Component {
         <div className="App">
           {childrenWithProps}
         </div>
-      </Sidebar>
+
+        <Sidebar
+          sidebar={sidebarContent}
+          open={this.state.isSidebarOpen}
+          onSetOpen={this.onSetOpen}
+          sidebarClassName="Sidebar"
+          styles={sidebarStyles}
+        >
+          {/* Placeholder to silence Sidebar's children prop warning. */}
+          <div />
+        </Sidebar>
+      </div>
     );
   }
 }
