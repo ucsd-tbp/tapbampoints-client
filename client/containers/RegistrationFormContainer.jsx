@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { scroller } from 'react-scroll';
+import { mapKeys, snakeCase } from 'lodash';
 
 import RegistrationForm from '../components/RegistrationForm';
 import { EMAIL_REGEX, Houses, MIN_PASSWORD_LENGTH, Roles, SCROLL_ANIMATION_CONFIG } from '../modules/constants';
@@ -71,13 +72,21 @@ class RegistrationFormContainer extends React.Component {
       return;
     }
 
-    API.registerUser(this.state.credentials, true)
+    let credentials = this.state.credentials;
+    credentials = mapKeys(credentials, (value, key) => snakeCase(key));
+    delete credentials.password_confirmation;
+
+    API.registerUser(credentials, true)
       .then(() => Auth.verifyToken())
       .then((user) => {
         this.props.onAuthChange(user);
         browserHistory.push('/');
       })
-      .catch(errors => this.setState({ errors: errors.map(error => error.msg) }));
+      .catch((errors) => {
+        console.error(errors);
+        this.setState({ errors: errors.errors.map(error => error.msg) });
+        scroller.scrollTo('ErrorMessagesList', SCROLL_ANIMATION_CONFIG);
+      });
   }
 
   render() {

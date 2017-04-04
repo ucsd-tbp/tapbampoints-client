@@ -117,7 +117,11 @@ class API {
       body: JSON.stringify(user),
     });
 
-    return fetch(request).then(this.checkStatus);
+    return fetch(request)
+      .then(this.checkStatus)
+      .then((response) => {
+        localStorage.setItem('token', response.token)
+      });
   }
 
   /**
