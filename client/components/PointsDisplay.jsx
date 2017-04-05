@@ -10,22 +10,22 @@ const PointsDisplay = props => (
   <FlexContainer className="PointsDisplay">
     <FlexItem className="category-display">
       <h1 className="academic-color center">{props.academic}</h1>
-      <p className="light-emphasis small-caps">Academic</p>
+      <p className="understated small-caps">Academic</p>
     </FlexItem>
 
     <FlexItem className="category-display">
       <h1 className="social-color center">{props.social}</h1>
-      <p className="light-emphasis small-caps">Social</p>
+      <p className="understated small-caps">Social</p>
     </FlexItem>
 
     <FlexItem className="category-display">
       <h1 className="service-color center">{props.service}</h1>
-      <p className="light-emphasis small-caps">Service</p>
+      <p className="understated small-caps">Service</p>
     </FlexItem>
 
     <FlexItem className="category-display">
       <h1 className="wildcard-color center">{props.wildcard}</h1>
-      <p className="light-emphasis small-caps">Wildcard</p>
+      <p className="understated small-caps">Wildcard</p>
     </FlexItem>
   </FlexContainer>
 );

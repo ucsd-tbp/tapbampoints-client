@@ -1,7 +1,11 @@
 import React from 'react';
+import { reduce } from 'lodash';
 
 import Auth from '../modules/Auth';
+import Events from '../modules/Events';
 import API from '../modules/API';
+import { Roles } from '../modules/constants';
+
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
 import PointsDisplay from '../components/PointsDisplay';
@@ -40,6 +44,43 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
+    // Finds the number of points and number of events attended total across
+    // all the event types.
+    const [totalAttended, totalPoints] = reduce(this.state.pointsInfo, (accumulator, type) => (
+      [accumulator[0] + type.attended, accumulator[1] + type.total]
+    ), [0, 0]);
+
+    let eligbilityMessage;
+
+    // The message on the sidebar depends on whether the logged-in user is an
+    // initiate or a member, and whether they meet the corresponding
+    // requirements.
+    if (this.state.user.role === Roles.INITIATE) {
+      eligbilityMessage = Events.meetsPointRequirements(this.state.pointsInfo) ? (
+        <p className="light-emphasis">
+          Based on the number and types of points you have, you are eligible for initiation.
+        </p>
+      ) : (
+        <p className="light-emphasis">
+          Based on the number and types of points you have, you are not eligible for
+          initiation. You can check the initiation requirements on the
+          <a href="http://tbp.ucsd.edu/requirements"> TBP website</a>.
+        </p>
+      );
+    } else {
+      eligbilityMessage = Events.meetsPointRequirements(this.state.pointsInfo, true) ? (
+        <p className="light-emphasis">
+          Based on the number of points you have, you will remain an active member next quarter.
+        </p>
+      ) : (
+        <p className="light-emphasis">
+          Based on the number of points you currently have, you are not eligible for active
+          membership next quarter. You can check the active membership requirements on the
+          <a href="http://tbp.ucsd.edu/benefits"> TBP website</a>.
+        </p>
+      );
+    }
+
     return (
       <FlexContainer>
         <FlexItem className="double-width">
@@ -54,13 +95,21 @@ class ProfileContainer extends React.Component {
           />
 
           {/* Shows events that this user has recently attended. */}
+          <p className="center light-emphasis small-caps">Recently Attended Events</p>
+
         </FlexItem>
         <FlexItem className="equal-width">
-          <p>
-            You're currently an initiate. The initiation cycle ends at the time of the Initiation
-            Ceremony, which is at the end of April.
+          <p className="light-emphasis">
+            Right now, you have <strong>{totalPoints}</strong> points, and attended
+            <strong> {totalAttended}</strong> events total during this initiation cycle.
           </p>
-          <p className="center"><span className="light-emphasis small-caps">House:</span> Red</p>
+
+          {eligbilityMessage}
+
+          <p className="understated">
+            Is the number of points listed here incorrect? Contact the technology chair at
+            <a className="understated" href="mailto:brtan@ucsd.edu"> brtan@ucsd.edu</a>.
+          </p>
         </FlexItem>
       </FlexContainer>
     );

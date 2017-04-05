@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 
 import Auth from './Auth';
-import { EPOCH_ISO_DATETIME, ventTypes } from './constants';
+import { EPOCH_ISO_DATETIME } from './constants';
 import Events from './Events';
 
 /** Utility functions related to API calls. */

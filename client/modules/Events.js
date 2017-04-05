@@ -1,7 +1,7 @@
 // @flow
 
 import { format, isEqual, differenceInMinutes } from 'date-fns';
-import { clone, filter, keyBy } from 'lodash';
+import { clone, filter, keyBy, reduce } from 'lodash';
 import { DATABASE_DATE_FORMAT, EventTypes, PID_LENGTH } from './constants';
 
 /**
@@ -174,6 +174,50 @@ class Events {
 
     // Gives half a point per half hour.
     return (minutesRemainder !== 0 ? roundedMinutes : 0 + hourIntervalsInMinutes) / 60.0;
+  }
+
+  /**
+   * Given a pointsInfo object retrieved via retrievePointsInfo(), determines
+   * whether the user is eligible for initiation (if an initiate) or if the
+   * user will remain an active member (if a member).
+   *
+   * @param {Object} pointsInfo info object retrieved from /records/points
+   * @param {boolean} isMember whether to calculate point requirements based on
+   * member requirements or initiate requirements
+   *
+   * @return {boolean} true if the user is eligible for initiation (if an
+   * initiate) or if the user will remain an active member (if a member).
+   */
+  static meetsPointRequirements(pointsInfo, isMember = false) {
+    const totalPoints = reduce(pointsInfo, (sum, type) => sum + type.total, 0);
+    if (isMember && totalPoints > 8) return true;
+
+    let numWildcardPoints = pointsInfo.wildcard.total;
+
+    const pointsTuple = [
+      pointsInfo.academic.total,
+      pointsInfo.social.total,
+      pointsInfo.service.total,
+    ];
+
+    // Distributes wildcard points to try to satisfy the minimum requirements
+    // for each point category.
+    pointsTuple.forEach((typeTotal) => {
+      const gap = Math.abs(3 - typeTotal);
+
+      if (gap > 0 && numWildcardPoints - gap >= 0) {
+        numWildcardPoints -= gap;
+      } else if (numWildcardPoints - gap < 0) {
+        // There aren't enough wildcard points to reach the 3 reqiured points
+        // for some point category, so the initiate isn't eligible.
+        return false;
+      }
+    });
+
+    // At least have 9 points because the requirements for 3 points in each of
+    // the 3 categories are satisifed; checks that the remaining number of
+    // wildcard points meets the minimum number of total points (15).
+    return numWildcardPoints + 9 >= 15;
   }
 }
 
