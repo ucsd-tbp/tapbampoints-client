@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduce } from 'lodash';
+import { truncate, reduce } from 'lodash';
 
 import Auth from '../modules/Auth';
 import Events from '../modules/Events';
@@ -19,7 +19,7 @@ class ProfileContainer extends React.Component {
     super(props);
 
     this.state = {
-      user: {},
+      user: { attended_events: [] },
 
       pointsInfo: {
         academic: { attended: 0, total: 0 },
@@ -81,6 +81,16 @@ class ProfileContainer extends React.Component {
       );
     }
 
+    const recentlyAttendedEvents = this.state.user.attended_events.map((event, index) => (
+      <div key={index}>
+        <h3>{event.summary || 'No summary provided.'}</h3>
+        <p className="understated">
+          Happened on {Events.formatDateRange(new Date(event.start), new Date(event.end))}
+        </p>
+        <p>{truncate(event.description, { length: 140 }) || 'No description provided.'}</p>
+      </div>
+    ));
+
     return (
       <FlexContainer>
         <FlexItem className="double-width">
@@ -96,6 +106,10 @@ class ProfileContainer extends React.Component {
 
           {/* Shows events that this user has recently attended. */}
           <p className="center light-emphasis small-caps">Recently Attended Events</p>
+
+          {recentlyAttendedEvents.length > 0 ? recentlyAttendedEvents : (
+            <p className="understated">No events attended recently. :(</p>
+          )}
 
         </FlexItem>
         <FlexItem className="equal-width">

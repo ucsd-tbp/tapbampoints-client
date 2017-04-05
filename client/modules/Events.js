@@ -1,6 +1,6 @@
 // @flow
 
-import { format, isEqual, differenceInMinutes } from 'date-fns';
+import { format, isEqual, isValid, differenceInMinutes } from 'date-fns';
 import { clone, filter, keyBy, reduce } from 'lodash';
 import { DATABASE_DATE_FORMAT, EventTypes, PID_LENGTH } from './constants';
 
@@ -143,6 +143,19 @@ class Events {
     const pidNumber = input.substring(3, 11);
 
     return prefix + pidNumber;
+  }
+
+  /**
+   * Converts a date range specified by two `Date` objects to a
+   * human-readable string.
+
+   * @param  {Date} lowerDateBound Lower bound of date range.
+   * @param  {Date} upperDateBound Upper bound of date range.
+   * @return {String} Date range as a human-readable string.
+   */
+  static formatDateRange(lowerDateBound, upperDateBound) {
+    return !isValid(lowerDateBound) || !isValid(upperDateBound) ? 'No date or time provided'
+      : `${format(lowerDateBound, 'MMMM Do, YYYY h:mm A')} to ${format(upperDateBound, 'h:mm A')}`;
   }
 
   /**

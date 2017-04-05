@@ -7,23 +7,12 @@ import { Link } from 'react-router';
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
 
+import Events from '../modules/Events';
 import { EventTypes, CLASSNAME_TYPES } from '../modules/constants';
 
-/**
- * Converts a date range specified by two `Date` objects to a
- * human-readable string.
-
- * @param  {Date} lowerDateBound Lower bound of date range.
- * @param  {Date} upperDateBound Upper bound of date range.
- * @return {String} Date range as a human-readable string.
- */
-function formatDateRange(lowerDateBound, upperDateBound) {
-  return !isValid(lowerDateBound) || !isValid(upperDateBound) ? 'No date or time provided'
-    : `${format(lowerDateBound, 'MMMM Do, YYYY h:mm A')} to ${format(upperDateBound, 'h:mm A')}`;
-}
 
 const EventCard = (props) => {
-  const formattedDateString = formatDateRange(props.event.start, props.event.end);
+  const formattedDateString = Events.formatDateRange(props.event.start, props.event.end);
 
   let incompleteEventForm;
   let eventActions;

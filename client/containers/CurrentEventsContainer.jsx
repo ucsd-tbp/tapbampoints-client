@@ -41,7 +41,7 @@ class CurrentEventsContainer extends React.Component {
         categoryOrder={ORDERED_MONTHS}
       />
     ) : (
-      <h1 className="understated center">There aren't any events at the moment. :(</h1>
+      <h1 className="understated center">There aren't any events at the moment.</h1>
     );
   }
 }
