@@ -71,13 +71,14 @@ const EventCard = (props) => {
             <button className={CLASSNAME_TYPES[props.event.type]}>View</button>
           </FlexItem>
 
-          <FlexItem>
-            <button className="admin-button">
-              <Link to={`/admin/events/register/${props.event.id}`}>Start Sign-ins</Link>
-            </button>
-          </FlexItem>
+          { props.shouldDisplayProtectedRoutes &&
+            <FlexItem>
+              <button className="admin-button">
+                <Link to={`/admin/events/register/${props.event.id}`}>Start Sign-ins</Link>
+              </button>
+            </FlexItem>
+          }
         </FlexContainer>
-
       </FlexItem>
     );
   }
@@ -133,8 +134,11 @@ EventCard.propTypes = {
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,
 
-  // Whether to display points/type form.
+  // Whether to show points/type form.
   shouldDisplayForm: React.PropTypes.bool,
+
+  // Whether to show routes for officers/admins.
+  shouldDisplayProtectedRoutes: React.PropTypes.bool,
 };
 
 export default EventCard;

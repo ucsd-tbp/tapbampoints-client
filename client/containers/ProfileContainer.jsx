@@ -114,8 +114,9 @@ class ProfileContainer extends React.Component {
         </FlexItem>
         <FlexItem className="equal-width">
           <p className="light-emphasis">
-            Right now, you have <strong>{totalPoints}</strong> points, and attended
-            <strong> {totalAttended}</strong> events total during this initiation cycle.
+            Right now, you have <strong>{totalPoints} </strong>
+            {totalPoints === 1 ? 'point' : 'points'}, and attended <strong>{totalAttended} </strong>
+            {totalAttended === 1 ? 'event' : 'events'} total during this initiation cycle.
           </p>
 
           {eligbilityMessage}

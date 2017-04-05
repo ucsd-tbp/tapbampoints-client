@@ -39,11 +39,16 @@ class CurrentEventsContainer extends React.Component {
         events={values(this.state.eventsByID)}
         groupingFunc={event => event.start.getMonth()}
         categoryOrder={ORDERED_MONTHS}
+        shouldDisplayProtectedRoutes={this.props.shouldDisplayProtectedRoutes}
       />
     ) : (
       <h1 className="understated center">There aren't any events at the moment.</h1>
     );
   }
 }
+
+CurrentEventsContainer.propTypes = {
+  shouldDisplayProtectedRoutes: React.PropTypes.bool,
+};
 
 export default CurrentEventsContainer;

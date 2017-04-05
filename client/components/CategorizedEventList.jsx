@@ -24,6 +24,7 @@ const CategorizedEventList = (props) => {
         onChange={props.onChange}
         onSubmit={props.onSubmit}
         shouldDisplayForm={props.shouldDisplayForm}
+        shouldDisplayProtectedRoutes={props.shouldDisplayProtectedRoutes}
       />
     ));
 
@@ -38,6 +39,7 @@ CategorizedEventList.propTypes = {
   events: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   groupingFunc: React.PropTypes.func.isRequired,
   categoryOrder: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+  shouldDisplayProtectedRoutes: React.PropTypes.bool,
 };
 
 export default CategorizedEventList;

@@ -33,6 +33,7 @@ const routes = (
 
       {/* Routes that don't require login. */}
       <Route path="/login" component={AuthenticationPage} onEnter={Hooks.requireLogout} />
+      <Route path="/events" component={CurrentEventsPage} />
 
       {/* Routes that require user login. */}
       <Route onEnter={Hooks.protectRouteFor(Roles.MEMBER)}>
@@ -46,7 +47,6 @@ const routes = (
         {/* Pages for creating events, viewing events, event sign-ins. */}
         <Route path="/admin/events/create" component={GoogleCalendarEventsPage} />
         <Route path="/admin/announcements/create" component={CreateAnnouncementPage} />
-        <Route path="/events" component={CurrentEventsPage} />
         <Route path="/admin/events/register/:eventID" component={EventSigninPage} />
 
         {/* Sign-up related statistics. */}
