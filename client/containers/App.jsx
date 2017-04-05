@@ -165,7 +165,7 @@ class App extends React.Component {
           onClick={() => this.onSetOpen(!this.state.isSidebarOpen)}
           isSidebarOpen={this.state.isSidebarOpen}
         />
-        
+
         <div className="App">
           {childrenWithProps}
         </div>

@@ -14,7 +14,7 @@ const ErrorMessages = (props) => {
 
   return (
     <div className="ErrorMessages">
-      <Element name="ErrorMessagesList"></Element>
+      <Element name="ErrorMessagesList" />
 
       { props.errors.length > 0 &&
         <ul className="messages-list">

@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { isEmpty } from 'lodash';
 
 import Auth from './Auth';
-import { EventTypes } from './constants';
+import { EPOCH_ISO_DATETIME, ventTypes } from './constants';
 import Events from './Events';
 
 /** Utility functions related to API calls. */
@@ -168,6 +168,21 @@ class API {
     });
 
     return fetch(request).then(this.checkStatus);
+  }
+
+  /**
+   * Given a user's PID, gets number of events that the user attended for each
+   * category and the current number of points for each category. Date ranges
+   * are optional, and defaults to getting all the points that the user has
+   * ever received.
+   *
+   * @param {string} pid PID of user to find points info for.
+   * @param {Date} lowerDateBound Lower bound on date range.
+   * @param {Date} upperDateBound Upper bound on dage range.
+   */
+  static retrievePointsInfo(pid, lowerDateBound = EPOCH_ISO_DATETIME, upperDateBound = new Date().toISOString()) {
+    const requestURL = `${process.env.API_ROOT}/records/points?pid=${pid}&timeMin=${lowerDateBound}&timeMax=${upperDateBound}`;
+    return fetch(requestURL).then(this.checkStatus);
   }
 }
 

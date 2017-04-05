@@ -35,6 +35,6 @@ PointsDisplay.propTypes = {
   social: React.PropTypes.number,
   service: React.PropTypes.number,
   wildcard: React.PropTypes.number,
-}
+};
 
 export default PointsDisplay;

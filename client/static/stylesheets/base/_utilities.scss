@@ -1,16 +1,19 @@
-.light-emphasis { color: $dark-grey; }
-.center { text-align: center; }
+// Utility classes for margin and padding.
 .no-margin { margin: 0; }
 .no-padding { padding: 0; }
-.understated { color: $understated; }
-.inline { display: inline; }
 .horizontal-padding { padding: 0 25px 0 25px; }
 
-// Colors associated with each event category.
+// Styles associated with certain colors.
+.light-emphasis { color: $dark-grey; }
+.understated { color: $understated; }
 .academic-color { color: $academic-color; }
 .social-color { color: $social-color; }
 .service-color { color: $service-color; }
 .wildcard-color { color: $wildcard-color; }
+
+// Miscellaneous utility classes.
+.inline { display: inline; }
+.center { text-align: center; }
 
 // Buttons for admin operations.
 .admin-button {

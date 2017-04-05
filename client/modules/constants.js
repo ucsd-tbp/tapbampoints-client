@@ -70,3 +70,6 @@ export const SCROLL_ANIMATION_CONFIG = Object.freeze({
   smooth: 'easeOutQuad',
   duration: 300,
 });
+
+// Datetime string for the beginning of time (practically) in ISO format.
+export const EPOCH_ISO_DATETIME = '1970-01-01T00:00:00.000Z';

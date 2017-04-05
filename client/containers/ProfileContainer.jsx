@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Auth from '../modules/Auth';
+import API from '../modules/API';
 import FlexContainer from '../layouts/FlexContainer';
 import FlexItem from '../layouts/FlexItem';
 import PointsDisplay from '../components/PointsDisplay';
@@ -15,6 +16,13 @@ class ProfileContainer extends React.Component {
 
     this.state = {
       user: {},
+
+      pointsInfo: {
+        academic: { attended: 0, total: 0 },
+        social: { attended: 0, total: 0 },
+        service: { attended: 0, total: 0 },
+        wildcard: { attended: 0, total: 0 },
+      },
     };
   }
 
@@ -24,7 +32,10 @@ class ProfileContainer extends React.Component {
    */
   componentDidMount() {
     Auth.verifyToken()
-      .then(user => this.setState({ user }))
+      .then(user => Promise.all([
+        user, API.retrievePointsInfo(user.pid),
+      ]))
+      .then(([user, pointsInfo]) => this.setState({ user, pointsInfo }))
       .catch(error => console.error(error));
   }
 
@@ -34,7 +45,13 @@ class ProfileContainer extends React.Component {
         <FlexItem className="double-width">
           {/* Shows points for each category. */}
           <p className="center light-emphasis small-caps no-margin">Points for Current Cycle</p>
-          <PointsDisplay academic={5} social={0} service={2} wildcard={3} />
+
+          <PointsDisplay
+            academic={this.state.pointsInfo.academic.total}
+            social={this.state.pointsInfo.social.total}
+            service={this.state.pointsInfo.service.total}
+            wildcard={this.state.pointsInfo.wildcard.total}
+          />
 
           {/* Shows events that this user has recently attended. */}
         </FlexItem>
@@ -43,7 +60,7 @@ class ProfileContainer extends React.Component {
             You're currently an initiate. The initiation cycle ends at the time of the Initiation
             Ceremony, which is at the end of April.
           </p>
-          <p><span className="light-emphasis small-caps">House:</span> Red</p>
+          <p className="center"><span className="light-emphasis small-caps">House:</span> Red</p>
         </FlexItem>
       </FlexContainer>
     );

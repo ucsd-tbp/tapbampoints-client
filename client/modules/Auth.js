@@ -38,7 +38,7 @@ class Auth {
    */
   static verifyToken() {
     // Constructs GET request to /auth/me with token in Authorization header.
-    const checkValidityRequest = new Request(`${process.env.API_ROOT}/auth/me`, {
+    const checkValidityRequest = new Request(`${process.env.API_ROOT}/auth/me?embed=attended_events,role`, {
       headers: { 'Authorization': `Bearer ${this.getToken()}` }
     });
 
