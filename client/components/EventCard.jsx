@@ -87,7 +87,7 @@ const EventCard = (props) => {
     <FlexContainer className={classnames('EventCard', CLASSNAME_TYPES[props.event.type])}>
 
       <FlexItem className="event-summary equal-width">
-        <h3>{props.event.summary}</h3>
+        <h3 className="no-margin">{props.event.summary}</h3>
         <p><span className="understated">Date </span>{formattedDateString}</p>
         <p>
           <span className="understated">Location </span>
@@ -96,7 +96,7 @@ const EventCard = (props) => {
       </FlexItem>
 
       <FlexItem className="event-information equal-width">
-        <p>
+        <p className="no-margin">
           <span className="understated">Description </span>
           {truncate(props.event.description, { length: 140 }) || 'No description provided.'}
         </p>
