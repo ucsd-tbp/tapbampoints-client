@@ -105,3 +105,8 @@ button:focus,
 input[type='submit']:focus {
   outline: none;
 }
+
+.disabled {
+  cursor: not-allowed;
+  background-color: $disabled-form-field-color;
+}

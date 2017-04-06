@@ -102,9 +102,7 @@ class App extends React.Component {
             <li className="navigation-item">
               <Link to="/" onClick={() => this.onSetOpen(false)}>Announcements</Link>
             </li>
-          </section>
 
-          <section className="navigation-item-group">
             <li className="navigation-item">
               <Link to="/events" onClick={() => this.onSetOpen(false)}>Current Events</Link>
             </li>
