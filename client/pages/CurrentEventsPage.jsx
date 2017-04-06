@@ -23,4 +23,12 @@ const CurrentEventsPage = (props) => {
   );
 };
 
+CurrentEventsPage.propTypes = {
+  loggedInUser: React.PropTypes.shape({
+    role: React.PropTypes.shape({
+      name: React.PropTypes.string,
+    }),
+  }),
+};
+
 export default CurrentEventsPage;

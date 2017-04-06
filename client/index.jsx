@@ -10,7 +10,10 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import { Roles } from './modules/constants';
 import Hooks from './modules/Hooks';
 
+import withSimplePresentation from './modules/transforms';
+
 import App from './containers/App';
+import ProfileContainer from './containers/ProfileContainer';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
@@ -18,10 +21,9 @@ import CreateAnnouncementPage from './pages/CreateAnnouncementPage';
 import CurrentEventsPage from './pages/CurrentEventsPage';
 import EventSigninPage from './pages/EventSigninPage';
 import GoogleCalendarEventsPage from './pages/GoogleCalendarEventsPage';
-import NotFoundPage from './pages/NotFoundPage';
-import ProfilePage from './pages/ProfilePage';
-import StatisticsPage from './pages/StatisticsPage';
 import HomePage from './pages/HomePage';
+import NotFoundPage from './pages/NotFoundPage';
+import StatisticsPage from './pages/StatisticsPage';
 
 // Includes all styles imported into `main.scss`.
 require('./static/stylesheets/main.scss');
@@ -37,7 +39,7 @@ const routes = (
 
       {/* Routes that require user login. */}
       <Route onEnter={Hooks.protectRouteFor(Roles.MEMBER)}>
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile" component={withSimplePresentation(ProfileContainer, 'Profile')} />
       </Route>
 
       {/* Routes that require the admin role. */}

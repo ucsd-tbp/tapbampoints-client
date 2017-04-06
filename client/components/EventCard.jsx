@@ -1,5 +1,4 @@
 import React from 'react';
-import { format, isValid } from 'date-fns';
 import { truncate } from 'lodash';
 import classnames from 'classnames';
 import { Link } from 'react-router';

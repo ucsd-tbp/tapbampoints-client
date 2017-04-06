@@ -39,7 +39,6 @@ CategorizedEventList.propTypes = {
   events: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   groupingFunc: React.PropTypes.func.isRequired,
   categoryOrder: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  shouldDisplayProtectedRoutes: React.PropTypes.bool,
 };
 
 export default CategorizedEventList;
