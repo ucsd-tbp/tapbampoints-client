@@ -83,7 +83,6 @@ class RegistrationFormContainer extends React.Component {
         browserHistory.push('/');
       })
       .catch((errors) => {
-        console.error(errors);
         this.setState({ errors: errors.errors.map(error => error.msg) });
         scroller.scrollTo('ErrorMessagesList', SCROLL_ANIMATION_CONFIG);
       });

@@ -50,13 +50,13 @@ class ProfileContainer extends React.Component {
       [accumulator[0] + type.attended, accumulator[1] + type.total]
     ), [0, 0]);
 
-    let eligbilityMessage;
+    let eligibilityMessage;
 
     // The message on the sidebar depends on whether the logged-in user is an
     // initiate or a member, and whether they meet the corresponding
     // requirements.
     if (this.state.user.role === Roles.INITIATE) {
-      eligbilityMessage = Events.meetsPointRequirements(this.state.pointsInfo) ? (
+      eligibilityMessage = Events.meetsPointRequirements(this.state.pointsInfo) ? (
         <p className="light-emphasis">
           Based on the number and types of points you have, you are eligible for initiation.
         </p>
@@ -68,7 +68,7 @@ class ProfileContainer extends React.Component {
         </p>
       );
     } else {
-      eligbilityMessage = Events.meetsPointRequirements(this.state.pointsInfo, true) ? (
+      eligibilityMessage = Events.meetsPointRequirements(this.state.pointsInfo, true) ? (
         <p className="light-emphasis">
           Based on the number of points you have, you will remain an active member next quarter.
         </p>
@@ -115,11 +115,11 @@ class ProfileContainer extends React.Component {
         <FlexItem className="equal-width">
           <p className="light-emphasis">
             Right now, you have <strong>{totalPoints} </strong>
-            {totalPoints === 1 ? 'point' : 'points'}, and attended <strong>{totalAttended} </strong>
-            {totalAttended === 1 ? 'event' : 'events'} total during this initiation cycle.
+            {totalPoints === 1 ? 'point' : 'points'} from <strong>{totalAttended} </strong>
+            {totalAttended === 1 ? 'event' : 'events'} during this initiation cycle.
           </p>
 
-          {eligbilityMessage}
+          {eligibilityMessage}
 
           <p className="understated">
             Is the number of points listed here incorrect? Contact the technology chair at

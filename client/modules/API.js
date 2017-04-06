@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { isEmpty } from 'lodash';
+import { pickBy, isEmpty, snakeCase, mapKeys } from 'lodash';
 
 import Auth from './Auth';
 import { EPOCH_ISO_DATETIME } from './constants';
@@ -7,6 +7,9 @@ import Events from './Events';
 
 /** Utility functions related to API calls. */
 class API {
+  // TODO Lots of repetitive code, need to find a better design pattern than a
+  // utility functions static class.
+
   /**
    * Custom response handler for the `fetch` promise to reject on HTTP error
    * statuses such as 40x and 50x, since `fetch` only rejects the promise if a
@@ -122,6 +125,27 @@ class API {
       .then((response) => {
         localStorage.setItem('token', response.token)
       });
+  }
+
+  /** Updates user information. */
+  static updateUser(info, id) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Auth.getToken()}`,
+    };
+
+    delete info.passwordConfirmation;
+    let formattedInfo = mapKeys(info, (value, key) => snakeCase(key));
+    formattedInfo = pickBy(formattedInfo, (value, key) => value.length > 0);
+
+    const request = new Request(`${process.env.API_ROOT}/users/${id}`, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(formattedInfo),
+    });
+
+    return fetch(request)
+      .then(this.checkStatus);
   }
 
   /**

@@ -63,7 +63,7 @@ class App extends React.Component {
         </li>
 
         <li className="navigation-subitem">
-          <Link to="/profile" onClick={() => this.onSetOpen(false)}>update info</Link>
+          <Link to="/profile/update" onClick={() => this.onSetOpen(false)}>update info</Link>
         </li>
       </section>
     );

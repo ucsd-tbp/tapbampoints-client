@@ -106,7 +106,7 @@ const RegistrationForm = (props) => {
         </label>
       }
 
-      <input type="submit" value="Register" />
+      <input type="submit" value={props.submitButtonText || 'Register'} />
 
     </form>
   );
@@ -114,6 +114,7 @@ const RegistrationForm = (props) => {
 
 RegistrationForm.propTypes = {
   credentials: React.PropTypes.objectOf(React.PropTypes.string),
+  submitButtonText: React.PropTypes.string,
 
   onChange: React.PropTypes.func,
   onSubmit: React.PropTypes.func,

@@ -14,6 +14,7 @@ import withSimplePresentation from './modules/transforms';
 
 import App from './containers/App';
 import ProfileContainer from './containers/ProfileContainer';
+import UpdateProfileContainer from './containers/UpdateProfileContainer';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
@@ -40,6 +41,7 @@ const routes = (
       {/* Routes that require user login. */}
       <Route onEnter={Hooks.protectRouteFor(Roles.MEMBER)}>
         <Route path="/profile" component={withSimplePresentation(ProfileContainer, 'Profile')} />
+        <Route path="/profile/update" component={withSimplePresentation(UpdateProfileContainer, 'Update Profile')} />
       </Route>
 
       {/* Routes that require the admin role. */}
