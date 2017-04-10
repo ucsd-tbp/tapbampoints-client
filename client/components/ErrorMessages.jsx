@@ -1,12 +1,15 @@
 import React from 'react';
 import { Element } from 'react-scroll';
+import { compact } from 'lodash';
 
 /**
  * Displays a list of errors. Mostly used when showing errors related to form
  * validation.
  */
 const ErrorMessages = (props) => {
-  const messages = props.errors.map((error, index) => (
+  const filteredErrors = compact(props.errors);
+
+  const messages = filteredErrors.map((error, index) => (
     <li key={index}>
       <p>{error}</p>
     </li>
@@ -16,7 +19,7 @@ const ErrorMessages = (props) => {
     <div className="ErrorMessages">
       <Element name="ErrorMessagesList" />
 
-      { props.errors.length > 0 &&
+      { filteredErrors.length > 0 &&
         <ul className="messages-list">
           {messages}
         </ul>

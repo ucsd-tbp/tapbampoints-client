@@ -123,7 +123,7 @@ class API {
     return fetch(request)
       .then(this.checkStatus)
       .then((response) => {
-        localStorage.setItem('token', response.token)
+        if (verified) localStorage.setItem('token', response.token);
       });
   }
 

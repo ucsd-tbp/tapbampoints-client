@@ -118,6 +118,8 @@ class EventSigninFormContainer extends React.Component {
       identification.id = user.id;
       this.setState({ identification });
 
+      // TODO Send email.
+
       this.setState({ step: EventSigninSteps.POINT_SELECTION });
     })
     .catch(error => console.error(error));
