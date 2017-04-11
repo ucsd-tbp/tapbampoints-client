@@ -22,7 +22,7 @@ class API {
    */
   static checkStatus(response) {
     if (response.ok) {
-      return response.json();
+      return response.headers.has('Authorization') ? response : response.json();
     } else {
       // Rejects promise with a JSON error object.
       return response.json().then(error => { throw error; });

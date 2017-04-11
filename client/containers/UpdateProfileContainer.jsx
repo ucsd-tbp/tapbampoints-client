@@ -1,11 +1,10 @@
 import React from 'react';
-import { map } from 'lodash';
 import { browserHistory } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import API from '../modules/API';
 import Auth from '../modules/Auth';
-import { EMAIL_REGEX, Houses, MIN_PASSWORD_LENGTH, Roles, SCROLL_ANIMATION_CONFIG } from '../modules/constants';
+import { EMAIL_REGEX, MIN_PASSWORD_LENGTH, SCROLL_ANIMATION_CONFIG } from '../modules/constants';
 
 import RegistrationForm from '../components/RegistrationForm';
 import FlexContainer from '../layouts/FlexContainer';
@@ -52,6 +51,23 @@ class UpdateProfileContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    Auth.verifyToken()
+      .then((user) => {
+        const credentials = {
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+          pid: user.pid,
+          password: '',
+          passwordConfirmation: '',
+        };
+
+        this.setState({ userID: user.id, credentials });
+      })
+      .catch(error => console.error(error));
+  }
+
   handleChange(event) {
     const credentials = this.state.credentials;
     credentials[event.target.name] = event.target.value;
@@ -75,23 +91,6 @@ class UpdateProfileContainer extends React.Component {
       });
   }
 
-  componentDidMount() {
-    Auth.verifyToken()
-      .then((user) => {
-        const credentials = {
-          firstName: user.first_name,
-          lastName: user.last_name,
-          email: user.email,
-          pid: user.pid,
-          password: '',
-          passwordConfirmation: '',
-        };
-
-        this.setState({ userID: user.id, credentials });
-      })
-      .catch(error => console.error(error));
-  }
-
   render() {
     return (
       <FlexContainer>
@@ -112,7 +111,7 @@ class UpdateProfileContainer extends React.Component {
             onChange={this.handleChange}
             onSubmit={this.handleSubmit}
             errors={this.state.errors}
-            omittedFields={new Set(['house', 'role',])}
+            omittedFields={new Set(['house', 'role'])}
             disabledFields={new Set(['pid'])}
             submitButtonText="Update"
           />

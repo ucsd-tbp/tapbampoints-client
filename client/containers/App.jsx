@@ -36,8 +36,7 @@ class App extends React.Component {
 
     // When entering the application, retrieves the role based on the currently
     // stored token.
-    Auth.verifyToken()
-      .then(user => this.setState({ loggedInUser: user }));
+    Auth.verifyToken().then(loggedInUser => this.setState({ loggedInUser }));
   }
 
   onSetOpen(open) {

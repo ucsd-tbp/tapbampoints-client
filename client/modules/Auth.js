@@ -23,11 +23,13 @@ class Auth {
       }),
     });
 
-    // Makes POST request to log in user with given credentials.
+    // Gets token for user via response headers.
     return fetch(request)
       .then(API.checkStatus)
       .then((response) => {
-        localStorage.setItem('token', response.token)
+        const [_, token] = response.headers.get('Authorization').split(' ');
+        localStorage.setItem('token', token)
+        return response.json();
       });
   }
 
