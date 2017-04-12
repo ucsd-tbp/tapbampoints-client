@@ -208,6 +208,21 @@ class API {
     const requestURL = `${process.env.API_ROOT}/records/points?pid=${pid}&timeMin=${lowerDateBound}&timeMax=${upperDateBound}`;
     return fetch(requestURL).then(this.checkStatus);
   }
+
+  /**
+   * Sends email containing link to verify account.
+   * @param  {[type]} pid PID of user to verify account for.
+   * @return {Promise} Resolves when email is sent.
+   */
+  static sendVerificationEmail(pid) {
+    const requestURL = new Request(`${process.env.API_ROOT}/auth/generatetoken`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pid }),
+    });
+
+    return fetch(requestURL).then(this.checkStatus);
+  }
 }
 
 export default API;
