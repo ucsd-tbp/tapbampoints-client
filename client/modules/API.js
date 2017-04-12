@@ -144,8 +144,21 @@ class API {
       body: JSON.stringify(formattedInfo),
     });
 
-    return fetch(request)
-      .then(this.checkStatus);
+    return fetch(request).then(this.checkStatus);
+  }
+
+  /** Claims an account given token ID, token, and user info. */
+  static claimAccount(info, tokenID, token, userID) {
+    delete info.passwordConfirmation;
+    const formattedInfo = mapKeys(info, (value, key) => snakeCase(key));
+
+    const request = new Request(`${process.env.API_ROOT}/auth/claim/${userID}?id=${tokenID}&token=${token}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formattedInfo),
+    });
+
+    return fetch(request).then(this.checkStatus);
   }
 
   /**
@@ -156,7 +169,7 @@ class API {
    * @return {User} Promise resolving to found user.
    */
   static retrieveUser(value, identifier = 'pid') {
-    const requestURL = `${process.env.API_ROOT}/users?${identifier}=${value}`;
+    const requestURL = `${process.env.API_ROOT}/users?${identifier}=${value}&embed=role`;
 
     return fetch(requestURL)
       .then(this.checkStatus)
@@ -211,16 +224,29 @@ class API {
 
   /**
    * Sends email containing link to verify account.
+   *
    * @param  {[type]} pid PID of user to verify account for.
    * @return {Promise} Resolves when email is sent.
    */
   static sendVerificationEmail(pid) {
-    const requestURL = new Request(`${process.env.API_ROOT}/auth/generatetoken`, {
+    const request = new Request(`${process.env.API_ROOT}/auth/generatetoken`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pid }),
     });
 
+    return fetch(request).then(this.checkStatus);
+  }
+
+  /**
+   * Gets the user corresponding to given verification token ID and the token
+   * itself – should be placed in query stirng parameters.
+   *
+   * @param {string} tokenID ID of verification token
+   * @param {string} token plaintext verification token from query string
+   */
+  static retrieveUserFromVerification(id, token) {
+    const requestURL = `${process.env.API_ROOT}/auth/checktoken?id=${id}&token=${token}`;
     return fetch(requestURL).then(this.checkStatus);
   }
 }

@@ -27,11 +27,11 @@ import React from 'react';
  * container component with a header and optional description.
  */
 export default function withSimplePresentation(ContainerComponent, header, description) {
-  return () => (
+  return (props) => (
     <div>
       {header && <h3>{header}</h3>}
       {description && <p>{description}</p>}
-      <ContainerComponent />
+      <ContainerComponent {...props} />
     </div>
   );
 }

@@ -15,6 +15,7 @@ import withSimplePresentation from './modules/transforms';
 import App from './containers/App';
 import ProfileContainer from './containers/ProfileContainer';
 import UpdateProfileContainer from './containers/UpdateProfileContainer';
+import VerifyAccountContainer from './containers/VerifyAccountContainer';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AuthenticationPage from './pages/AuthenticationPage';
@@ -37,6 +38,7 @@ const routes = (
       {/* Routes that don't require login. */}
       <Route path="/login" component={AuthenticationPage} onEnter={Hooks.requireLogout} />
       <Route path="/events" component={CurrentEventsPage} />
+      <Route path="/claim/:userID" component={withSimplePresentation(VerifyAccountContainer, 'Claim Account')} />
 
       {/* Routes that require user login. */}
       <Route onEnter={Hooks.protectRouteFor(Roles.MEMBER)}>
