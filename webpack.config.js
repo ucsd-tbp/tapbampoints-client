@@ -10,6 +10,12 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 var DotenvWebpackPlugin = require('dotenv-webpack');
 var DotenvWebpackPluginConfig = new DotenvWebpackPlugin();
 
+var ReactMinificationPlugin = new webpack.DefinePlugin({
+  'process.env': {
+    NODE_ENV: JSON.stringify('production'),
+  }
+});
+
 // TODO Add tree-shaking to avoid bundling unused dependencies.
 module.exports = {
   entry: ['babel-polyfill', './client/index.jsx'],
@@ -32,7 +38,7 @@ module.exports = {
     ],
   },
 
-  plugins: [HtmlWebpackPluginConfig, DotenvWebpackPluginConfig],
+  plugins: [HtmlWebpackPluginConfig, DotenvWebpackPluginConfig, ReactMinificationPlugin],
 
   devServer: {
     historyApiFallback: true,
