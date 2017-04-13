@@ -85,8 +85,10 @@ class VerifyAccountContainer extends React.Component {
       return;
     }
 
-    API.claimAccount(this.state.credentials, this.props.location.query.id, this.props.location.query.token, this.props.params.userID)
-      .then(() => Auth.authenticateUser(this.state.credentials.email, this.state.credentials.password))
+    API.claimAccount(this.state.credentials, this.props.location.query.id,
+      this.props.location.query.token, this.props.params.userID)
+      .then(() => Auth.authenticateUser(this.state.credentials.email,
+        this.state.credentials.password))
       .then((user) => {
         this.props.onAuthChange(user);
         browserHistory.push('/');
@@ -104,22 +106,22 @@ class VerifyAccountContainer extends React.Component {
           </p>
         </FlexItem>
         { this.state.validVerification ? (
-            <FlexItem className="equal-width horizontal-padding">
-              <RegistrationForm
-                credentials={this.state.credentials}
-                onChange={this.handleChange}
-                onSubmit={this.handleSubmit}
-                errors={this.state.errors}
-                disabledFields={new Set(['email', 'pid'])}
-                submitButtonText="Register"
-              />
-            </FlexItem>
+          <FlexItem className="equal-width horizontal-padding">
+            <RegistrationForm
+              credentials={this.state.credentials}
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+              errors={this.state.errors}
+              disabledFields={new Set(['email', 'pid'])}
+              submitButtonText="Register"
+            />
+          </FlexItem>
           ) : (
             <FlexItem className="equal-width horizontal-padding">
               <form onSubmit={this.handleSubmit}>
                 <p>
-                  This verification link is not valid – the link may have expired if the email was sent
-                  longer than a few days ago. You can resend the verification email below.
+                  This verification link is not valid – the link may have expired if the email was
+                  sent longer than a few days ago. You can resend the verification email below.
                 </p>
 
                 <label htmlFor="resendToEmail">Email
@@ -141,5 +143,20 @@ class VerifyAccountContainer extends React.Component {
     );
   }
 }
+
+VerifyAccountContainer.propTypes = {
+  location: React.PropTypes.shape({
+    query: React.PropTypes.shape({
+      id: React.PropTypes.string,
+      token: React.PropTypes.string,
+    }),
+  }),
+
+  params: React.PropTypes.shape({
+    userID: React.PropTypes.string,
+  }),
+
+  onAuthChange: React.PropTypes.func,
+};
 
 export default VerifyAccountContainer;
